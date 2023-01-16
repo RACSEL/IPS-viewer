@@ -67,14 +67,14 @@ let vuetify = new Vuetify({
         },
         themes: {
             light: {
-                primary: "#3c6ca5",
-                secondary: "#039BE5",
-                accent: "#F9C30D"
+                primary: "#1E85F1",
+                secondary: "#F5F6FA",
+                accent: "#e4e9f3"
             },
             dark: {
-                primary: "#3c6ca5",
-                secondary: "#039BE5",
-                accent: "#F9C30D"
+                primary: "#1E85F1",
+                secondary: "#39393e",
+                accent: "#494f71"
             },
         },
     },
