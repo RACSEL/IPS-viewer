@@ -56,7 +56,7 @@
 
                               <v-list-item-content>
                                 <v-list-item-title> {{allergy.name}} ({{allergy.code}}) </v-list-item-title>
-                                <v-list-item-subtitle>{{allergy.type}} - criticidad: {{allergy.criticality}}</v-list-item-subtitle>
+                                <v-list-item-subtitle>{{allergy.type}} - criticidad: {{allergyLevels[allergy.criticality]}}</v-list-item-subtitle>
                               </v-list-item-content>
                             </v-list-item>
                           </v-list>
@@ -119,6 +119,11 @@
         },
         allergies: [],
         allergyDetails: true,
+        allergyLevels: {
+          'low': 'bajo',
+          'high': 'alto',
+          'unable-to-assess': 'incapaz de evaluar',
+        },
 
       }
     },
