@@ -10,22 +10,28 @@
                   <v-row class="ma-1 pa-3">
                     <v-col cols="3" class="pa-0 ma-0 text-center" >
                       <v-card height="100%" class="ma-0 pa-0 text-center" elevation="0">
-                        <v-icon large="true">mdi-account-alert</v-icon>
+                        <v-icon large="true" v-if="patient.gender == 'female'" class="vertical-center" x-large>mdi-human-female</v-icon>
+                        <v-icon large="true" v-else class="vertical-center" size="large">mdi-human-male</v-icon>
                       </v-card>
                     </v-col>
                     <v-col cols="3" class="pa-0 ma-0 text-center"></v-col>
                     <v-col cols="6" class="pa-0 ma-0 text-center">
                       <v-card  class="ma-1 pa-0" elevation="0">
                         <v-row class="pa-0 ma-0">
-                          <v-card-title class="ma-0 pa-2 text-center">
+                          <v-card-title class="ma-0 pa-2 justify-center">
                             {{patient.name}}, {{patient.lastName}}
                           </v-card-title>
                         </v-row>
                       </v-card>
-                      <v-card  class="ma-1 pa-0" elevation="0">
+                      <v-card class="ma-1 pa-0" elevation="0">
                         <v-row class="ma-0 pa-0">
                           <v-card-text class="ma-0 pa-2">
-                            {{patient.birthDate}}, {{patient.yearsOld}} Años de edad
+                            <v-row class="pa-2">
+                              Fecha de nacimiento: {{patient.birthDate}}
+                            </v-row>
+                            <v-row class="pa-2">
+                              {{patient.yearsOld}} años. {{patient.country}}
+                            </v-row>
                           </v-card-text>
                         </v-row>
                       </v-card>
@@ -35,28 +41,28 @@
                     <v-col cols="12" class="ma-0">
                       <v-card elevation="0">
                         <v-card-title>
-                          <v-icon>mdi-allergy</v-icon>
+                          <v-icon class="mr-2">mdi-allergy</v-icon>
                           Alergias
                           <v-spacer></v-spacer>
                           <v-scale-transition>
-                            <v-btn  @click="allergyDetails = true" v-if="!allergyDetails">
+                            <v-btn  @click="allergiesDetails = true" v-if="!allergiesDetails">
                             <v-icon>mdi-chevron-down</v-icon>
                             </v-btn>
-                            <v-btn  @click="allergyDetails = false" v-else>
+                            <v-btn  @click="allergiesDetails = false" v-else>
                             <v-icon>mdi-chevron-up</v-icon>
                             </v-btn>
                           </v-scale-transition>
                         </v-card-title>
-                        <v-card-text v-if="allergyDetails">
+                        <v-card-text v-if="allergiesDetails">
                           <v-list subheader two-line>
                             <v-list-item v-for="allergy in allergies" :key="allergy.name">
                               <v-list-item-avatar>
-                                <v-icon >mdi-circle-small</v-icon>
+                                <v-icon class="points">mdi-circle-small</v-icon>
                               </v-list-item-avatar>
 
                               <v-list-item-content>
                                 <v-list-item-title> {{allergy.name}} ({{allergy.code}}) </v-list-item-title>
-                                <v-list-item-subtitle>{{allergy.type}} - criticidad: {{allergyLevels[allergy.criticality]}}</v-list-item-subtitle>
+                                <v-list-item-subtitle>{{allergy.type}} - criticidad: {{allergy.criticality}}</v-list-item-subtitle>
                               </v-list-item-content>
                             </v-list-item>
                           </v-list>
@@ -68,19 +74,32 @@
                     <v-col cols="12">
                       <v-card elevation="0">
                         <v-card-title>
-                           <v-icon>mdi-bacteria</v-icon>
-                            Diagnósticos
-                            <v-spacer></v-spacer>
-                            <v-scale-transition>
-                              <v-btn class="lala" @click="seeDetails('allergy')" v-if="!allergyDetails">
+                          <v-icon class="mr-2">mdi-bacteria</v-icon>
+                          Diagnósticos / Problemas activos
+                          <v-spacer></v-spacer>
+                          <v-scale-transition>
+                            <v-btn  @click="conditionsDetails = true" v-if="!conditionsDetails">
                               <v-icon>mdi-chevron-down</v-icon>
-                              </v-btn>
-                              <v-btn class="lala" @click="hideDetails('allergy')" v-else>
+                            </v-btn>
+                            <v-btn  @click="conditionsDetails = false" v-else>
                               <v-icon>mdi-chevron-up</v-icon>
-                              </v-btn>
-                            </v-scale-transition>
-                          </v-card-title>
-                        <v-card-text>dg 1</v-card-text>
+                            </v-btn>
+                          </v-scale-transition>
+                        </v-card-title>
+                        <v-card-text v-if="conditionsDetails">
+                          <v-list subheader two-line>
+                            <v-list-item v-for="condition in conditions" :key="conditions.name">
+                              <v-list-item-avatar>
+                                <v-icon class="points">mdi-circle-small</v-icon>
+                              </v-list-item-avatar>
+
+                              <v-list-item-content>
+                                <v-list-item-title> {{conditions.name}} ({{conditions.code}}) </v-list-item-title>
+                                <v-list-item-subtitle>{{conditions.type}} - criticidad: {{conditions.criticality}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                            </v-list-item>
+                          </v-list>
+                        </v-card-text>
                       </v-card>
                     </v-col>
                   </v-row>
@@ -116,22 +135,25 @@
           gender: undefined,
           birthDate: undefined,
           yearsOld: undefined,
+          country: undefined,
         },
         allergies: [],
-        allergyDetails: true,
+        allergiesDetails: true,
         allergyLevels: {
           'low': 'bajo',
           'high': 'alto',
           'unable-to-assess': 'incapaz de evaluar',
         },
+        conditions: [],
+        conditionsDetails: true,
 
       }
     },
     mounted() {
       console.log(this.sampleJson);
       this.getPatient();
-      console.log(this.patient);
       this.getAllergies();
+      this.getConditions();
     },
     methods: {
       getPatient(){
@@ -141,13 +163,14 @@
         let gender = resource.gender;
         let birthDate = resource.birthDate;
         let yearsOld = dayjs().diff(birthDate, 'year');
-        console.log(dayjs());
+        let country = resource.address[0].country;
         let patient = {
           name: name,
           lastName: lastName,
           gender: gender,
           birthDate: birthDate,
-          yearsOld: yearsOld
+          yearsOld: yearsOld,
+          country: country,
         }
         this.patient = patient;
       },
@@ -159,10 +182,23 @@
             let category = resource.category[0];
             let criticality = resource.criticality;
             let name = resource.code.coding[0].display;
-            if(name == undefined){
-              name = 'undefined'
-            }
             let code = resource.code.coding[0].code;
+            if(type == 'allergy'){
+              type = 'alergia'
+            }
+            else{
+              if( type.length > 13){
+                let underlyingMechanism = type.substring(11);
+                type = 'intolerancia' + underlyingMechanism
+              }
+              else{
+                type = 'intolerancia'
+              }
+            }
+            if(name == undefined){
+              name = 'indefinido'
+            }
+            criticality = this.allergyLevels[criticality]
             let allergy = {
               type: type,
               category: category,
@@ -171,18 +207,22 @@
               code: code
             }
             this.allergies.push(allergy);
-            console.log(this.allergies)
           }
         }
       },
-      seeDetails(section){
-        allergyDetails = true;
-        this.$forceUpdate();
-      },
-      hideDetails(section){
-        item.details = false;
-        this.$forceUpdate();
-      },
+      getConditions(){
+        for( let obj of this.sampleJson.entry){
+          if (obj.resource.resourceType == 'Condition'){
+            let resource = obj.resource;
+            console.log(resource);
+            let type = resource.type;
+            
+            let condition = {
+            }
+            this.conditions.push(condition);
+          }
+        }
+      }
     },
     computed: {
       user: getStore("user")
@@ -191,5 +231,14 @@
 </script>
 
 <style>
-
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.points {
+  align-items: flex-start !important;
+}
 </style>
