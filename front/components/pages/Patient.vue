@@ -94,8 +94,8 @@
                               </v-list-item-avatar>
 
                               <v-list-item-content>
-                                <v-list-item-title> {{conditions.name}} ({{conditions.code}}) </v-list-item-title>
-                                <v-list-item-subtitle>{{conditions.type}} - criticidad: {{conditions.criticality}}</v-list-item-subtitle>
+                                <v-list-item-title> {{condition.name}} ({{condition.code}}) </v-list-item-title>
+                                <v-list-item-subtitle>{{condition.year}}</v-list-item-subtitle>
                               </v-list-item-content>
                             </v-list-item>
                           </v-list>
@@ -146,7 +146,20 @@
         },
         conditions: [],
         conditionsDetails: true,
-
+        inactiveConditions: [],
+        conditionsStatus: {
+          'active': 'activo',
+          'remission': 'remisión',
+          'recurrence': 'recurrencia',
+          'relapse': 'recaída',
+          'inactive': 'inactivo',
+          'resolved': 'resuelto',
+        },
+        conditionsSeverity: {
+          'severe': 'severo',
+          'moderate': 'moderado',
+          'mild': 'leve',
+        }
       }
     },
     mounted() {
@@ -215,11 +228,29 @@
           if (obj.resource.resourceType == 'Condition'){
             let resource = obj.resource;
             console.log(resource);
-            let type = resource.type;
+            let name = resource.code.coding[0].display;
+            let code = resource.code.coding[0].code;
+            let status = resource.clinicalStatus.coding[0].code; //active, remission, recurrence, relapse, inactive, resolved
+            let category = resource.category[0].coding[0].display; //'Problem'
+            let severity = resource.severity.coding[0].display; //severe, moderate, mild
+            let year = resource.onsetDateTime;
             
+            status = this.conditionsStatus[status];
+            severity = this.conditionsSeverity[severity];
             let condition = {
+              name: name,
+              code: code,
+              status: status,
+              severity: severity,
+              year: year,
             }
-            this.conditions.push(condition);
+            if(status == 'activo'){
+              this.conditions.push(condition);
+              conso.log(condition);
+            }
+            else{
+              this.inactiveConditions.push(condition);
+            }
           }
         }
       }
