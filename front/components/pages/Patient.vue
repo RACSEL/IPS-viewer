@@ -106,8 +106,33 @@
                   <v-row class="ma-1">
                     <v-col cols="12">
                       <v-card elevation="0">
-                        <v-card-title>Medicamentos</v-card-title>
-                        <v-card-text>med 1</v-card-text>
+                        <v-card-title>
+                          <v-icon class="mr-2">mdi-pill</v-icon>
+                          Medicamentos activos
+                          <v-spacer></v-spacer>
+                          <v-scale-transition>
+                            <v-btn  @click="medicationsDetails = true" v-if="!medicationsDetails">
+                              <v-icon>mdi-chevron-down</v-icon>
+                            </v-btn>
+                            <v-btn  @click="medicationsDetails = false" v-else>
+                              <v-icon>mdi-chevron-up</v-icon>
+                            </v-btn>
+                          </v-scale-transition>
+                        </v-card-title>
+                        <v-card-text v-if="medicationsDetails">
+                          <v-list subheader two-line>
+                            <v-list-item v-for="medication in medications" :key="medications.name">
+                              <v-list-item-avatar>
+                                <v-icon class="points">mdi-circle-small</v-icon>
+                              </v-list-item-avatar>
+
+                              <v-list-item-content>
+                                <v-list-item-title> {{medication.name}} ({{medication.code}}) </v-list-item-title>
+                                <v-list-item-subtitle></v-list-item-subtitle>
+                              </v-list-item-content>
+                            </v-list-item>
+                          </v-list>
+                        </v-card-text>
                       </v-card>
                     </v-col>
                   </v-row>
@@ -159,7 +184,9 @@
           'severe': 'severo',
           'moderate': 'moderado',
           'mild': 'leve',
-        }
+        },
+        medications: [],
+        medicationsDetails: true,
       }
     },
     mounted() {
@@ -167,6 +194,7 @@
       this.getPatient();
       this.getAllergies();
       this.getConditions();
+      this.getMedications();
     },
     methods: {
       getPatient(){
@@ -227,7 +255,6 @@
         for( let obj of this.sampleJson.entry){
           if (obj.resource.resourceType == 'Condition'){
             let resource = obj.resource;
-            console.log(resource);
             let name = resource.code.coding[0].display;
             let code = resource.code.coding[0].code;
             let status = resource.clinicalStatus.coding[0].code; //active, remission, recurrence, relapse, inactive, resolved
@@ -246,10 +273,26 @@
             }
             if(status == 'activo'){
               this.conditions.push(condition);
-              conso.log(condition);
             }
             else{
               this.inactiveConditions.push(condition);
+            }
+          }
+        }
+      },
+      getMedications(){
+        for( let obj of this.sampleJson.entry){
+          if (obj.resource.resourceType == 'Medication'){
+            let resource = obj.resource;
+            console.log(resource.code.coding)
+            for( let med of resource.code.coding){
+              let name = med.display;
+              let code = med.code;
+              let medication = {
+                name: name,
+                code: code,
+              }
+              this.medications.push(medication);
             }
           }
         }
