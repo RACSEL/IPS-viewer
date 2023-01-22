@@ -61,7 +61,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ])*/
-  ]
+  ],
+  //optimization: {
+  //  moduleIds: 'named'
+ //}
 });
 
 module.exports = devWebpackConfig;
