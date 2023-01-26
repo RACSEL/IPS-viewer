@@ -136,6 +136,33 @@
                       </v-card>
                     </v-col>
                   </v-row>
+                  <v-row class="ma-1">
+                    <v-col cols="12">
+                      <v-card elevation="0">
+                        <v-card-title>
+                          <v-icon class="mr-2">mdi-pill</v-icon>
+                          Observaciones
+                          <v-spacer></v-spacer>
+                          <v-scale-transition>
+                            <v-btn  @click="observationsDetails = true" v-if="!observationsDetails">
+                              <v-icon>mdi-chevron-down</v-icon>
+                            </v-btn>
+                            <v-btn  @click="observationsDetails = false" v-else>
+                              <v-icon>mdi-chevron-up</v-icon>
+                            </v-btn>
+                          </v-scale-transition>
+                        </v-card-title>
+                        <v-card-text v-if="observationsDetails">
+                          <v-data-table
+                            :headers="observationHeaders"
+                            :items="observations"
+                            :items-per-page="10"
+                            class="elevation-1"
+                          ></v-data-table>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-card-text>
             </v-card>
@@ -187,6 +214,19 @@
         },
         medications: [],
         medicationsDetails: true,
+        observations: [],
+        observationsDetails: true,
+        observationHeaders: [
+          {
+            text: 'Nombre',
+            align: 'start',
+            sorteable: false,
+            value: 'name',
+          },
+          {text: 'Fecha', value: 'date'},
+          {text: 'Valor', value: 'value'},
+          {text: 'Categoría', value: 'category'}
+        ],
       }
     },
     mounted() {
@@ -195,6 +235,7 @@
       this.getAllergies();
       this.getConditions();
       this.getMedications();
+      this.getObservations();
     },
     methods: {
       getPatient(){
@@ -284,7 +325,6 @@
         for( let obj of this.sampleJson.entry){
           if (obj.resource.resourceType == 'Medication'){
             let resource = obj.resource;
-            console.log(resource.code.coding)
             for( let med of resource.code.coding){
               let name = med.display;
               let code = med.code;
@@ -296,7 +336,54 @@
             }
           }
         }
-      }
+      },
+      getObservations(){
+        for( let obj of this.sampleJson.entry){
+          if (obj.resource.resourceType == 'Observation'){
+            console.log('obs: ', obj.resource)
+            let resource = obj.resource;
+            let name = 'indefinido'
+            let date = 'indefinido'
+            let value = 'indefinido'
+            let category = 'indefinido'
+            let code = ''
+            try{
+              name = resource.code.coding[0].display;
+            }
+            catch(e){}
+            try{ 
+              date = resource.effectiveDateTime;
+            } 
+            catch(e){}
+            try{
+              value = resource.valueCodeableConcept.coding[0].display;
+            }
+            catch(e){}
+            try{
+              category = resource.category[0].coding[0].code;
+            }
+            catch(e){}
+            try{
+              code = resource.code.coding[0].code;
+            }
+            catch(e){
+              try{
+                code = resource.code.text;
+              }
+              catch(e){}
+            }
+            let observation = {
+              name: name + ' (' + code + ')',
+              category: category,
+              date: date,
+              value: value,
+              code: code,
+            }
+            this.observations.push(observation);
+            
+          }
+        }
+      },
     },
     computed: {
       user: getStore("user")
