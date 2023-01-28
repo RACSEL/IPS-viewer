@@ -88,7 +88,7 @@
                         </v-card-title>
                         <v-card-text v-if="conditionsDetails">
                           <v-list subheader two-line>
-                            <v-list-item v-for="condition in conditions" :key="conditions.name">
+                            <v-list-item v-for="condition in conditions" :key="condition.name">
                               <v-list-item-avatar>
                                 <v-icon class="points">mdi-circle-small</v-icon>
                               </v-list-item-avatar>
@@ -121,7 +121,7 @@
                         </v-card-title>
                         <v-card-text v-if="medicationsDetails">
                           <v-list subheader two-line>
-                            <v-list-item v-for="medication in medications" :key="medications.name">
+                            <v-list-item v-for="medication in medications" :key="medication.name">
                               <v-list-item-avatar>
                                 <v-icon class="points">mdi-circle-small</v-icon>
                               </v-list-item-avatar>
@@ -136,6 +136,40 @@
                                   item-key="unit"
                                   class="elevation-1"
                                 ></v-data-table>
+                              </v-list-item-content>
+                            </v-list-item>
+                          </v-list>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                  <v-row class="ma-1">
+                    <v-col cols="12">
+                      <v-card elevation="0">
+                        <v-card-title>
+                          <v-icon class="mr-2">mdi-needle</v-icon>
+                          Inmunizaciones
+                          <v-spacer></v-spacer>
+                          <v-scale-transition>
+                            <v-btn  @click="immunizationsDetails = true" v-if="!immunizationsDetails">
+                              <v-icon>mdi-chevron-down</v-icon>
+                            </v-btn>
+                            <v-btn  @click="immunizationsDetails = false" v-else>
+                              <v-icon>mdi-chevron-up</v-icon>
+                            </v-btn>
+                          </v-scale-transition>
+                        </v-card-title>
+                        <v-card-text v-if="immunizationsDetails">
+                          <v-list subheader two-line>
+                            <v-list-item v-for="immunization in immunizations" :key="immunization.id">
+                              <v-list-item-avatar>
+                                <v-icon class="points">mdi-circle-small</v-icon>
+                              </v-list-item-avatar>
+
+                              <v-list-item-content>
+                                <v-list-item-title v-if="immunization.doseQuantity != 'indefinido'"> {{immunization.vaccineCode}}, {{immunization.doseQuantity}} - ({{immunization.status}}) </v-list-item-title>
+                                <v-list-item-title v-else> {{immunization.vaccineCode}} - ({{immunization.status}}) </v-list-item-title>
+                                <v-list-item-subtitle> fecha: {{immunization.date}} - vía de administración: {{immunization.route}}</v-list-item-subtitle>
                               </v-list-item-content>
                             </v-list-item>
                           </v-list>
@@ -222,6 +256,8 @@
         medications: [],
         dosages: {},
         medicationsDetails: true,
+        immunizations: [],
+        immunizationsDetails: true,
         observations: [],
         observationsDetails: true,
         observationHeaders: [
@@ -257,6 +293,7 @@
       this.getConditions();
       this.getDosages();
       this.getMedications();
+      this.getImmunizations();
       this.getObservations();
     },
     methods: {
@@ -439,6 +476,60 @@
             }
             this.observations.push(observation);
             
+          }
+        }
+      },
+      getImmunizations(){
+        for( let obj of this.sampleJson.entry){
+          if (obj.resource.resourceType == 'Immunization'){
+            let resource = obj.resource;
+            let id = 0;
+            let status = 'indefinido';
+            let vaccineCode = 'indefinido';
+            let date = 'indefinido';
+            let route = 'indefinido';
+            let doseQuantity = 'indefinido';
+            try{
+              id = resource.id;
+            }
+            catch(e){}
+            try{
+              status = resource.status;
+            }
+            catch(e){}
+            try{
+              vaccineCode = resource.vaccineCode.coding[0].code;
+            }
+            catch(e){}
+            try{
+              let display = resource.vaccineCode.coding[0].display;
+              if(display != undefined){
+                vaccineCode =  vaccineCode + ' ' + display;
+              }
+            }
+            catch(e){}
+            try{
+              date = resource.occurrenceDateTime;
+            }
+            catch(e){}
+            try{
+              route = resource.route.coding[0].display;
+            }
+            catch(e){}
+            try{
+              doseQuantity = resource.doseQuantity.value + " " + resource.doseQuantity.code;
+            }
+            catch(e){}
+            let immunization = {
+              id: id,
+              status: status,
+              vaccineCode: vaccineCode,
+              date: date,
+              route: route,
+              doseQuantity: doseQuantity,
+            };
+            this.immunizations.push(immunization);
+            console.log(this.immunizations)
           }
         }
       },
