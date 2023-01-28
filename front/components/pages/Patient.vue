@@ -128,7 +128,14 @@
 
                               <v-list-item-content>
                                 <v-list-item-title> {{medication.name}} ({{medication.code}}) </v-list-item-title>
-                                <v-list-item-subtitle></v-list-item-subtitle>
+                                <v-data-table
+                                  v-if="medication.dosage != false"
+                                  dense
+                                  :headers="dosageHeaders"
+                                  :items="medication.dosage"
+                                  item-key="unit"
+                                  class="elevation-1"
+                                ></v-data-table>
                               </v-list-item-content>
                             </v-list-item>
                           </v-list>
@@ -213,6 +220,7 @@
           'mild': 'leve',
         },
         medications: [],
+        dosages: {},
         medicationsDetails: true,
         observations: [],
         observationsDetails: true,
@@ -227,6 +235,19 @@
           {text: 'Valor', value: 'value'},
           {text: 'Categoría', value: 'category'}
         ],
+        dosageHeaders: [
+          {
+            //text: 'Vía de administración',
+            align: 'start',
+            sorteable: false,
+            //value: 'route'
+          },
+          {text: 'Vía de adinistración', value: 'route'},
+          {text: 'Cantidad', value: 'count'},
+          {text: 'Unidad', value: 'unit'},
+          {text: 'Frecuencia cantidad', value: 'doseQuantity'},
+          {text: 'Frecuencia período', value: 'periodUnit'},
+        ],
       }
     },
     mounted() {
@@ -234,6 +255,7 @@
       this.getPatient();
       this.getAllergies();
       this.getConditions();
+      this.getDosages();
       this.getMedications();
       this.getObservations();
     },
@@ -325,14 +347,51 @@
         for( let obj of this.sampleJson.entry){
           if (obj.resource.resourceType == 'Medication'){
             let resource = obj.resource;
+            let medication = {}
+            let id = resource.id;
+            let dosage = false;
             for( let med of resource.code.coding){
               let name = med.display;
               let code = med.code;
-              let medication = {
+              medication = {
                 name: name,
                 code: code,
+                dosage: dosage,
               }
               this.medications.push(medication);
+            }
+            if(id in this.dosages){
+              //cambiamos el valor de dosage a true en el ultimo med agregado
+              medication.dosage = [this.dosages[id]];
+              this.medications[this.medications.length-1] = medication;
+            }
+
+          }
+        }
+      },
+      getDosages(){
+        for( let obj of this.sampleJson.entry){
+          if (obj.resource.resourceType == 'MedicationStatement'){
+            let resource = obj.resource;
+            let medicationReference = resource.medicationReference.reference;
+            const re = /(http.*\/)/;
+            medicationReference = medicationReference.replace(re, "");
+            try{
+              let count = resource.dosage[0].timing.repeat.count;
+              let periodUnit = resource.dosage[0].timing.repeat.periodUnit;
+              let route = resource.dosage[0].route.coding[0].display;
+              let doseQuantity = resource.dosage[0].doseAndRate[0].doseQuantity.value;
+              let unit = resource.dosage[0].doseAndRate[0].doseQuantity.unit;
+              let dosage = {
+                count: count,
+                periodUnit: periodUnit,
+                route: route,
+                doseQuantity: doseQuantity,
+                unit: unit,
+              }
+              this.dosages[medicationReference] = dosage;
+            }
+            catch(e){
             }
           }
         }
@@ -340,7 +399,6 @@
       getObservations(){
         for( let obj of this.sampleJson.entry){
           if (obj.resource.resourceType == 'Observation'){
-            console.log('obs: ', obj.resource)
             let resource = obj.resource;
             let name = 'indefinido'
             let date = 'indefinido'
