@@ -8,18 +8,34 @@
               <v-card-text>
                 <v-container>
                   <v-row class="ma-1 pa-3">
-                    <v-col cols="3" class="pa-0 ma-0 text-center" >
-                      <v-card height="100%" class="ma-0 pa-0 text-center" elevation="0">
-                        <v-icon v-if="patient.gender == 'female'" class="vertical-center" size="70px">mdi-human-female</v-icon>
-                        <v-icon v-else class="vertical-center" size="70px">mdi-human-male</v-icon>
+                    <v-col cols="6" class="pa-0 ma-0 ">
+                      <v-card  class="mb-1 pa-0" elevation="0">
+                        <v-row class="pa-0 ma-0">
+                          <v-card-title class="ma-0 pa-2 justify-center">
+                            <v-icon class="mr-2">mdi-text-box-outline</v-icon>
+                            Encabezado
+                          </v-card-title>
+                        </v-row>
+                        <v-row class="ma-0 pa-0">
+                          <v-card-text class="ma-0 pa-2">
+                            <v-row class="pa-2">
+                              {{composition.title}}
+                            </v-row>
+                            <v-row class="pa-2">
+                              Fecha del resumen: {{composition.date}}
+                            </v-row>
+                          </v-card-text>
+                        </v-row>
                       </v-card>
                     </v-col>
-                    <v-col cols="3" class="pa-0 ma-0 text-center"></v-col>
-                    <v-col cols="6" class="pa-0 ma-0 text-center">
+                    <v-col cols="1" class="pa-0 ma-0 text-center"></v-col>
+                    <v-col cols="5" class="pa-0 ma-0 text-center">
                       <v-card  class="mb-1 pa-0" elevation="0">
                         <v-row class="pa-0 ma-0">
                           <v-card-title class="ma-0 pa-2 justify-center">
                             {{patient.name}}, {{patient.lastName}}
+                            <v-icon v-if="patient.gender == 'female'" class="vertical-center" size="30px">mdi-human-female</v-icon>
+                            <v-icon v-else class="vertical-center" size="30px">mdi-human-male</v-icon>
                           </v-card-title>
                         </v-row>
                       </v-card>
@@ -230,6 +246,7 @@
           yearsOld: undefined,
           country: undefined,
         },
+        composition: {},
         allergies: [],
         allergiesDetails: true,
         allergyLevels: {
@@ -288,6 +305,7 @@
     },
     mounted() {
       console.log(this.sampleJson);
+      this.getComposition();
       this.getPatient();
       this.getAllergies();
       this.getConditions();
@@ -297,6 +315,27 @@
       this.getObservations();
     },
     methods: {
+      getComposition(){
+        for( let obj of this.sampleJson.entry){
+          if (obj.resource.resourceType == 'Composition'){
+            let resource = obj.resource;
+            let date = 'indefinido';
+            let title = 'indefinido';
+            try{
+              date = resource.date;
+            }
+            catch(e){}
+            try{
+              title = resource.title;
+            }
+            catch(e){}
+            this.composition = {
+              date: date,
+              title: title,
+            }
+          }
+        }
+      },
       getPatient(){
         let resource = this.sampleJson.entry[1].resource;
         let name = resource.name[0].given[0];
