@@ -24,6 +24,9 @@
                             <v-row class="pa-2">
                               Fecha del resumen: {{composition.date}}
                             </v-row>
+                            <v-row class="pa-2">
+                              Dominio: {{composition.organizationAddress}}
+                            </v-row>
                           </v-card-text>
                         </v-row>
                       </v-card>
@@ -350,6 +353,7 @@
     },
     methods: {
       getComposition(){
+        let address = 'indefinido';
         for( let obj of this.sampleJson.entry){
           if (obj.resource.resourceType == 'Composition'){
             let resource = obj.resource;
@@ -368,6 +372,17 @@
               title: title,
             }
           }
+          if (obj.resource.resourceType == 'Organization' & address=='indefinido'){
+            let resource = obj.resource;
+            try{
+              let city = resource.address[0].city;
+              let country = resource.address[0].country;
+              address = city + ', ' + country;
+              console.log('thisss: ', address)
+            }
+            catch(e){}
+            this.composition.organizationAddress = address;
+          }   
         }
       },
       getPatient(){
