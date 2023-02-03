@@ -35,7 +35,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-main>
-      <v-container fluid class="min-height-100">
+      <v-container fluid class="min-height-100 pa-0">
         <router-view class="mb-10"></router-view>
       </v-container>
       <global-toast/>
@@ -87,6 +87,7 @@
         items: [
           {icon: 'mdi-account-circle', text: 'Usuarios', route: "/app/users", roleRestrict: ["admin"]},
           {icon: 'mdi-account', text: 'Paciente', route: "/app/patient", roleRestrict: ["admin", "manager"]},
+          {icon: 'mdi-upload', text: 'Subir IPS', route: "/app/uploadIPS", roleRestrict: ["admin", "manager"]},
         ],
         /**
          * Used to hide and show the navigation drawer.
@@ -163,6 +164,7 @@
 
   .min-height-100{
     min-height: 100%;
+    background-color: #F5F6FA;
   }
 
   .footer-app {

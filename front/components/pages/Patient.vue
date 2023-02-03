@@ -1,5 +1,5 @@
-<template>
-  <v-card color="secondary" elevation="0">
+<template class="ma-0 pa-0">
+  <v-card color="secondary" elevation="0" class="ma-0 pa-0">
     <v-card-text color="secondary">
       <v-container>
         <v-row>
