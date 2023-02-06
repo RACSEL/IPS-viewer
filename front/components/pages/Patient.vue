@@ -123,6 +123,39 @@
                     <v-col cols="12">
                       <v-card elevation="0">
                         <v-card-title>
+                          <v-icon class="mr-2">mdi-bacteria</v-icon>
+                          Diagnósticos / Problemas pasados
+                          <v-spacer></v-spacer>
+                          <v-scale-transition>
+                            <v-btn  @click="pastConditionsDetails = true" v-if="!pastConditionsDetails">
+                              <v-icon>mdi-chevron-down</v-icon>
+                            </v-btn>
+                            <v-btn  @click="pastConditionsDetails = false" v-else>
+                              <v-icon>mdi-chevron-up</v-icon>
+                            </v-btn>
+                          </v-scale-transition>
+                        </v-card-title>
+                        <v-card-text v-if="pastConditionsDetails">
+                          <v-list subheader two-line>
+                            <v-list-item v-for="pastCondition in pastConditions" :key="pastCondition.name">
+                              <v-list-item-avatar>
+                                <v-icon class="points">mdi-circle-small</v-icon>
+                              </v-list-item-avatar>
+
+                              <v-list-item-content>
+                                <v-list-item-title>{{pastCondition.year}}: {{pastCondition.name}} ({{pastCondition.code}})</v-list-item-title>
+                                <v-list-item-subtitle>{{pastCondition.explanation}}</v-list-item-subtitle>
+                              </v-list-item-content>
+                            </v-list-item>
+                          </v-list>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                  <v-row class="ma-1">
+                    <v-col cols="12">
+                      <v-card elevation="0">
+                        <v-card-title>
                           <v-icon class="mr-2">mdi-pill</v-icon>
                           Medicamentos activos
                           <v-spacer></v-spacer>
@@ -256,7 +289,8 @@
         },
         conditions: [],
         conditionsDetails: true,
-        inactiveConditions: [],
+        pastConditions: [],
+        pastConditionsDetails: true,
         conditionsStatus: {
           'active': 'activo',
           'remission': 'remisión',
@@ -400,6 +434,12 @@
             let category = resource.category[0].coding[0].display; //'Problem'
             let severity = resource.severity.coding[0].display; //severe, moderate, mild
             let year = resource.onsetDateTime;
+            let explanation = 'indefinido';
+
+            try{
+              explanation = resource.code.coding[0].extension[0].extension[1].valueString;
+            }
+            catch(e){}
             
             status = this.conditionsStatus[status];
             severity = this.conditionsSeverity[severity];
@@ -409,15 +449,17 @@
               status: status,
               severity: severity,
               year: year,
+              explanation: explanation
             }
             if(status == 'activo'){
               this.conditions.push(condition);
             }
             else{
-              this.inactiveConditions.push(condition);
+              this.pastConditions.push(condition);
             }
           }
         }
+        console.log(this.pastConditions)
       },
       getMedications(){
         for( let obj of this.sampleJson.entry){
