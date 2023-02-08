@@ -10,24 +10,68 @@
       </v-col>
       <v-col cols='5' class="pa-5">
         <v-card-text class="pa-0 py-3 pb-4" >
-            <v-btn width="140px" color="primary" @click="validateIPS()">Ver IPS</v-btn>
+            <v-btn width="140px" color="primary" 
+            v-bind="attrs"
+            v-on="on" @click="validateIPS()">Ver IPS</v-btn>
         </v-card-text>
         <v-card-text class="pa-0 pt-4 pb-3">
             <v-btn width="140px" color="error" @click="ips=''">Borrar</v-btn>
         </v-card-text>
       </v-col>
     </v-row>
-    <v-row>
-      <v-card>
-        Los siguientes elementos no existen o no corresponden al formato:
-        <v-list-item v-for="error in errors" :key="error">
-          <v-list-item-content>
-            <v-list-item-title> {{error}} </v-list-item-title>
-            <v-list-item-subtitle>-</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+    <v-row align="center"
+      justify="center">
+      <v-card elevation="0" v-if="false">
+        <v-card-title>
+          Los siguientes elementos no existen o no corresponden al formato:
+        </v-card-title>
+        <v-card-text >
+          <v-list-item v-for="error in errors" :key="error">
+            <v-list-item-content>
+              <v-list-item-title>- {{error}} </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-card-text>
       </v-card>
     </v-row>
+    <div class="text-center">
+      <v-dialog
+        v-model="dialogErrors"
+        width="500"
+      >
+
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">
+            Problemas con IPS
+          </v-card-title>
+          <v-card-text>
+            <v-card-subtitle class="pa-0 py-3" v-if="sectionErrors">
+              Los siguientes campos faltantes son requeridos:
+            </v-card-subtitle>
+            <v-list-item v-for="error in errors" :key="error">
+              <v-list-item-content class="py-2">
+                <v-list-item-title>- {{error}} </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>          
+            <v-card-subtitle class="pa-0 py-3" v-if="sectionFormat">
+              Los siguientes campos no cumplen el formato:
+            </v-card-subtitle>
+            <v-list-item v-for="format in formats" :key="format" >
+              <v-list-item-content class="py-2">
+                <v-list-item-title>- {{format}} </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialogErrors = false, sectionErrors = false, sectionFormat=false">
+              OK
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </v-card>
 </template>
 
@@ -42,7 +86,12 @@
         sampleJson: sample,
         ips: "",
         errors: [],
+        formats: [],
         warnings: [],
+        modelErrors: false,
+        dialogErrors: false,
+        sectionErrors: false,
+        sectionFormat: false,
       }
     },
     mounted() {
@@ -56,32 +105,46 @@
         return myObj.constructor === Object;
       },
       validateIPS(){
-        let ips = JSON.parse(this.ips);
         this.errors = [];
-        let required = ["resourceType", "id", "language", "identifier", "identifier-system", "identifier-value", "type", "timestamp", "entry"];
-        let v;
+        this.formats = [];
+        let required = ["identifier", "type", "timestamp", "entry"];
+        let ips;
+        try{
+            ips = JSON.parse(this.ips);
+            console.log(ips);
+            if (! this.isObject(ips)){
+              this.formats.push("ips no es un json");
+              this.dialogErrors = true;
+              this.sectionFormat = true;
+              return;
+            }
+        }
+        catch(e){
+          this.formats.push("ips no es un json");
+          this.dialogErrors = true;
+          this.sectionFormat = true;
+          return;
+        }
         for( let k of required){
-          if(k.includes("-")){
-            const words = k.split("-");
-            v = ips[words[0]][words[1]];
-          }
-          else{
-            v = ips[k]
-          }
+          let v = ips[k]
           if( v == undefined){
             this.errors.push(k);
           }
         }
-        if( ! this.isObject(ips)){
-          this.errors.push("ips no es un json");
-        }
         if( ips.identifier != undefined && !this.isObject(ips.identifier)){
-          this.errors.push("identifier");
+          this.formats.push("identifier");
         }
         if(ips.entry != undefined && ! this.isArray(ips.entry)){
-          this.errors.push("entry1");
+          this.formats.push("entry");
         }
-        console.log(this.errors);
+        if(this.errors.length > 0){
+          this.dialogErrors = true;
+          this.sectionErrors = true;
+        }
+        if(this.formats.length >0){
+          this.dialogErrors = true;
+          this.sectionFormat = true;
+        }
         
       },
       validateComposition(ips){
