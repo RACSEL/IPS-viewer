@@ -111,7 +111,6 @@
         let ips;
         try{
             ips = JSON.parse(this.ips);
-            console.log(ips);
             if (! this.isObject(ips)){
               this.formats.push("ips no es un json");
               this.dialogErrors = true;
@@ -126,17 +125,27 @@
           return;
         }
         for( let k of required){
-          let v = ips[k]
-          if( v == undefined){
+          let v = ips[k];
+          if( v == undefined ){
             this.errors.push(k);
           }
         }
         if( ips.identifier != undefined && !this.isObject(ips.identifier)){
           this.formats.push("identifier");
         }
-        if(ips.entry != undefined && ! this.isArray(ips.entry)){
+        if((ips.entry != undefined && ! this.isArray(ips.entry)) || (ips.entry.length == 0)){
           this.formats.push("entry");
         }
+        else{ // if entry is valid i will check that each slices contains the fullUrl field
+          for (let obj of ips.entry){
+            let v = obj['fullUrl'];
+            if( v == undefined){
+              this.errors.push('fullUrl en cada slice de entry');
+              break;
+            }
+          }
+        }
+        //this.validateComposition(ips);
         if(this.errors.length > 0){
           this.dialogErrors = true;
           this.sectionErrors = true;
@@ -148,6 +157,18 @@
         
       },
       validateComposition(ips){
+        let required = ["identifier", "type", "timestamp", "entry"];
+        for( let obj of ips.entry){
+          if (obj.resource.resourceType == 'Composition'){
+            let resource = obj.resource;
+          }
+        }
+        for( let k of required){
+          let v = ips[k]
+          if( v == undefined){
+            this.errors.push(k);
+          }
+        }
         let validate = false;
         for( let obj of this.sampleJson.entry){
           if (obj.resource.resourceType == 'Composition'){
