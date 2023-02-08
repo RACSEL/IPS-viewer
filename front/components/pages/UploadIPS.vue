@@ -136,11 +136,21 @@
         if((ips.entry != undefined && ! this.isArray(ips.entry)) || (ips.entry.length == 0)){
           this.formats.push("entry");
         }
-        else{ // if entry is valid i will check that each slices contains the fullUrl field
+        else{ // if entry is valid i will check that each slices contains the fields fullUrl and resource
+          let countfullUrl = 0;
+          let countResource = 0;
           for (let obj of ips.entry){
-            let v = obj['fullUrl'];
-            if( v == undefined){
-              this.errors.push('fullUrl en cada slice de entry');
+            let f = obj['fullUrl'];
+            let r = obj['resource'];
+            if( f == undefined && countfullUrl == 0){
+              this.errors.push('fullUrl en una o más slice de entry');
+              countfullUrl = 1;
+            }
+            if( r == undefined && countResource == 0){
+              this.errors.push('resource en una o más slice de entry');
+              countResource = 1;
+            }
+            if( countfullUrl == 1 && countResource == 1){
               break;
             }
           }
@@ -157,11 +167,20 @@
         
       },
       validateComposition(ips){
-        let required = ["identifier", "type", "timestamp", "entry"];
+        let requiredOnce = ["status", "type", "type-coding-system", "type-coding-code", "subject", "subject-reference", "date", "title", ];
+        let requiredMore = ["type-coding", "author", "section"];
+        let resource;
+        
+        //check if the field resource field exists
+
         for( let obj of ips.entry){
           if (obj.resource.resourceType == 'Composition'){
-            let resource = obj.resource;
+            resource = obj.resource;
           }
+        }
+        if( resource == undefined){ // The section Composition was not found
+          this.errors.push('Composition');
+          return;
         }
         for( let k of required){
           let v = ips[k]
