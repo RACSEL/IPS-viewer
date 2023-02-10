@@ -12,7 +12,7 @@
         <v-card-text class="pa-0 py-3 pb-4" >
             <v-btn width="140px" color="primary" 
             v-bind="attrs"
-            v-on="on" @click="validateIPS()">Ver IPS</v-btn>
+            v-on="on" @click="validateIPS2()">Ver IPS</v-btn>
         </v-card-text>
         <v-card-text class="pa-0 pt-4 pb-3">
             <v-btn width="140px" color="error" @click="ips=''">Borrar</v-btn>
@@ -48,15 +48,15 @@
             <v-card-subtitle class="pa-0 py-3" v-if="sectionErrors">
               Los siguientes campos faltantes son requeridos:
             </v-card-subtitle>
-            <v-list-item v-for="error in errors" :key="error">
+            <v-list-item v-for="error in cardErrors" :key="error">
               <v-list-item-content class="py-2">
                 <v-list-item-title>- {{error}} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>          
             <v-card-subtitle class="pa-0 py-3" v-if="sectionFormat">
-              Los siguientes campos no cumplen el formato:
+              Los siguientes campos no cumplen con el formato correcto:
             </v-card-subtitle>
-            <v-list-item v-for="format in formats" :key="format" >
+            <v-list-item v-for="format in formatErrors" :key="format" >
               <v-list-item-content class="py-2">
                 <v-list-item-title>- {{format}} </v-list-item-title>
               </v-list-item-content>
@@ -88,6 +88,8 @@
         errors: [],
         formats: [],
         warnings: [],
+        cardErrors: [],
+        formatErrors: [],
         modelErrors: false,
         dialogErrors: false,
         sectionErrors: false,
@@ -103,6 +105,65 @@
       },
       isObject(myObj){
         return myObj.constructor === Object;
+      },
+      validateIPS2(){
+        this.cardErrors = [];
+        this.formatErrors = [];
+        // 0: 1..1    //1: 1..*    //2: 0..1   //3: 0..*
+        // 0 and 1: required (only once) or (once or more).
+        // 2 and 3: optional 
+
+        //values are arrays in order to validate the data type later,
+        //for now i will validate if it is an object(0), array(1) or string(2). 
+        //fields that dont have second value in the array is because i dont know the datatype.
+        let fields = { "identifier": [0,0], "type": [0,2], "timestamp": [0,2], "entry": [1, 1],
+          "id": [2,2], "meta": [2,0], "implicitRules": [2], "language": [2,2], "total": [2], "signature": [2,0] };
+        let ips;
+        try{
+            ips = JSON.parse(this.ips);
+            console.log(ips);
+            if (! this.isObject(ips)){
+              this.formatErrors.push("ips no es un json");
+              this.dialogErrors = true;
+              this.sectionFormat = true;
+              return;
+            }
+        }
+        catch(e){
+          this.formatErrors.push("ips no es un json");
+          this.dialogErrors = true;
+          this.sectionFormat = true;
+          return;
+        }
+        for( let k in fields){ //value: fields[k] type: array
+          let val = fields[k];
+          let card = val[0];
+          let v = ips[k]; //
+          if( v == undefined && (card == 0 || card == 1) ){ //no se encontró y era obligatorio:
+            this.cardErrors.push(k);
+          }
+          else{ // todos los otros q se encontraron:
+            if (val.length > 1){ //tenemos el tipo de dato.
+              let dataType = val[1];
+              // 0: obj,  1: array
+              if( (dataType == 0 && ! this.isObject(v)) || (dataType == 1 && ! this.isArray(v)) ){ //si debiese ser un obj y no es un obj... error de formato // lo mismo con array
+                this.formatErrors.push(k);
+              }
+              if (dataType == 1 && card == 1 && v.length<1){ //requiere ser más de 1 y el tipo de dato es array
+                this.cardErrors.push("slices en entry");
+              }
+            }
+          }
+
+        if(this.cardErrors.length > 0){
+          this.dialogErrors = true;
+          this.sectionErrors = true;
+        }
+        if(this.formatErrors.length >0){
+          this.dialogErrors = true;
+          this.sectionFormat = true;
+        }
+        }
       },
       validateIPS(){
         this.errors = [];
