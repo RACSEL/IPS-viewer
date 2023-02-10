@@ -144,6 +144,7 @@
         }
         this.validateCardAndFormat(fields, ips);
         this.validateComposition(ips);
+        this.validatePatient(ips);
         if(this.cardErrors.length > 0){
           this.dialogErrors = true;
           this.sectionErrors = true;
@@ -222,14 +223,92 @@
         for( let obj of ips.entry){
           if (obj.resource.resourceType == 'Composition'){
             resource = obj.resource;
+            this.validateCardAndFormat(fields, resource);
           }
         }
         if( resource == undefined){ // The section Composition was not found
           this.errors.push('Composition');
           return;
         }
-        this.validateCardAndFormat(fields, resource);
       },
+      validatePatient(ips){
+        let fields = {
+          "id": [2, , ],
+          "meta": [2, , ],
+          "implicitRules": [2, , ],
+          "language": [2, , ],
+          "text": [2, , ],
+          "contained": [3, , ],
+          "extension": [3, , ],
+          "modifierExtension": [3, , ],
+          "identifier": [3, , ],
+          "active": [2, , ],
+          "name": [1, , {
+            "id": [2, , ],
+            "extension": [3, , ],
+            "use": [2, , ],
+            "text": [2, , ],
+            "family": [2, , ],
+            "given": [3, , ],
+            "prefix": [3, , ],
+            "suffix": [3, , ],
+            "period": [2, , ]
+          }],
+          "telecom": [3, , ],
+          "gender": [2, , ],
+          "birthDate": [0, , ],
+          //"deceased": [2, , {
+          //  "deceasedBoolean": [-, , ],
+          //  "deceasedDateTime": [-, , ]
+          //}],
+          "address": [3, , ],
+          "maritalStatus": [2, , ],
+          //"multipleBirth": [2, , {
+          //  "multipleBirthBoolean": [-, , ],
+          //  "multipleBirthInteger": [-, , ],
+          //}],
+          "photo": [3, , ],
+          "contact": [3, , {
+            "id": [2, , ],
+            "extension": [3, , ],
+            "modifierExtension": [3, , ],
+            "relationship": [3, , ],
+            "name": [2, , ],
+            "telecom": [3, , ],
+            "address": [2, , ],
+            "gender": [2, , ],
+            "organization": [2, , ],
+            "period": [2, , ]
+          }],
+          "communication": [3, , {
+            "id": [2, , ],
+            "extension": [3, , ],
+            "modifierExtension": [3, , ],
+            "language": [0, , ],
+            "preferred": [2, , ]
+          }],
+          "generalPractitioner": [3, , ],
+          "managingOrganization": [2, , ],
+          "link": [3, , {
+            "id": [2, , ],
+            "extension": [3, , ],
+            "modifierExtension": [3, , ],
+            "other": [0, , ],
+            "type": [0, , ]
+          }]
+        }
+        let resource;
+        for( let obj of ips.entry){
+          if (obj.resource.resourceType == 'Patient'){
+            resource = obj.resource;
+            this.validateCardAndFormat(fields, resource);
+          }
+        }
+        if( resource == undefined){ // The section Patient was not found
+          this.errors.push('Patient');
+          return;
+        }
+      }
     },
     computed: {
       user: getStore("user")
