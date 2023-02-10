@@ -98,8 +98,33 @@
         //values are arrays in order to validate the data type later,
         //for now i will validate if it is an object(0), array(1) or string(2). 
         //fields that dont have second value in the array is because i dont know the datatype.
-        let fields = { "identifier": [0,0], "type": [0,2], "timestamp": [0,2], "entry": [1, 1],
-          "id": [2,2], "meta": [2,0], "implicitRules": [2], "language": [2,2], "total": [2], "signature": [2,0] };
+        let fields = { 
+          "id": [2,2, {}],
+          "meta": [2, 0,{}],
+          "implicitRules": [2, 2,{}],
+          "language": [2, 2,{}],
+          "identifier": [0,0, {
+            "use": [2, 2,{}],
+            "type": [2, 0,{
+              "coding": [3, 1,{}],
+              "text": [2, 2,{}],
+            }],
+            "system": [ 2 , 2,{}],
+            "value":  [2, 2,{}],
+            "period": [2, 0,{
+              "start": [2, 2,{}],
+              "end": [2, 2,{}]
+            }],
+            "assigner": [2, 0,{}] // missing
+          }], 
+          "type": [0,2, {}], 
+          "timestamp": [0, 2, {}], 
+          "total": [2, ,{}],
+          "entry": [1, 1, {
+            "fullUrl": [0, 2, {}]
+          }],
+          "signature": [2, ,{}]
+        };
         let ips;
         try{
             ips = JSON.parse(this.ips);
@@ -117,7 +142,7 @@
           this.sectionFormat = true;
           return;
         }
-        //this.validateCardAndFormat(fields, ips);
+        this.validateCardAndFormat(fields, ips);
         this.validateComposition(ips);
         if(this.cardErrors.length > 0){
           this.dialogErrors = true;
@@ -203,7 +228,6 @@
           this.errors.push('Composition');
           return;
         }
-
         this.validateCardAndFormat(fields, resource);
       },
     },
