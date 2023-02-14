@@ -127,14 +127,34 @@
               "use" : [2, 2, {}], 
               "type" :  [2, 2, {}],
               "text" :  [2, 2, {}],
-              "line" :  [3, 2, {}], // creo que es -,1,- ie, una lista por ser de tipo 3.
+              "line" :  [3, 2, {}], // creo que es -,1,-. Es decir, una lista por ser de tipo 3.
               "city" :  [2, 2, {}],
               "district" :  [2, 2, {}],
               "state" :  [2, 2, {}],
               "postalCode" : [2, 2, {}],
               "country" : [2, 2, {}],
               "period" : [2, 0, "Period"]
-            }
+          },
+          "CodingIPS": {
+              "id": [2, 2, {}],
+              "extension": [ 3, 1, "Extension"], 
+              "system": [ 0, 2, {}],
+              "version": [ 2, 2, {}],
+              "code": [ 0, 2, {}],
+              "display": [ 2, 2, {}], // ver este pq tiene parametros internos en este caso pero en los ejemplos no es así
+              "userSelected": [ 2, 2, {}]
+          },
+          "CodeableConceptIPS": {
+            "id": [2, 2, {}],
+            "extension": [3, 2, "Extension"],
+            "coding": [1, 1, "CodingIPS"],
+            "text": [2, 2, {}]
+          },
+          "CodeableConcept": {
+            "coding": [3, 1, "Coding"],
+            "text": [2, 2, {}]
+          }
+
         }
       }
     },
@@ -251,28 +271,36 @@
         // 0 and 1: required (only once) or (once or more).
         // 2 and 3: optional 
 
-        //0: obj, 1:array, 2: string or idk
+        //0: obj, 1:array, 2: string 3: no lo sé
         // si no es undefined y tiene 3ra variable... revisar los hijos... asi hasta el sgte, tipo arbol
-        let fields = {"status": [0, 2, {}], 
-        "type": [0, 0, {
-          "id": [2, 2, {}],
-          "extension": [3, 2, {}],
-          "coding": [1, 1, {
-            "id": [2, 2, {}],
-            "extension": [ 3, 2, {}], 
-            "system": [ 0, 2, {}],
-            "version": [ 2, 2, {}],
-            "code": [ 0, 2, {}],
-            "display": [ 2, 2, {}],
-            "userSelected": [ 2, 2, {}]
-          }],
-          "text": [2, 2, {}]
-        }], 
-        "subject": [0, 0, {
+        let fields = {  
+          "id": [ 2, 2, {}],
+          "meta": [ 2, 0, "Meta"], // http://hl7.org/fhir/R4/resource.html#Meta
+          "implicitRules": [ 2, 2, {} ],
+          "language": [ 2, 2, {}], // tipo code?? arreglar
+          "text": [ 2, 2, { // a veces es un obj y otras un string
+            //arreglar
+          }], 
+          "contained": [3, 3, "Resource"], // idk es de tipo Resource
+          "versionNumber": [3, 3, {}],
+          "modifierExtension": [3, 3, "Extension"],
+          "identifier": [2, 0, "Identifier"],
+          "status": [0, 2, {}], 
+          "type": [0, 0, "CodeableConceptIPS"], 
+          "category": [3, 3, "CodeableConcept"], //supongo es una lista pero no lo sé
+          "subject": [0, 3, { // es Reference arreglar
 
-        }], 
-        "date": [0, 2, {}], 
-        "title": [0, 2, {}]
+          }], 
+          "encounter": [2, 3, {}], // es reference arreglar
+          "date": [0, 2, {}], 
+          "author": [1, 3, {}], // es reference arreglar
+          "title": [0, 2, {}],
+          "confidentiality": [2, 2, {}],
+          "attester": [3, 3, { // arreglar
+
+          }], 
+          "custodian": [2, 3, {}], // es reference
+          "relatesTo": [3, 3, {}], // arreglar
         }
         let resource;
         
