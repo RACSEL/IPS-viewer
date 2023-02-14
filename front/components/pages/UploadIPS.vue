@@ -76,6 +76,66 @@
         dialogErrors: false,
         sectionErrors: false,
         sectionFormat: false,
+        formats: {
+          "Resource": {
+            "id": [2, 2, {}],
+            "meta": [2, 0, {}],
+            "implicitRules": [2, 2, {}],
+            "language": [2, 2, {}],
+          },
+          "Extension": {
+            "url": [0, 2, {}],
+            "value": [2, 2, {}] //value[x] not enough info //arreglar
+          },
+          "identifier": {
+            "use": [2, 2,{}],
+            "type": [2, 0,{
+              "coding": [3, 1,{}],
+              "text": [2, 2,{}],
+            }],
+            "system": [ 2 , 2,{}],
+            "value":  [2, 2,{}],
+            "period": [2, 0,{
+              "start": [2, 2,{}],
+              "end": [2, 2,{}]
+            }],
+            "assigner": [2, 0,{}] // missing
+          }, 
+          "HumanName": {
+            "id": [2, 2, ],
+            "extension": [3, 2, "Extension"],
+            "use": [2, 2, {}],
+            "text": [2, 2, ],
+            "family": [2, 2, {}],
+            "given": [3, 1, {}],
+            "prefix": [3, 2, ], // idk 2
+            "suffix": [3, 2, ], // idk 2
+            "period": [2, 0, "Period"]  
+          },
+          "Period": {
+            "start": [2, 2, {}],
+            "end": [2, 2, {}]
+          },
+          "ContactPoint": {
+            "system": [2, 2, {}],
+            "value": [2, 2, {}],
+            "use": [2, 2, {}],
+            "rank": [2, 2, {}],
+            "period": [2, 0, "Period"]
+          },
+          "Address": {
+              "use" : [2, 2, {}], 
+              "type" :  [2, 2, {}],
+              "text" :  [2, 2, {}],
+              "line" :  [3, 2, {}], // creo que es -,1,- ie, una lista por ser de tipo 3.
+              "city" :  [2, 2, {}],
+              "district" :  [2, 2, {}],
+              "state" :  [2, 2, {}],
+              "postalCode" : [2, 2, {}],
+              "country" : [2, 2, {}],
+              "period" : [2, 0, "Period"]
+            }
+        }
       }
     },
     mounted() {
@@ -103,20 +163,7 @@
           "meta": [2, 0,{}],
           "implicitRules": [2, 2,{}],
           "language": [2, 2,{}],
-          "identifier": [0,0, {
-            "use": [2, 2,{}],
-            "type": [2, 0,{
-              "coding": [3, 1,{}],
-              "text": [2, 2,{}],
-            }],
-            "system": [ 2 , 2,{}],
-            "value":  [2, 2,{}],
-            "period": [2, 0,{
-              "start": [2, 2,{}],
-              "end": [2, 2,{}]
-            }],
-            "assigner": [2, 0,{}] // missing
-          }], 
+          "identifier": [0, "Identifier", {}], 
           "type": [0,2, {}], 
           "timestamp": [0, 2, {}], 
           "total": [2, ,{}],
@@ -163,14 +210,25 @@
             this.cardErrors.push(k);
           }
           else if (v != undefined){ // todos los otros q se encontraron: reviso el tipo de dato y sus posibles variables internas
-            if (val[1] < 2){ //tenemos el tipo de dato conocido (0 o 1), ya que 2 es string o no conocido
-              let dataType = val[1];
-              // 0: obj,  1: array
-              if( (dataType == 0 && ! this.isObject(v)) || (dataType == 1 && ! this.isArray(v)) ){ //si debiese ser un obj y no es un obj... error de formato // lo mismo con array
-                this.formatErrors.push(k);
-              }
-              if (dataType == 1 && card == 1 && v.length<1){ //requiere ser más de 1 y el tipo de dato es array
-                this.cardErrors.push("elementos en " + k);
+              //si es string es un tipo de dato que ya tengo guardado
+            if (typeof val[1] == "string"){ //type: Resource
+              console.log("es de tipo guardado:")
+              let dataTypeFields = this.formats[val[1]]; // {"a": ..., "b": ..., etc}
+              console.log("dataTypeFields: ", dataTypeFields);
+              console.log("v: ", v);
+              this.validateCardAndFormat(dataTypeFields, v)
+            }
+            //si no es string es un numero y es de tipo obj (0), lista(1) o string/desconocido(2)
+            else{
+              if (val[1] < 2){ //tenemos el tipo de dato conocido (0 o 1), ya que 2 es string o no conocido
+                let dataType = val[1];
+                // 0: obj,  1: array
+                if( (dataType == 0 && ! this.isObject(v)) || (dataType == 1 && ! this.isArray(v)) ){ //si debiese ser un obj y no es un obj... error de formato // lo mismo con array
+                  this.formatErrors.push(k);
+                }
+                if (dataType == 1 && card == 1 && v.length<1){ //requiere ser más de 1 y el tipo de dato es array
+                  this.cardErrors.push("elementos en " + k);
+                }
               }
             }
             //reviso los parametros internos si es q tiene
@@ -233,68 +291,68 @@
       },
       validatePatient(ips){
         let fields = {
-          "id": [2, , ],
-          "meta": [2, , ],
-          "implicitRules": [2, , ],
-          "language": [2, , ],
-          "text": [2, , ],
-          "contained": [3, , ],
-          "extension": [3, , ],
-          "modifierExtension": [3, , ],
-          "identifier": [3, , ],
-          "active": [2, , ],
-          "name": [1, , {
-            "id": [2, , ],
-            "extension": [3, , ],
-            "use": [2, , ],
-            "text": [2, , ],
-            "family": [2, , ],
-            "given": [3, , ],
-            "prefix": [3, , ],
-            "suffix": [3, , ],
-            "period": [2, , ]
+          "id": [2, 2, ],
+          "meta": [2, 0, {
+            // not enough info
           }],
-          "telecom": [3, , ],
-          "gender": [2, , ],
-          "birthDate": [0, , ],
+          "implicitRules": [2, 2, ],
+          "language": [2, 2, ],
+          "text": [2, 0, {
+            // not enough info
+          }],
+          "contained": [3, 'Resource', {}],
+          "extension": [3, "Extension", {}],
+          "modifierExtension": [3, "Extension", {}],
+          "identifier": [3, "Identifier", {}],
+          "active": [2, 2, {}],
+          "name": [1, 1, "HumanName"],
+          "telecom": [3, 1, "ContactPoint"],
+          "gender": [2, 2, {}],
+          "birthDate": [0, 2, {}],
           //"deceased": [2, , {
           //  "deceasedBoolean": [-, , ],
           //  "deceasedDateTime": [-, , ]
           //}],
-          "address": [3, , ],
-          "maritalStatus": [2, , ],
+          "address": [3, 1, "Address"],
+          "maritalStatus": [2, 0, {
+            // rellenar
+          }],
           //"multipleBirth": [2, , {
           //  "multipleBirthBoolean": [-, , ],
           //  "multipleBirthInteger": [-, , ],
           //}],
-          "photo": [3, , ],
-          "contact": [3, , {
-            "id": [2, , ],
-            "extension": [3, , ],
-            "modifierExtension": [3, , ],
-            "relationship": [3, , ],
-            "name": [2, , ],
-            "telecom": [3, , ],
-            "address": [2, , ],
-            "gender": [2, , ],
-            "organization": [2, , ],
-            "period": [2, , ]
+          "photo": [3, 2, {}], // arreglar
+          "contact": [3, 1, {
+            "id": [2, 2, {}],
+            "extension": [3, 1, "Extension"],
+            "modifierExtension": [3, 2, "Extension"],
+            "relationship": [3, 2, { // es 3, 1, algo
+              //arreglar
+            }],
+            "name": [2, 0, "HumanName"],
+            "telecom": [3, 1, "ContactPoint"],
+            "address": [2, 0, "Address"],
+            "gender": [2, 2, {}],
+            "organization": [2, 2, {}], //arreglar
+            "period": [2, 0, "Period"]
           }],
-          "communication": [3, , {
-            "id": [2, , ],
-            "extension": [3, , ],
-            "modifierExtension": [3, , ],
-            "language": [0, , ],
-            "preferred": [2, , ]
+          "communication": [3, 1, {
+            "id": [2, 2, {}],
+            "extension": [3, 1, "Extension"],
+            "modifierExtension": [3, 1, "Extension"],
+            "language": [0, 2, {}], // arreglar
+            "preferred": [2, 2, {}]
           }],
-          "generalPractitioner": [3, , ],
-          "managingOrganization": [2, , ],
-          "link": [3, , {
-            "id": [2, , ],
-            "extension": [3, , ],
-            "modifierExtension": [3, , ],
-            "other": [0, , ],
-            "type": [0, , ]
+          "generalPractitioner": [3, 1, { //arreglar
+            
+          }],
+          "managingOrganization": [2, 0, {}], //arreglar
+          "link": [3, 1, { //supongo es 1
+            "id": [2, 2, {}],
+            "extension": [3, 1, "Extension"],
+            "modifierExtension": [3, 1, "Extension"],
+            "other": [0, 2, {}], //arreglar es reference
+            "type": [0, 2, {}]
           }]
         }
         let resource;
