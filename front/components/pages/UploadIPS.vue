@@ -87,18 +87,12 @@
             "url": [0, 2, {}],
             "value": [2, 2, {}] //value[x] not enough info //arreglar
           },
-          "identifier": {
-            "use": [2, 2,{}],
-            "type": [2, 0,{
-              "coding": [3, 1,{}],
-              "text": [2, 2,{}],
-            }],
-            "system": [ 2 , 2,{}],
-            "value":  [2, 2,{}],
-            "period": [2, 0,{
-              "start": [2, 2,{}],
-              "end": [2, 2,{}]
-            }],
+          "Identifier": {
+            "use": [2, 2, {}], //verificar code en gral
+            "type": [2, 0, "CodeableConcept"],
+            "system": [ 2 , 2, {}],
+            "value":  [2, 2, {}],
+            "period": [2, 0, "Period"],
             "assigner": [2, 0,{}] // missing
           }, 
           "HumanName": {
