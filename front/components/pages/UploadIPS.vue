@@ -79,7 +79,7 @@
         formats: {
           "Resource": {
             "id": [2, 2, {}],
-            "meta": [2, 0, {}],
+            "meta": [2, 0, "Meta"],
             "implicitRules": [2, 2, {}],
             "language": [2, 2, {}],
           },
@@ -147,8 +147,58 @@
           "CodeableConcept": {
             "coding": [3, 1, "Coding"],
             "text": [2, 2, {}]
+          },
+          "BackboneElement": {
+            "modifierExtension": [3, 1, "Extension"]
+          },
+          "Signature": {
+            "type": [1, 1, "Coding"],
+            "when": [0, 2, {}],
+            "who": [0, 1, []], // the type is reference to several types (organization, patient, etc). I propose a list to solve this 
+            "onBehalfOf": [2, 1, []], // same problem with type reference
+            "targetFormat": [2, 2, {}],
+            "sigFormat": [2, 2, {}],
+            "data": [2, 2, {}]
+          },
+          "Coding": {
+            "system": [2, 2, {}],
+            "version": [2, 2, {}],
+            "code": [2, 2, {}], // same problem with code
+            "display": [2, 2, {}], 
+            "userSelected": [2, 2, {}]
+          },
+          "Meta": {
+            "versionId": [2, 2, {}],
+            "lastUpdated": [2, 2, {}],
+            "source": [2, 2, {}],
+            "profile": [3, 1, []], // it has a structureDefinition reference
+            "security": [3, 1, "Coding"],
+            "tag": [3, 1, "Coding"]
+          },
+          "Range": {
+            "low": [2, 2, {}], //SimpleQuantity (?)
+            "high": [2, 2, {}] //SimpleQuantity (?)
+          },
+          "ContactDetail": {
+            "name": [2, 2, {}],
+            "telecom": [3, 1, "ContactPoint"]
+          },
+          "Narrative": {
+            "status": [0, 2, {}],
+            "div": [0, 2, {}]
+          },
+          "Annotation": {
+            "author": [2, , ], // can be of two types, reference or string 
+            "time": [2, 2, {}],
+            "text": [0, 2, {}]
+          },
+          "Quantity": {
+            "value": [2, 2, {}],
+            "comparator": [2, 2, {}],
+            "unit": [2, 2, {}],
+            "system": [2, 2, {}],
+            "code": [2, 2, {}]
           }
-
         }
       }
     },
