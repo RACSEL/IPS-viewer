@@ -261,18 +261,23 @@
         //for now i will validate if it is an object(0), array(1) or string(2). 
         //fields that dont have second value in the array is because i dont know the datatype.
         let fields = { 
-          "id": [2,2, {}],
-          "meta": [2, 0,{}],
-          "implicitRules": [2, 2,{}],
-          "language": [2, 2,{}],
-          "identifier": [0, "Identifier", {}], 
-          "type": [0,2, {}], 
-          "timestamp": [0, 2, {}], 
-          "total": [2, ,{}],
+          "id": [2,2, {}], //id
+          "meta": [2, 0, "Meta"],
+          "implicitRules": [2, 2,{}], //uri
+          "language": [2, 2,{}], //code
+          "identifier": [0, 0, "Identifier"], 
+          "type": [0,2, {}], //code
+          "timestamp": [0, 2, {}], //instant
+          "total": [2, 2,{}], //unsignedInt
           "entry": [1, 1, {
-            "fullUrl": [0, 2, {}]
+            "id": [2, 2, {}], //string
+            "extension": [3, 1, "Extension"],
+            "modifierExtension": [3, 1, "Extension"],
+            "link": [3, 1, ], // link (Bundle) ?? arreglar
+            "fullUrl": [0, 2, {}], 
+            "resource": [2, 0, "Resource"]
           }],
-          "signature": [2, ,{}]
+          "signature": [2, 0, "Signature"]
         };
         let ips;
         try{
