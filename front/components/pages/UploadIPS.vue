@@ -29,27 +29,35 @@
             Problemas con IPS
           </v-card-title>
           <v-card-text>
-            <v-card-subtitle class="pa-0 py-3" v-if="sectionErrors">
+            <v-card-subtitle class="pa-0 py-3" v-if="sectionMissing">
               Los siguientes campos faltantes son requeridos:
             </v-card-subtitle>
-            <v-list-item v-for="error in cardErrors" :key="error">
+            <v-list-item v-for="error in missingErrors" :key="error">
               <v-list-item-content class="py-2">
                 <v-list-item-title>- {{error}} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>          
+            <v-card-subtitle class="pa-0 py-3" v-if="sectionCard">
+              Los siguientes campos no cumplen con la cardinalidad correcta:
+            </v-card-subtitle>
+            <v-list-item v-for="error in cardErrors" :key="error" >
+              <v-list-item-content class="py-2">
+                <v-list-item-title>- {{error}} </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
             <v-card-subtitle class="pa-0 py-3" v-if="sectionFormat">
               Los siguientes campos no cumplen con el formato correcto:
             </v-card-subtitle>
-            <v-list-item v-for="format in formatErrors" :key="format" >
+            <v-list-item v-for="error in formatErrors" :key="error" >
               <v-list-item-content class="py-2">
-                <v-list-item-title>- {{format}} </v-list-item-title>
+                <v-list-item-title>- {{error}} </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialogErrors = false, sectionErrors = false, sectionFormat=false">
+            <v-btn color="primary" text @click="dialogErrors = false, sectionCard = false, sectionFormat=false, sectionMissing=false">
               OK
             </v-btn>
           </v-card-actions>
@@ -70,12 +78,14 @@
         sampleJson: sample,
         ips: "",
         warnings: [],
+        missingErrors: [],
         cardErrors: [],
         formatErrors: [],
         modelErrors: false,
         dialogErrors: false,
-        sectionErrors: false,
+        sectionCard: false,
         sectionFormat: false,
+        sectionMissing: false,
         formats: {
           "Resource": {
             "id": [2, 2, {}],
@@ -212,9 +222,87 @@
       isObject(myObj){
         return myObj.constructor === Object;
       },
+      validateSection(fields, section, nameSection){ // fields are documentation.
+        for( let param in fields){ //id, meta, etc...
+          let data = fields[param]; // [card, tipo y dataType]
+          let card = data[0];
+          let pointer = section[param]; // parte del ips que estoy revisando
+
+          // chequeo la cardinalidad:
+          // no pueden haber 0 de los sgtes campos
+          console.log('P: ', param);
+          console.log( "chequeo cardinalidad: ", data);
+          if ( (card == 0 || card == 1) && pointer == undefined ){ // no debe ser undefined
+            this.missingErrors.push(nameSection + "-" + param);
+          }
+          // no pueden haber más de uno de los sgtes campos
+          else if ( ( pointer != undefined) && (card == 0 || card == 2) && this.isArray(pointer) ){ // no debe ser array pq eso da chanche a que sea más de uno y debe ser minimo 0 y max 1
+            this.cardErrors.push(nameSection + "-" + param);
+          }
+
+          console.log('chequeo tipo de dato de: ', pointer, ' deberia ser: ', data[2])
+          // chequeo tipo de dato:
+          if (pointer != undefined){
+            console.log( "OBJ?? ", typeof data[2])
+            if (typeof data[2] == 'object') { //{} or { más parametros } or 'DataType'
+              if (Object.keys(data[2]).length == 0) { // {}
+                console.log('es STRING')
+                //se refiere a que son de tipo string
+                if ( (card == 0 || card == 2) && (typeof pointer != 'string' && typeof pointer != 'boolean') ){
+                  console.log( 'solo 1')
+                  this.formatErrors.push(nameSection + "-" + param);
+                }
+                else if ( (card == 1 || card == 3) ){
+                  console.log( 'varios, los chequeo todos:')
+                  for (let elem of pointer){
+                    console.log(elem);
+                    if (typeof elem != 'string' && typeof elem != 'boolean'){
+                      this.formatErrors.push(nameSection + "-" + param);
+                      break
+                    }
+                  }
+                }
+              }
+              else{ // { más parametros}
+                
+                
+                if ( card == 0 || card == 2){ //unico dato
+                  this.validateSection(data[2], pointer, nameSection + "-" + param)
+                } 
+                else{ //varios datos
+                  for( let elem of pointer){
+                    console.log('fields: ', this.formats[data[2]])
+                    console.log('sectionIPS: ', elem)
+                    console.log(nameSection + '-' + param)
+                    this.validateSection(data[2], elem, nameSection + '-' + param)
+                  }
+                }
+              }
+            }
+            else if( typeof data[2] == 'string'){ // 'DataType'
+              //separo en unico o varios datos
+              console.log('validaré la SUBseccion de: ', param, '---  EN: ', pointer)
+              if(card == 0 || card == 2){ //unico dato
+                this.validateSection(this.formats[data[2]], pointer, nameSection + '-' + param)
+              }
+              else{ //varios datos
+                for (let elem of pointer){
+                  console.log('fields: ', this.formats[data[2]])
+                  console.log('sectionIPS: ', elem)
+                  console.log(nameSection + '-' + param)
+                  this.validateSection(this.formats[data[2]], elem, nameSection + '-' + param)
+
+                }
+              }
+            }
+          }
+        }
+      },
+      
       validateIPS(){
         this.cardErrors = [];
         this.formatErrors = [];
+        this.missingErrors = [];
         // 0: 1..1    //1: 1..*    //2: 0..1   //3: 0..*
         // 0 and 1: required (only once) or (once or more).
         // 2 and 3: optional 
@@ -253,61 +341,23 @@
           this.sectionFormat = true;
           return;
         }
-        this.validateCardAndFormat(fields, ips);
-        this.validateComposition(ips);
+        //this.validateSection(fields, ips, 'Inicio');
+        //this.validateComposition(ips);
         this.validatePatient(ips);
         if(this.cardErrors.length > 0){
           this.dialogErrors = true;
-          this.sectionErrors = true;
+          this.sectionCard = true;
         }
         if(this.formatErrors.length >0){
           this.dialogErrors = true;
           this.sectionFormat = true;
         }
-      },
-      validateCardAndFormat(fields, obj){
-        for( let k in fields){ //value: fields[k] 
-          let val = fields[k]; // [card, tipo de dato, {más variables}]
-          let card = val[0];
-          let v = obj[k]; //
-          if( v == undefined && (card == 0 || card == 1) ){ //no se encontró y era obligatorio:
-            this.cardErrors.push(k);
-          }
-          else if (v != undefined){ // todos los otros q se encontraron: reviso el tipo de dato y sus posibles variables internas
-              //si es string es un tipo de dato que ya tengo guardado
-            if (typeof val[1] == "string"){ //type: Resource
-              console.log("es de tipo guardado:")
-              let dataTypeFields = this.formats[val[1]]; // {"a": ..., "b": ..., etc}
-              console.log("dataTypeFields: ", dataTypeFields);
-              console.log("v: ", v);
-              this.validateCardAndFormat(dataTypeFields, v)
-            }
-            //si no es string es un numero y es de tipo obj (0), lista(1) o string/desconocido(2)
-            else{
-              if (val[1] < 2){ //tenemos el tipo de dato conocido (0 o 1), ya que 2 es string o no conocido
-                let dataType = val[1];
-                // 0: obj,  1: array
-                if( (dataType == 0 && ! this.isObject(v)) || (dataType == 1 && ! this.isArray(v)) ){ //si debiese ser un obj y no es un obj... error de formato // lo mismo con array
-                  this.formatErrors.push(k);
-                }
-                if (dataType == 1 && card == 1 && v.length<1){ //requiere ser más de 1 y el tipo de dato es array
-                  this.cardErrors.push("elementos en " + k);
-                }
-              }
-            }
-            //reviso los parametros internos si es q tiene
-            console.log("estoy en: ", k, "   ",  v," revisare los campos internos (3ra var): ", val)
-            if (val[2].length !=  0){
-              if (val[1] == 1){ // es un array, revisar por cada elemento del array q se cumplan las validaciones
-                for (let elem of v){
-                  this.validateCardAndFormat(val[2], elem);
-                }
-              }
-              else{
-                this.validateCardAndFormat(val[2], v);
-              }
-            }
-          }
+        if(this.missingErrors.length > 0){
+          this.dialogErrors = true;
+          this.sectionMissing = true;
+        }
+        if( this.dialogErrors == false){
+          console.log('PERFECT');
         }
       },
       validateComposition(ips){
@@ -353,89 +403,79 @@
         for( let obj of ips.entry){
           if (obj.resource.resourceType == 'Composition'){
             resource = obj.resource;
-            this.validateCardAndFormat(fields, resource);
+            this.validateSection(fields, resource, 'Composition');
           }
         }
         if( resource == undefined){ // The section Composition was not found
-          this.errors.push('Composition');
+          this.cardErrors.push('Composition');
           return;
         }
       },
       validatePatient(ips){
         let fields = {
-          "id": [2, 2, ],
-          "meta": [2, 0, {
-            // not enough info
-          }],
-          "implicitRules": [2, 2, ],
-          "language": [2, 2, ],
-          "text": [2, 0, {
-            // not enough info
-          }],
-          "contained": [3, 'Resource', {}],
-          "extension": [3, "Extension", {}],
-          "modifierExtension": [3, "Extension", {}],
-          "identifier": [3, "Identifier", {}],
-          "active": [2, 2, {}],
+          "id": [2, 2, {}], //id
+          "meta": [2, 0, "Meta"],
+          "implicitRules": [2, 2, {}], // uri
+          "language": [2, 2, {}], // code
+          "text": [2, 0, {}], //Narrative
+          "contained": [3, 1, "Resource"],
+          "extension": [3, 1, "Extension"],
+          "modifierExtension": [3, 1, "Extension"],
+          "identifier": [3, 1, "Identifier"],
+          "active": [2, 2, {}], //boolean
           "name": [1, 1, "HumanName"],
           "telecom": [3, 1, "ContactPoint"],
-          "gender": [2, 2, {}],
-          "birthDate": [0, 2, {}],
+          "gender": [2, 2, {}], //code
+          "birthDate": [0, 2, {}], //date
           //"deceased": [2, , {
           //  "deceasedBoolean": [-, , ],
           //  "deceasedDateTime": [-, , ]
           //}],
           "address": [3, 1, "Address"],
-          "maritalStatus": [2, 0, {
-            // rellenar
-          }],
+          "maritalStatus": [2, 0, "CodeableConcept"],
           //"multipleBirth": [2, , {
           //  "multipleBirthBoolean": [-, , ],
           //  "multipleBirthInteger": [-, , ],
           //}],
-          "photo": [3, 2, {}], // arreglar
+          "photo": [3, 2, {}], //Attachment
           "contact": [3, 1, {
-            "id": [2, 2, {}],
+            "id": [2, 2, {}], //string
             "extension": [3, 1, "Extension"],
             "modifierExtension": [3, 2, "Extension"],
-            "relationship": [3, 2, { // es 3, 1, algo
-              //arreglar
-            }],
+            "relationship": [3, 2, "CodeableConceptIPS"],
             "name": [2, 0, "HumanName"],
             "telecom": [3, 1, "ContactPoint"],
             "address": [2, 0, "Address"],
-            "gender": [2, 2, {}],
-            "organization": [2, 2, {}], //arreglar
+            "gender": [2, 2, {}], //code
+            "organization": [2, 2, {}], //Reference(Organization)
             "period": [2, 0, "Period"]
           }],
           "communication": [3, 1, {
-            "id": [2, 2, {}],
+            "id": [2, 2, {}], //string
             "extension": [3, 1, "Extension"],
             "modifierExtension": [3, 1, "Extension"],
-            "language": [0, 2, {}], // arreglar
-            "preferred": [2, 2, {}]
+            "language": [0, 2, "CodeableConcept"], 
+            "preferred": [2, 2, {}] //boolean
           }],
-          "generalPractitioner": [3, 1, { //arreglar
-            
-          }],
-          "managingOrganization": [2, 0, {}], //arreglar
+          "generalPractitioner": [3, 1, {}], //Reference(Organization | Practicioner)
+          "managingOrganization": [2, 0, {}], // Reference(Organization)
           "link": [3, 1, { //supongo es 1
-            "id": [2, 2, {}],
+            "id": [2, 2, {}], //string
             "extension": [3, 1, "Extension"],
             "modifierExtension": [3, 1, "Extension"],
-            "other": [0, 2, {}], //arreglar es reference
-            "type": [0, 2, {}]
+            "other": [0, 2, {}], // Reference(Patient 1 RelatedPerson)
+            "type": [0, 2, {}] //code
           }]
         }
         let resource;
         for( let obj of ips.entry){
           if (obj.resource.resourceType == 'Patient'){
             resource = obj.resource;
-            this.validateCardAndFormat(fields, resource);
+            this.validateSection(fields, resource, 'Patient');
           }
         }
         if( resource == undefined){ // The section Patient was not found
-          this.errors.push('Patient');
+          this.cardErrors.push('Patient');
           return;
         }
       }
