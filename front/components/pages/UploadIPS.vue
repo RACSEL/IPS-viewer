@@ -98,12 +98,12 @@
             "value": [2, 2, {}] //value[x] not enough info //arreglar
           },
           "Identifier": {
-            "use": [2, 2, {}], //verificar code en gral
+            "use": [2, 2, {}], // code
             "type": [2, 0, "CodeableConcept"],
-            "system": [ 2 , 2, {}],
-            "value":  [2, 2, {}],
-            "period": [2, 0, "Period"],
-            "assigner": [2, 0,{}] // missing
+            "system": [ 2 , 2, {}], //uri
+            "value":  [2, 2, {}], // string
+            "period": [2, 0, "Period"], 
+            "assigner": [2, 0,{}] // Reference
           }, 
           "HumanName": {
             "id": [2, 2, ],
@@ -264,13 +264,16 @@
                 }
               }
               else{ // { más parametros}
-                
-                
                 if ( card == 0 || card == 2){ //unico dato
                   this.validateSection(data[2], pointer, nameSection + "-" + param)
                 } 
-                else{ //varios datos
+                else{ //varios datos cada elemento debe ser de tipo {}
                   for( let elem of pointer){
+                    if (this.isArray(elem)){
+                      console.log("LOOL")
+                      this.formatErrors.push(nameSection + '-' + param)
+                      break
+                    }
                     console.log('fields: ', this.formats[data[2]])
                     console.log('sectionIPS: ', elem)
                     console.log(nameSection + '-' + param)
@@ -311,23 +314,40 @@
         //for now i will validate if it is an object(0), array(1) or string(2). 
         //fields that dont have second value in the array is because i dont know the datatype.
         let fields = { 
-          "id": [2,2, {}], //id
-          "meta": [2, 0, "Meta"],
-          "implicitRules": [2, 2,{}], //uri
-          "language": [2, 2,{}], //code
-          "identifier": [0, 0, "Identifier"], 
-          "type": [0,2, {}], //code
-          "timestamp": [0, 2, {}], //instant
-          "total": [2, 2,{}], //unsignedInt
-          "entry": [1, 1, {
-            "id": [2, 2, {}], //string
-            "extension": [3, 1, "Extension"],
-            "modifierExtension": [3, 1, "Extension"],
-            "link": [3, 1, ], // link (Bundle) ?? arreglar
-            "fullUrl": [0, 2, {}], 
-            "resource": [2, 0, "Resource"]
-          }],
-          "signature": [2, 0, "Signature"]
+          "id": { card: 2,
+                  dataType: [1] }, //id
+          "meta": { card: 2,
+                  dataType: ["Meta"] },
+          "implicitRules": { card: 2,
+                  dataType: [1] }, //uri
+          "language": { card: 2,
+                  dataType: [1] }, //code
+          "identifier": { card: 0,
+                  dataType: ["Identifier"] }, 
+          "type": { card: 0,
+                  dataType: [1] }, //code
+          "timestamp": { card: 0,
+                  dataType: [1] }, //instant
+          "total": { card: 2,
+                  dataType: [1] }, //unsignedInt
+          "entry": { card: 1,
+                  dataType: [ 
+                    {"id": { card: 2,
+                              dataType: [1] }, //string
+                      "extension": { card: 3,
+                              dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                              dataType: ["Extension"] },
+                      "link": { card: 3,
+                              dataType: [1] }, // link (Bundle) ?? arreglar
+                      "fullUrl": { card: 0,
+                              dataType: [1] }, 
+                      "resource": { card: 2,
+                              dataType: ["Resource"] },
+                      }]
+                  },
+          "signature": { card: 2,
+                  dataType: ["Signature"] }
         };
         let ips;
         try{
@@ -346,7 +366,21 @@
           this.sectionFormat = true;
           return;
         }
-        //this.validateSection(fields, ips, 'Inicio');
+        this.validateSection(fields, ips, 'Inicio');
+
+        if(this.formatErrors.length >0){
+          this.dialogErrors = true;
+          this.sectionFormat = true;
+          if(this.cardErrors.length > 0){
+            this.dialogErrors = true;
+            this.sectionCard = true;
+          }
+          if(this.missingErrors.length > 0){
+            this.dialogErrors = true;
+            this.sectionMissing = true;
+          }
+          return;
+        }
         //this.validateComposition(ips);
         this.validatePatient(ips);
         if(this.cardErrors.length > 0){
@@ -373,33 +407,73 @@
         //0: obj, 1:array, 2: string 3: no lo sé
         // si no es undefined y tiene 3ra variable... revisar los hijos... asi hasta el sgte, tipo arbol
         let fields = {  
-          "id": [ 2, 2, {}],
-          "meta": [ 2, 0, "Meta"], // http://hl7.org/fhir/R4/resource.html#Meta
-          "implicitRules": [ 2, 2, {} ],
-          "language": [ 2, 2, {}], // tipo code?? arreglar
-          "text": [ 2, 2, { // a veces es un obj y otras un string
-            //arreglar
-          }], 
-          "contained": [3, 3, "Resource"], // idk es de tipo Resource
-          "versionNumber": [3, 3, {}],
-          "modifierExtension": [3, 3, "Extension"],
-          "identifier": [2, 0, "Identifier"],
-          "status": [0, 2, {}], 
-          "type": [0, 0, "CodeableConceptIPS"], 
-          "category": [3, 3, "CodeableConcept"], //supongo es una lista pero no lo sé
-          "subject": [0, 3, { // es Reference arreglar
-
-          }], 
-          "encounter": [2, 3, {}], // es reference arreglar
-          "date": [0, 2, {}], 
-          "author": [1, 3, {}], // es reference arreglar
-          "title": [0, 2, {}],
-          "confidentiality": [2, 2, {}],
-          "attester": [3, 3, { // arreglar
-
-          }], 
-          "custodian": [2, 3, {}], // es reference
-          "relatesTo": [3, 3, {}], // arreglar
+          "id": { card: 2,
+                  dataType: [1] },
+          "meta": { card: 2,
+                  dataType: ["Meta"] }, 
+          "implicitRules": { card: 2,
+                  dataType: [1] }, // uri
+          "language": { card: 2,
+                  dataType: [1] }, // code
+          "text": { card: 2,
+                  dataType: ["Narrative"] }, 
+          "contained": { card:3, 
+                  dataType: ["Resource"] }, // idk es de tipo Resource
+          "versionNumber": { card:3, 
+                  dataType: [1] }, // string
+          "modifierExtension": { card:3, 
+                  dataType: ["Extension"] },
+          "identifier": { card:2, 
+                  dataType: ["Identifier"] },
+          "status": { card:0, 
+                  dataType: [1] }, // code
+          "type": { card:0, 
+                  dataType: ["CodeableConceptIPS"] }, 
+          "category": { card:3, 
+                  dataType: ["CodeableConcept"] }, //supongo es una lista pero no lo sé
+          "subject": { card:0, 
+                  dataType: [1] }, // Reference (Patient IPS) 
+          "encounter": { card:2, 
+                  dataType: [1] }, // es reference (Encounter)
+          "date": { card:0, 
+                  dataType: [1] }, //dateTime 
+          "author": { card:1, 
+                  dataType: [1] }, // es reference (varios)
+          "title": { card:0, 
+                  dataType: [1] }, // string
+          "confidentiality": { card:2, 
+                  dataType: [1] }, // code
+          "attester": { card: 3,  
+                        dataType: [
+                          {"id": { card: 2,
+                                  dataType: [1] },
+                          "extension": { card: 3 ,
+                                        dataType: ["Extension"] },
+                          "modifierExtension": { card: 3 ,
+                                        dataType: ["Extension"] },
+                          "mode": { card: 0 ,
+                                        dataType: [1] }, //code
+                          "time": { card: 2 ,
+                                        dataType: [1] }, // dateTime
+                          "party": { card: 2 ,
+                                        dataType: [1] } // Reference (varios)
+                        }]},
+          "custodian": { card: 2,
+                          dataType: [1] }, // es reference
+          "relatesTo": { card: 3,  
+                          dataType: [
+                              {"id": { card: 2,
+                                      dataType: [1] },
+                              "extension": { card: 3 ,
+                                            dataType: ["Extension"] },
+                              "modifierExtension": { card: 3 ,
+                                            dataType: ["Extension"] },
+                              "code": { card: 0 ,
+                                            dataType: [1] }, // code
+                              "target": { card: 0 ,
+                                            dataType: ["Target"],
+                                            setDataType: true }
+                          }]},
         }
         let resource;
         
@@ -418,60 +492,98 @@
       },
       validatePatient(ips){
         let fields = {
-          "id": [2, 2, {}], //id
-          "meta": [2, 0, "Meta"],
-          "implicitRules": [2, 2, {}], // uri
-          "language": [2, 2, {}], // code
-          "text": [2, 0, {}], //Narrative
-          "contained": [3, 1, "Resource"],
-          "extension": [3, 1, "Extension"],
-          "modifierExtension": [3, 1, "Extension"],
-          "identifier": [3, 1, "Identifier"],
-          "active": [2, 2, {}], //boolean
-          "name": [1, 1, "HumanName"],
-          "telecom": [3, 1, "ContactPoint"],
-          "gender": [2, 2, {}], //code
-          "birthDate": [0, 2, {}], //date
-          //"deceased": [2, , {
-          //  "deceasedBoolean": [-, , ],
-          //  "deceasedDateTime": [-, , ]
-          //}],
+          "id": { card: 2, 
+                  dataType: [1] }, //id
+          "meta": { card: 2, 
+                  dataType: ["Meta"] },
+          "implicitRules": { card: 2, 
+                  dataType: [1] }, // uri
+          "language": { card: 2, 
+                  dataType: [1] }, // code
+          "text": { card: 2, 
+                  dataType: ["Narrative"] }, 
+          "contained": { card: 3, 
+                  dataType: ["Resource"] },
+          "extension": { card: 3, 
+                  dataType: ["Extension"] },
+          "modifierExtension": { card: 3, 
+                  dataType: ["Extension"] },
+          "identifier": { card: 3, 
+                  dataType: ["Identifier"] },
+          "active": { card: 2, 
+                  dataType: [1] }, //boolean
+          "name": { card: 1, 
+                  dataType: ["HumanName"] },
+          "telecom": { card: 3, 
+                  dataType: ["ContactPoint"] },
+          "gender": { card: 2, 
+                  dataType: [1] }, //code
+          "birthDate": { card: 0, 
+                  dataType: [1] }, //date
+          "deceased": { card: 2,
+                      dataType: ["Deceased"],
+                      setDataType: true },
           "address": [3, 1, "Address"],
           "maritalStatus": [2, 0, "CodeableConcept"],
-          //"multipleBirth": [2, , {
-          //  "multipleBirthBoolean": [-, , ],
-          //  "multipleBirthInteger": [-, , ],
-          //}],
-          "photo": [3, 2, {}], //Attachment
-          "contact": [3, 1, {
-            "id": [2, 2, {}], //string
-            "extension": [3, 1, "Extension"],
-            "modifierExtension": [3, 2, "Extension"],
-            "relationship": [3, 2, "CodeableConceptIPS"],
-            "name": [2, 0, "HumanName"],
-            "telecom": [3, 1, "ContactPoint"],
-            "address": [2, 0, "Address"],
-            "gender": [2, 2, {}], //code
-            "organization": [2, 2, {}], //Reference(Organization)
-            "period": [2, 0, "Period"]
-          }],
-          "communication": [3, 1, {
-            "id": [2, 2, {}], //string
-            "extension": [3, 1, "Extension"],
-            "modifierExtension": [3, 1, "Extension"],
-            "language": [0, 2, "CodeableConcept"], 
-            "preferred": [2, 2, {}] //boolean
-          }],
-          "generalPractitioner": [3, 1, {}], //Reference(Organization | Practicioner)
-          "managingOrganization": [2, 0, {}], // Reference(Organization)
-          "link": [3, 1, { //supongo es 1
-            "id": [2, 2, {}], //string
-            "extension": [3, 1, "Extension"],
-            "modifierExtension": [3, 1, "Extension"],
-            "other": [0, 2, {}], // Reference(Patient 1 RelatedPerson)
-            "type": [0, 2, {}] //code
-          }]
-        }
+          "multipleBirth": { card: 2, 
+                            dataType: ["multipleBirth"],
+                            setDataType: true }, 
+          "photo": { card: 3,
+                    dataType: [1] }, //Attachment
+          "contact": { card: 3,
+                    dataType: [
+                      {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "relationship": { card: 3,
+                                dataType: ["CodeableConceptIPS"] },
+                      "name": { card: 2,
+                                dataType: ["HumanName"] },
+                      "telecom": { card: 3,
+                                dataType: ["ContactPoint"] },
+                      "address": { card: 2,
+                                dataType: ["Address"] },
+                      "gender": { card: 2,
+                                dataType: [1] }, //code
+                      "organization": { card: 2,
+                                dataType: [1] }, //Reference(Organization)
+                      "period": { card: 2,
+                                dataType: ["Period"] }
+                      }]},
+          "communication": { card: 3,
+                    dataType: [
+                      {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "language": { card: 0,
+                                dataType: ["CodeableConcept"] }, 
+                      "preferred": { card: 2,
+                                dataType: [1] } //boolean
+                      }]},
+          "generalPractitioner": { card: 3,
+                    dataType: [1] }, //Reference(Organization | Practicioner)
+          "managingOrganization": { card: 2,
+                    dataType: [1] }, // Reference(Organization)
+          "link": { card: 3,
+                    dataType: [
+                      {"id": { card: 2,
+                      dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "other": { card: 0,
+                                dataType: [1] }, // Reference(Patient 1 RelatedPerson)
+                      "type": { card: 0,
+                                dataType: [1] } //code
+                      }]}
+        };
         let resource;
         for( let obj of ips.entry){
           if (obj.resource.resourceType == 'Patient'){
