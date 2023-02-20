@@ -763,6 +763,95 @@
           return;
         }
       },
+      validateAllergy(ips){
+        // card: 0: 1..1 // 1: 1..* // 2: 0..1 // 3: 0..*
+        // dataType: 1: string // 
+        let fields = {
+          "id": { card: 2, 
+                  dataType: [1] }, //id
+          "meta": { card: 2, 
+                  dataType: ["Meta"] },
+          "implicitRules": { card: 2, 
+                  dataType: [1] }, // uri
+          "language": { card: 2, 
+                  dataType: [1] }, // code
+          "text": { card: 2, 
+                  dataType: ["Narrative"] }, 
+          "contained": { card: 3, 
+                  dataType: ["Resource"] },
+          "extension": { card: 3, 
+                  dataType: ["Extension"] },
+          "abatement-datetime": { card: 2,
+                  dataType: [1]}, // dateTime
+          "modifierExtension": { card: 3, 
+                  dataType: ["Extension"] },
+          "identifier": { card: 3, 
+                  dataType: ["Identifier"] },
+          "clinicalStatus": { card: 2, 
+                  dataType: ["CodeableConceptIPS"] }, 
+          "verificationStatus": { card: 2, 
+                  dataType: ["CodeableConceptIPS"] }, // code
+          "type": { card: 2, 
+                  dataType: [1] }, // code
+          "category": { card: 3, 
+                  dataType: [1] },  // code
+          "criticality": { card: 2, 
+                  dataType: [1] }, // code
+          "code": { card: 0, 
+                  dataType: ["CodeableConceptIPS"] }, 
+          "patient": { card: 3,
+                      dataType: [1]}, // Reference (Patient(IPS))
+          "encounter": { card: 2, 
+                  dataType: [1] }, // Reference (Encounter)
+          "onset": { card: 2, 
+                  dataType: ["Onset"],
+                  setDataType: true }, // code
+          "recordedDate": { card:2, 
+                  dataType: [1] }, // dateTime
+          "recorder": { card:2, 
+                  dataType: [1] }, // Reference (varios)
+          "asserter": { card:2,  
+                  dataType: [1] }, // Reference(varios)
+          "lastOccurrence": { card: 2, 
+                  dataType: [1] }, // dateTime
+          "note": { card: 3, 
+                  dataType: ["Annotation"] }, 
+          "reaction": { card: 3,
+                  dataType: [
+                    {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "substance": { card: 2,
+                                dataType: ["CodeableConcept"] }, 
+                      "manifestation": { card: 1,
+                                dataType: ["CodeableConceptIPS"] }, // 
+                      "description": { card: 2,
+                                dataType: [1] }, // string
+                      "onset": { card: 2,
+                                dataType: [1] }, // dateTime
+                      "severity": { card: 2,
+                                dataType: [1] }, // code
+                      "exposureRoute": { card: 2,
+                                dataType: ["CoadeableConcept"] },
+                      "note": { card: 3,
+                                dataType: ["Annotation"] }, 
+                    }] }
+        };
+        let resource;
+        for( let obj of ips.entry){
+          if (obj.resource.resourceType == 'Allergy'){
+            resource = obj.resource;
+            this.validateSection(fields, resource, 'Allergy');
+          }
+        }
+        if( resource == undefined){ // The section Allergy was not found
+          this.cardErrors.push('Allergy');
+          return;
+        }
+      },
     },
     computed: {
       user: getStore("user")
