@@ -689,6 +689,80 @@
           return;
         }
       },
+      validateMedication(ips){
+        // card: 0: 1..1 // 1: 1..* // 2: 0..1 // 3: 0..*
+        // dataType: 1: string // 
+        let fields = {
+          "id": { card: 2, 
+                  dataType: [1] }, //id
+          "meta": { card: 2, 
+                  dataType: ["Meta"] },
+          "implicitRules": { card: 2, 
+                  dataType: [1] }, // uri
+          "language": { card: 2, 
+                  dataType: [1] }, // code
+          "text": { card: 2, 
+                  dataType: ["Narrative"] }, 
+          "contained": { card: 3, 
+                  dataType: ["Resource"] },
+          "extension": { card: 3, 
+                  dataType: ["Extension"] },
+          "modifierExtension": { card: 3, 
+                  dataType: ["Extension"] },
+          "identifier": { card: 3, 
+                  dataType: ["Identifier"] },
+          "code": { card: 0, 
+                  dataType: ["CodeableConceptIPS"] }, 
+          "status": { card: 2, 
+                  dataType: [1] }, // code
+          "manufacturer": { card: 2, 
+                  dataType: [1] }, // Reference (Organization)
+          "form": { card: 2, 
+                  dataType: ["CodeableConceptIPS"] }, 
+          "amount": { card: 2, 
+                  dataType: ["Ratio"] }, 
+          "ingredient": { card: 3,
+                      dataType: [
+                        {"id": { card: 2,
+                                dataType: [1] }, //string
+                        "extension": { card: 3,
+                                  dataType: ["Extension"] },
+                        "modifierExtension": { card: 3,
+                                  dataType: ["Extension"] },
+                        "item": { card: 0,
+                                  dataType: ["Item"], //fix add 
+                                  setDataType: true },
+                        "isActive": { card: 2,
+                                  dataType: [1] }, // boolean
+                        "strength": { card: 2,
+                                  dataType: ["RatioIPS"] }
+                      }]},
+          "batch": { card: 2,
+                  dataType: [
+                    {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "lotNumber": { card: 2,
+                                dataType: [1] }, // string
+                      "expirationDate": { card: 2,
+                                dataType: [1] } // dateTime
+                    }] }
+        };
+        let resource;
+        for( let obj of ips.entry){
+          if (obj.resource.resourceType == 'Medication'){
+            resource = obj.resource;
+            this.validateSection(fields, resource, 'Medication');
+          }
+        }
+        if( resource == undefined){ // The section Medication was not found
+          this.cardErrors.push('Medication');
+          return;
+        }
+      },
     },
     computed: {
       user: getStore("user")
