@@ -158,7 +158,7 @@
           },
           "Identifier": {
             "use": {"card": 2, 
-                   "dataType": [1]}, //verificar code en gral
+                   "dataType": [1]}, // verificar code en gral
             "type": {"card": 2, 
                    "dataType": ["CodeableConcept"]},
             "system": {"card": 2, 
@@ -197,11 +197,16 @@
                    "dataType": [1]}
           },
           "ContactPoint": {
-            "system": [2, 2, {}],
-            "value": [2, 2, {}],
-            "use": [2, 2, {}],
-            "rank": [2, 2, {}],
-            "period": [2, 0, "Period"]
+            "system": {"card": 2, 
+                       "dataType": [1]},
+            "value": {"card": 2, 
+                      "dataType": [1]},
+            "use": {"card": 2, 
+                    "dataType": [1]},
+            "rank": {"card": 2, 
+                     "dataType": [1]},
+            "period": {"card": 2, 
+                       "dataType": ["Period"]}
           },
           "Address": {
               "use": {"card": 2, 
