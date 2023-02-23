@@ -203,11 +203,16 @@
                    "dataType": [1]}
           },
           "ContactPoint": {
-            "system": [2, 2, {}],
-            "value": [2, 2, {}],
-            "use": [2, 2, {}],
-            "rank": [2, 2, {}],
-            "period": [2, 0, "Period"]
+            "system": {"card": 2, 
+                       "dataType": [1]},
+            "value": {"card": 2, 
+                      "dataType": [1]},
+            "use": {"card": 2, 
+                    "dataType": [1]},
+            "rank": {"card": 2, 
+                     "dataType": [1]},
+            "period": {"card": 2, 
+                       "dataType": ["Period"]}
           },
           "Address": {
               "use": {"card": 2, 
@@ -589,7 +594,53 @@
             "sequence": {"card": 2, 
                          "dataType": [1]},
             "name": {"card": 2, 
-                     "dataType": [1]}
+                     "dataType": [1]},
+            "addtionalInstruction": {"card": 3, 
+                                     "dataType": ["CodeableConcept"]},
+            "patientInstruction": {"card": 2, 
+                                   "dataType": [1]},
+            "timing": {"card": 2, 
+                       "dataType": ["Timing"]},
+            "asNeeded": {"card": 2, 
+                         "dataType": ["AsNeeded"],
+                         "setDataType": true},
+            "site": {"card": 2, 
+                     "dataType": ["CodeableConcept"]},
+            "route": {"card": 2, 
+                      "dataType": ["CodeableConcept"]},     
+            "method": {"card": 2, 
+                       "dataType": [1]},
+            "doseAndRate": {"card": 3, 
+                            "dataType": ["DoseAndRate"]},
+            "maxDosePerPeriod": {"card": 2, 
+                                 "dataType": ["Ratio"]},
+            "maxDosePerAdministration": {"card": 2, 
+                                         "dataType": ["Quantity"]}, // SimpleQuantity
+            "maxDosePerLifetime": {"card": 2, 
+                                   "dataType": ["Quantity"]} // SimpleQuantity       
+          },
+          "AsNeeded": {
+            "asNeededBoolean": 1,
+            "asNeededCodeableConcept": "CodeableConcept"
+          },
+          "DoseAndRate": {
+            "type": {"card": 2, 
+                     "dataType": ["CodeableConcept"]}, 
+            "dose": {"card": 2, 
+                     "dataType": ["Dose"],
+                     "setDataType": true},
+            "rate": {"card": 2, 
+                     "dataType": ["RateRate"],
+                     "setDataType": true},
+          },
+          "Dose": {
+            "doseRange": "Range",
+            "doseQuantity": "Quantity" //SimpleQuantity
+          },
+          "RateRate": {
+            "rateRatio": "Ratio",
+            "rateRange": "Range",
+            "rateQuantity": "Quantity" //SimpleQuantity
           },
           "Organization": {
 
@@ -604,7 +655,479 @@
             "deceasedDateTime": 1 // poner tipo string 
           }, 
           "StructureDefinition": {
-
+            "url": {"card": 0, 
+                    "dataType": [1]}, // uri
+            "identifier": {"card": 3, 
+                           "dataType": ["Identifier"]},
+            "version": {"card": 2,
+                        "dataType": [1]}, // string
+            "name": {"card": 0, 
+                     "dataType": [1]}, // string
+            "title": {"card": 2, 
+                      "dataType": [1]}, // string
+            "status": {"card": 0, 
+                       "dataType": [1]}, // code
+            "experimental": {"card": 2, 
+                             "dataType": [1]}, // boolean
+            "date": {"card": 2, 
+                     "dataType": [1]}, // dateTime
+            "publisher": {"card": 2, 
+                          "dataType": [1]}, // string
+            "contact": {"card": 3, 
+                        "dataType": ["ContactDetail"]},
+            "description": {"card": 2, 
+                            "dataType": [1]}, // markdown 
+            "useContext": {"card": 3, 
+                           "dataType": ["UsageContext"]},
+            "jurisdiction": {"card": 3, 
+                             "dataType": ["CodeableConcept"]},
+            "purpose": {"card": 2, 
+                        "dataType": [1]}, // markdown 
+            "copyright": {"card": 2, 
+                          "dataType": [1]}, // markdown
+            "keyword": {"card": 3, 
+                        "dataType": ["Coding"]},
+            "fhirVersion": {"card": 2, 
+                            "dataType": [1]}, // code
+            "mapping": {"card": 2, 
+                        "dataType": ["Mapping"]},
+            "kind": {"card": 0, 
+                     "dataType": [1]}, // code
+            "abstract": {"card": 0, 
+                         "dataType": [1]}, // boolean
+            "context": {"card": 3, 
+                        "dataType": ["Context"]},
+            "contextInvariant": {"card": 3, 
+                                 "dataType": [1]}, // string
+            "type": {"card": 0, 
+                     "dataType": [1]}, // uri
+            "baseDefinition": {"card": 2, 
+                               "dataType": [1]}, // canonical(StructureDefinition)
+            "derivation": {"card": 2, 
+                           "dataType": [1]}, // code
+            "snapshot": {"card": 2, 
+                         "dataType": ["Snapshot"]}, 
+            "differential": {"card": 2, 
+                             "dataType": ["Differential"]}
+          },
+          "Mapping": {
+            "identity": {"card": 0, 
+                         "dataType": [1]}, // id
+            "uri": {"card": 2, 
+                    "dataType": [1]}, // uri
+            "name": {"card": 2, 
+                     "dataType": [1]}, // string
+            "comment": {"card": 2, 
+                        "dataType": [1]}, // string 
+          },
+          "Context": {
+            "type": {"card": 0, 
+                     "dataType": [1]}, // code
+            "expression": {"card": 0, 
+                           "dataType": [1]}, // string            
+          },
+          "Snapshot": {
+            "element": {"card": 1, 
+                        "dataType": ["ElementDefinition"]}, 
+          },
+          "Differential": {
+            "element": {"card": 1, 
+                        "dataType": ["ElementDefinition"]}, // string
+          },
+          "UsageContext": {
+            "code": {"card": 0, 
+                     "dataType": ["Coding"]},
+            "value": {"card": 2, 
+                    "dataType": ["ValueUsageContext"],
+                    "setDataType": true},
+          },
+          "ValueUsageContext": {
+            "valueCodeableConcept": "CodeableConcept",
+            "valueQuantity": "Quantity",
+            "valueRange": "Range",
+            "valueReference": "Reference" // reference to (PlanDefinition|ResearchStudy|InsurancePlan|HealthcareService|Group|Location|Organization)
+          },
+          "ElementDefinition": {
+            "path": {"card": 2, 
+                     "dataType": [1]}, // string
+            "representation": {"card": 3, 
+                               "dataType": [1]}, // code
+            "sliceName": {"card": 2, 
+                          "dataType": [1]}, // string
+            "sliceIsConstraining": {"card": 2, 
+                                    "dataType": [1]}, // boolean
+            "label": {"card": 2, 
+                      "dataType": [1]}, // string
+            "code": {"card": 2, 
+                     "dataType": ["Coding"]},
+            "slicing": {"card": 2, 
+                        "dataType": ["Slicing"]},
+            "short": {"card": 2, 
+                      "dataType": [1]}, // string
+            "definition": {"card": 2, 
+                           "dataType": [1]}, // markdown
+            "comment": {"card": 2, 
+                        "dataType": [1]}, // markdown
+            "requirements": {"card": 2, 
+                             "dataType": [1]}, // markdown
+            "alias": {"card": 3, 
+                      "dataType": [1]}, // string
+            "min": {"card": 2, 
+                    "dataType": [1]}, // unsignedInt
+            "max": {"card": 2, 
+                    "dataType": [1]}, // string
+            "base": {"card": 2, 
+                     "dataType": ["Base"]},
+            "contentReference": {"card": 2, 
+                                 "dataType": [1]}, // uri
+            "type": {"card": 2, 
+                     "dataType": ["Type"]}, 
+            "defaultValue": {"card": 2, 
+                             "dataType": ["DefaultValue"],
+                             "setDataType": true},
+            "meaningWhenMissing": {"card": 2, 
+                                   "dataType": [1]}, // markdown
+            "orderMeaning": {"card": 2, 
+                             "dataType": [1]}, // string 
+            "fixed": {"card": 2, 
+                      "dataType": ["Fixed"],
+                      "setDataType": true},
+            "pattern": {"card": 2, 
+                        "dataType": ["Pattern"],
+                        "setDataType": true},
+            "example": {"card": 3, 
+                        "dataType": ["Example"]},
+            "minValue": {"card": 2, 
+                         "dataType": ["MinValue"],
+                         "setDataType": true},
+            "maxValue": {"card": 2, 
+                         "dataType": ["MaxValue"],
+                         "setDataType": true},
+            "maxLength": {"card": 2, 
+                          "dataType": [1]}, // integer
+            "condition": {"card": 3, 
+                          "dataType": [1]}, // id
+            "constraint": {"card": 3, 
+                           "dataType": ["Constraint"]},
+            "mustSupport": {"card": 2, 
+                            "dataType": [1]}, // boolean
+            "isModifier": {"card": 2, 
+                           "dataType": [1]}, // boolean
+            "isModifierReason": {"card": 2, 
+                                 "dataType": [1]}, // string
+            "isSummary": {"card": 2, 
+                          "dataType": [1]}, // boolean
+            "binding": {"card": 2, 
+                        "dataType": ["Binding"]},
+            "mapping": {"card": 2, 
+                        "dataType": ["Mapping"]},
+          },
+          "Mapping": {
+            "identity": {"card": 0, 
+                         "dataType": [1]}, // id
+            "language": {"card": 2, 
+                         "dataType": [1]}, // code
+            "map": {"card": 0, 
+                    "dataType": [1]}, // string
+            "comment": {"card": 2, 
+                        "dataType": [1]} // string 
+          },
+          "Binding": {
+            "strength": {"card": 0, 
+                         "dataType": [1]}, // code
+            "description": {"card": 2, 
+                            "dataType": [1]}, // string
+            "valueSet": {"card": 2, 
+                         "dataType": [1]} // canonical(ValueSet)
+          },
+          "Constraint": {
+            "key": {"card": 0, 
+                    "dataType": [1]}, // id
+            "requirements": {"card": 2, 
+                             "dataType": [1]}, // string
+            "severity": {"card": 0, 
+                         "dataType": [1]}, // code
+            "human": {"card": 0, 
+                      "dataType": [1]}, // string
+            "expression": {"card": 2, 
+                           "dataType": [1]}, // string
+            "xpath": {"card": 2, 
+                      "dataType": [1]}, // string
+            "source": {"card": 2, 
+                       "dataType": [1]} // canonical(StructureDefinition)
+          },
+          "MaxValue": {
+              "maxValueDate": 1, // date
+              "maxValueDateTime": 1, // dateTime
+              "maxValueInstant": 1, // instant
+              "maxValueTime": 1, // time
+              "maxValueDecimal": 1, // decimal
+              "maxValueInteger": 1, // integer
+              "maxValuePositiveInt": 1, // positiveInt
+              "maxValueUnsignedInt": 1, // unsignedInt
+              "maxValueQuantity": "Quantity",
+          },
+          "MinValue": {
+            "minValueDate": 1, // date
+            "minValueDateTime": 1, // dateTime
+            "minValueInstant": 1, // instant
+            "minValueTime": 1, // time
+            "minValueDecimal": 1, // decimal
+            "minValueInteger": 1, // integer
+            "minValuePositiveInt": 1, // positiveInt
+            "minValueUnsignedInt": 1, // unsignedInt
+            "minValueQuantity": "Quantity",
+          },
+          "Example": {
+            "max": {"card": 0, 
+                    "dataType": [1]}, // string
+            "value": {"card": 2, 
+                    "dataType": ["ValueExample"],
+                    "setDataType": true},
+          },
+          "ValueExample": {
+            "valueBase64Binary": 1, // base64Binary
+            "valueBoolean": 1, // boolean
+            "valueCanonical": 1, // canonical
+            "valueCode": 1, // code
+            "valueDate": 1, // date
+            "valueDateTime": 1, // dateTime
+            "valueDecimal": 1, // decimal
+            "valueId": 1, // id
+            "valueInstant": 1, // instant
+            "valueInteger": 1, // integer
+            "valueMarkdown": 1, // markdown
+            "valueOid": 1, // oid
+            "valuePositiveInt": 1, // positiveInt
+            "valueString": 1, // string
+            "valueTime": 1, // time
+            "valueUnsignedInt": 1, // unsignedInt
+            "valueUri": 1, // uri
+            "valueUrl": 1, // url
+            "valueUuid": 1, // uuid
+            "valueAddress": "Address",
+            "valueAge": "Age",
+            "valueAnnotation": "Annotation",
+            "valueAttachment": "Attachment",
+            "valueCodeableConcept": "CodeableConcept",
+            "valueCoding": "Coding",
+            "valueContactPoint": "ContactPoint",
+            "valueCount": "Count",
+            "valueDistance": "Distance",
+            "valueDuration": "Duration",
+            "valueHumanName": "HumanName",
+            "valueIdentifier": "Identifier",
+            "valueMoney": "Money",
+            "valuePeriod": "Period",
+            "valueQuantity": "Quantity",
+            "valueRange": "Range",
+            "valueRatio": "Ratio",
+            "valueReference": "Reference",
+            "valueSampledData": "SampledData",
+            "valueSignature": "Signature",
+            "valueTiming": "Timing",
+            "valueContactDetail": "ContactDetail",
+            "valueContributor": "Contributor",
+            "valueDataRequirement": "DataRequirement",
+            "valueExpression": "Expression",
+            "valueParameterDefinition": "ParameterDefinition",
+            "valueRelatedArtifact": "RelatedArtifact",
+            "valueTriggerDefinition": "TriggerDefinition",
+            "valueUsageContext": "UsageContext",
+            "valueDosage": "Dosage",
+            "valueMeta": "Meta"
+          },
+          "Pattern": {
+            "patternBase64Binary": 1, // base64Binary
+            "patternBoolean": 1, // boolean
+            "patternCanonical": 1, // canonical
+            "patternCode": 1, // code
+            "patternDate": 1, // date
+            "patternDateTime": 1, // dateTime
+            "patternDecimal": 1, // decimal
+            "patternId": 1, // id
+            "patternInstant": 1, // instant
+            "patternInteger": 1, // integer
+            "patternMarkdown": 1, // markdown
+            "patternOid": 1, // oid
+            "patternPositiveInt": 1, // positiveInt
+            "patternString": 1, // string
+            "patternTime": 1, // time
+            "patternUnsignedInt": 1, // unsignedInt
+            "patternUri": 1, // uri
+            "patternUrl": 1, // url
+            "patternUuid": 1, // uuid
+            "patternAddress": "Address",
+            "patternAge": "Age",
+            "patternAnnotation": "Annotation",
+            "patternAttachment": "Attachment",
+            "patternCodeableConcept": "CodeableConcept",
+            "patternCoding": "Coding",
+            "patternContactPoint": "ContactPoint",
+            "patternCount": "Count",
+            "patternDistance": "Distance",
+            "patternDuration": "Duration",
+            "patternHumanName": "HumanName",
+            "patternIdentifier": "Identifier",
+            "patternMoney": "Money",
+            "patternPeriod": "Period",
+            "patternQuantity": "Quantity",
+            "patternRange": "Range",
+            "patternRatio": "Ratio",
+            "patternReference": "Reference",
+            "patternSampledData": "SampledData",
+            "patternSignature": "Signature",
+            "patternTiming": "Timing",
+            "patternContactDetail": "ContactDetail",
+            "patternContributor": "Contributor",
+            "patternDataRequirement": "DataRequirement",
+            "patternExpression": "Expression",
+            "patternParameterDefinition": "ParameterDefinition",
+            "patternRelatedArtifact": "RelatedArtifact",
+            "patternTriggerDefinition": "TriggerDefinition",
+            "patternUsageContext": "UsageContext",
+            "patternDosage": "Dosage",
+            "patternMeta": "Meta"
+          },
+          "Fixed": {
+            "fixedBase64Binary": 1, // base64Binary
+            "fixedBoolean": 1, // boolean
+            "fixedCanonical": 1, // canonical
+            "fixedCode": 1, // code
+            "fixedDate": 1, // date
+            "fixedDateTime": 1, // dateTime
+            "fixedDecimal": 1, // decimal
+            "fixedId": 1, // id
+            "fixedInstant": 1, // instant
+            "fixedInteger": 1, // integer
+            "fixedMarkdown": 1, // markdown
+            "fixedOid": 1, // oid
+            "fixedPositiveInt": 1, // positiveInt
+            "fixedString": 1, // string
+            "fixedTime": 1, // time
+            "fixedUnsignedInt": 1, // unsignedInt
+            "fixedUri": 1, // uri
+            "fixedUrl": 1, // url
+            "fixedUuid": 1, // uuid
+            "fixedAddress": "Address",
+            "fixedAge": "Age",
+            "fixedAnnotation": "Annotation",
+            "fixedAttachment": "Attachment",
+            "fixedCodeableConcept": "CodeableConcept",
+            "fixedCoding": "Coding",
+            "fixedContactPoint": "ContactPoint",
+            "fixedCount": "Count",
+            "fixedDistance": "Distance",
+            "fixedDuration": "Duration",
+            "fixedHumanName": "HumanName",
+            "fixedIdentifier": "Identifier",
+            "fixedMoney": "Money",
+            "fixedPeriod": "Period",
+            "fixedQuantity": "Quantity",
+            "fixedRange": "Range",
+            "fixedRatio": "Ratio",
+            "fixedReference": "Reference",
+            "fixedSampledData": "SampledData",
+            "fixedSignature": "Signature",
+            "fixedTiming": "Timing",
+            "fixedContactDetail": "ContactDetail",
+            "fixedContributor": "Contributor",
+            "fixedDataRequirement": "DataRequirement",
+            "fixedExpression": "Expression",
+            "fixedParameterDefinition": "ParameterDefinition",
+            "fixedRelatedArtifact": "RelatedArtifact",
+            "fixedTriggerDefinition": "TriggerDefinition",
+            "fixedUsageContext": "UsageContext",
+            "fixedDosage": "Dosage",
+            "fixedMeta": "Meta"
+          },
+          "DefaultValue": {
+              "defaultValueBase64Binary": 1, // base64Binary
+              "defaultValueBoolean":  1, // boolean
+              "defaultValueCanonical": 1, // canonical
+              "defaultValueCode": 1, // code
+              "defaultValueDate": 1, // date
+              "defaultValueDateTime": 1, // dateTime
+              "defaultValueDecimal": 1, // decimal
+              "defaultValueId": 1, // id
+              "defaultValueInstant": 1, // instant
+              "defaultValueInteger": 1, // integer
+              "defaultValueMarkdown": 1, // markdown
+              "defaultValueOid": 1, // oid
+              "defaultValuePositiveInt": 1, // positiveInt
+              "defaultValueString": 1, // string
+              "defaultValueTime": 1, // time
+              "defaultValueUnsignedInt": 1, // unsignedInt
+              "defaultValueUri": 1, // uri
+              "defaultValueUrl": 1, // url
+              "defaultValueUuid": 1, // uuid
+              "defaultValueAddress": "Address",
+              "defaultValueAge": "Age",
+              "defaultValueAnnotation": "Annotation",
+              "defaultValueAttachment": "Attachment",
+              "defaultValueCodeableConcept": "CodeableConcept",
+              "defaultValueCoding": "Coding",
+              "defaultValueContactPoint": "ContactPoint",
+              "defaultValueCount": "Count",
+              "defaultValueDistance": "Distance",
+              "defaultValueDuration": "Duration",
+              "defaultValueHumanName": "HumanName",
+              "defaultValueIdentifier": "Identifier",
+              "defaultValueMoney": "Money",
+              "defaultValuePeriod": "Period",
+              "defaultValueQuantity": "Quantity",
+              "defaultValueRange": "Range",
+              "defaultValueRatio": "Ratio",
+              "defaultValueReference": "Reference",
+              "defaultValueSampledData": "SampledData",
+              "defaultValueSignature": "Signature",
+              "defaultValueTiming": "Timing",
+              "defaultValueContactDetail": "ContactDetail",
+              "defaultValueContributor": "Contributor",
+              "defaultValueDataRequirement": "DataRequirement",
+              "defaultValueExpression": "Expression",
+              "defaultValueParameterDefinition": "ParameterDefinition",
+              "defaultValueRelatedArtifact": "RelatedArtifact",
+              "defaultValueTriggerDefinition": "TriggerDefinition",
+              "defaultValueUsageContext": "UsageContext",
+              "defaultValueDosage": "Dosage",
+              "defaultValueMeta": "Meta"
+          },
+          "Type": {
+            "code": {"card": 0, 
+                     "dataType": [1]}, // uri
+            "profile": {"card": 3, 
+                        "dataType": [1]}, // canonical(StructureDefinition | ImplementationGuide)
+            "targetProfile": {"card": 3, 
+                              "dataType": [1]}, // canonical(StructureDefinition | ImplementationGuide)
+            "aggregation": {"card": 3, 
+                            "dataType": [1]}, // code
+            "versioning": {"card": 2, 
+                           "dataType": [1]} // code
+          },
+          "Base": {
+            "path": {"card": 0, 
+                     "dataType": [1]}, // string
+            "min": {"card": 0, 
+                    "dataType": [1]}, // unsignedInt
+            "max": {"card": 0, 
+                    "dataType": [1]} // string
+          },
+          "Slicing": {
+            "discriminator": {"card": 3, 
+                              "dataType": ["Discriminator"]},
+            "description": {"card": 2, 
+                            "dataType": [1]}, // string
+            "ordered": {"card": 2, 
+                        "dataType": [1]}, // boolean
+            "rules": {"card": 0, 
+                      "dataType": [1]} // code
+          },
+          "Discriminator": {
+            "type": {"card": 0, 
+                     "dataType": [1]}, // code
+            "path": {"card": 0, 
+                     "dataType": [1]} // string
           }
         }
       }
