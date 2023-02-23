@@ -69,14 +69,16 @@
 
 
 <script>
+  import sampleNow from "../../utils/sampleBegin.json"
   import {getStore} from "../../services/store.service";
-  import sample from "../../utils/sample.json"
+  //import sample from "../../utils/sample.json"
   import * as dayjs from 'dayjs';
   export default {
     data(){
       return{
-        sampleJson: sample,
+        //sampleJson: sample,
         ips: "",
+        sample: sampleNow,
         warnings: [],
         missingErrors: [],
         cardErrors: [],
@@ -103,6 +105,10 @@
             "value": {"card": 2, 
                       "dataType": ["Value"],
                       "setDataType": true}
+          },
+          "MultipleBirth": {
+            "multipleBirthBoolean": 1,
+            "multipleBirthInteger": 1,
           },
           "Value": {
             "valueBase64Binary": 1,
@@ -291,13 +297,13 @@
           },
           "Meta": {
             "versionId": {"card": 2, 
-                          "dataType": [1]},
-            "lastUpdated": {"card": 2, 
-                            "dataType": [1]},
+                          "dataType": [1]}, //id
+            "lastUpdated": {"card": 2,  
+                            "dataType": [1]}, //instant
             "source": {"card": 2, 
-                      "dataType": [1]},
+                      "dataType": [1]}, //uri
             "profile": {"card": 3, 
-                        "dataType": ["Reference"]}, // it has a structureDefinition reference
+                        "dataType": [1]}, // CANONICAL
             "security": {"card": 3, 
                         "dataType": ["Coding"]},
             "tag": {"card": 2, 
@@ -604,7 +610,8 @@
       }
     },
     mounted() {
-      console.log(this.sampleJson);
+      console.log(this.sample);
+
     },
     methods: {
       isArray(myArray){
@@ -613,24 +620,129 @@
       isObject(myObj){
         return myObj.constructor === Object;
       },
-      validateSection(fields, section, nameSection){ // fields are documentation.
+      errorDT(dataType, section, nameSection){
+        console.log('DT: ', dataType);
+        console.log('pointer: ', section);
+        console.log('nameS: ', nameSection);
+        for( let elem of dataType ){
+          console.log('elem: ', elem, 'typeof: ', typeof elem)
+          if (typeof elem == 'object' || typeof elem == 'string'){
+            let v;
+            if(typeof elem == 'string'){
+              elem = this.formats[elem];
+            }
+            if(this.isArray(section)){
+              console.log("LLEGÓ UN ARRAY")
+            }
+            //v = 
+            this.validateSection(elem, section, nameSection, true);
+            
+            //if (v == true){
+            //  console.log(elem, 'fue aprobado')
+            //  return false // coincidió el formato
+            //}
+          }
+          else if (elem == 1){
+            console.log('pointer: ', section, ' type: ', typeof section)
+            if( typeof section == 'string' || typeof section == 'boolean'){
+              // coincidió el formato:
+              console.log('coincidio formato')
+              //return false // se termina
+            }
+            else{
+              this.formatErrors.push(nameSection);
+              //return true;
+            }
+          }
+        }
+        //console.log('formato incorrecto')
+        //this.formatErrors.push(nameSection);
+        //return true; // en caso de que NO haya error, retornará antes con false
+      },
+      validateSection(fields, section, nameSection, flag){
+        for( let param in fields){
+          let data = fields[param];
+          console.log('data: ', param , ': ', data)
+          let card = data.card;
+          let setDataType = data.setDataType;
+          let dataType = data.dataType;
+          let pointer = section[param];
+          console.log("pointer: ", pointer, 'tipo: ', typeof pointer)
+          console.log('chequeando cardinalidad')
+          //check cardinality:
+          if ( (card == 0 || card == 1) && pointer == undefined ){ // no debe ser undefined
+            console.log('if 1')
+            if (flag){
+              return false;
+            }
+            this.missingErrors.push(nameSection + "-" + param);
+          }
+          // no pueden haber más de uno de los sgtes campos
+          else if ( ( pointer != undefined) && (card == 0 || card == 2) && this.isArray(pointer) ){ // no debe ser array pq eso da chanche a que sea más de uno y esta cardinalidad solo permite 0..1 o 1..1
+            console.log('else if 1')
+            if (flag){
+              return false;
+            }
+            if (pointer.length == 1){
+              this.formatErrors.push(nameSection + "-" + param);
+            }
+            else{
+              this.cardErrors.push(nameSection + "-" + param);
+            }
+          }
+          else if ( ( pointer != undefined ) && (card == 3 || card == 1) && (this.isArray(pointer)) && (pointer.length == 0) ){
+            this.cardErrors.push(nameSection + "-" + param);
+          }
+
+          console.log('chequeando datatypes')
+          // check dataTypes:
+          if (pointer != undefined ){
+            if (setDataType != true){
+              //// if (dataType == 1){ // es de tipo string
+                // only one data
+
+              // CORROBORO QUE POINTER SEA DE ALGUNO DE LOS TIPOS DE DATATYPE
+              if ( (card == 0 || card == 2) ){//&&  ( this.errorDT(Array.from(dataType), pointer, nameSection + "-" + param) ) ){ //(typeof pointer != 'string' && typeof pointer != 'boolean') ){
+                this.errorDT(Array.from(dataType), pointer, nameSection + "-" + param)
+                
+                //if (flag){
+                 // return false;
+                //}
+                //this.formatErrors.push(nameSection + "-" + param);
+              } 
+              // there is an array with data to check
+              else if ( (card == 1 || card == 3) ){
+                for (let elem of pointer){
+                  console.log('elem: ', elem)
+                  this.errorDT(Array.from(dataType), elem, nameSection + "-" + param)
+                  //if (this.errorDT(Array.from(dataType), elem, nameSection + "-" + param)){
+                    //if (flag){
+                     // return false;
+                    //}
+                    //this.formatErrors.push(nameSection + "-" + param);
+                    //break
+                  //}
+                }
+              }
+            }
+            // else {} // when setDataType == true
+          }
+        }
+      },
+      validateSection2(fields, section, nameSection){ // fields are documentation.
         for( let param in fields){ //id, meta, etc...
           let data = fields[param]; // [card, tipo y dataType]
           let card = data[0];
           let pointer = section[param]; // parte del ips que estoy revisando
-
           // chequeo la cardinalidad:
           // no pueden haber 0 de los sgtes campos
           console.log('P: ', param);
           console.log( "chequeo cardinalidad: ", data);
           if ( (card == 0 || card == 1) && pointer == undefined ){ // no debe ser undefined
-            this.missingErrors.push(nameSection + "-" + param);
-          }
+            this.missingErrors.push(nameSection + "-" + param);}
           // no pueden haber más de uno de los sgtes campos
           else if ( ( pointer != undefined) && (card == 0 || card == 2) && this.isArray(pointer) ){ // no debe ser array pq eso da chanche a que sea más de uno y debe ser minimo 0 y max 1
-            this.cardErrors.push(nameSection + "-" + param);
-          }
-
+            this.cardErrors.push(nameSection + "-" + param);}
           console.log('chequeo tipo de dato de: ', pointer, ' deberia ser: ', data[2])
           // chequeo tipo de dato:
           if (pointer != undefined){
@@ -656,7 +768,7 @@
               }
               else{ // { más parametros}
                 if ( card == 0 || card == 2){ //unico dato
-                  this.validateSection(data[2], pointer, nameSection + "-" + param)
+                  this.validateSection2(data[2], pointer, nameSection + "-" + param)
                 } 
                 else{ //varios datos cada elemento debe ser de tipo {}
                   for( let elem of pointer){
@@ -668,7 +780,7 @@
                     console.log('fields: ', this.formats[data[2]])
                     console.log('sectionIPS: ', elem)
                     console.log(nameSection + '-' + param)
-                    this.validateSection(data[2], elem, nameSection + '-' + param)
+                    this.validateSection2(data[2], elem, nameSection + '-' + param)
                   }
                 }
               }
@@ -677,14 +789,14 @@
               //separo en unico o varios datos
               console.log('validaré la SUBseccion de: ', param, '---  EN: ', pointer)
               if(card == 0 || card == 2){ //unico dato
-                this.validateSection(this.formats[data[2]], pointer, nameSection + '-' + param)
+                this.validateSection2(this.formats[data[2]], pointer, nameSection + '-' + param)
               }
               else{ //varios datos
                 for (let elem of pointer){
                   console.log('fields: ', this.formats[data[2]])
                   console.log('sectionIPS: ', elem)
                   console.log(nameSection + '-' + param)
-                  this.validateSection(this.formats[data[2]], elem, nameSection + '-' + param)
+                  this.validateSection2(this.formats[data[2]], elem, nameSection + '-' + param)
 
                 }
               }
@@ -757,7 +869,7 @@
           this.sectionFormat = true;
           return;
         }
-        this.validateSection(fields, ips, 'Inicio');
+        this.validateSection(fields, ips, 'Inicio', false);
 
         if(this.formatErrors.length >0){
           this.dialogErrors = true;
@@ -770,10 +882,23 @@
             this.dialogErrors = true;
             this.sectionMissing = true;
           }
-          return;
+          //return;
         }
         //this.validateComposition(ips);
         this.validatePatient(ips);
+
+        this.cardErrors = this.cardErrors.filter((valor, indice) => {
+          return this.cardErrors.indexOf(valor) === indice;
+        });
+
+        this.formatErrors = this.formatErrors.filter((valor, indice) => {
+          return this.formatErrors.indexOf(valor) === indice;
+        });
+
+        this.missingErrors = this.missingErrors.filter((valor, indice) => {
+          return this.missingErrors.indexOf(valor) === indice;
+        });
+
         if(this.cardErrors.length > 0){
           this.dialogErrors = true;
           this.sectionCard = true;
@@ -914,10 +1039,12 @@
           "deceased": { card: 2,
                       dataType: ["Deceased"],
                       setDataType: true },
-          "address": [3, 1, "Address"],
-          "maritalStatus": [2, 0, "CodeableConcept"],
+          "address": { card: 3, 
+                  dataType: ["Address"] },
+          "maritalStatus": { card: 2, 
+                  dataType: ["CodeableConcept"] },
           "multipleBirth": { card: 2, 
-                            dataType: ["multipleBirth"],
+                            dataType: ["MultipleBirth"],
                             setDataType: true }, 
           "photo": { card: 3,
                     dataType: [1] }, //Attachment
@@ -1243,6 +1370,7 @@
           return;
         }
       },
+      
     },
     computed: {
       user: getStore("user")
