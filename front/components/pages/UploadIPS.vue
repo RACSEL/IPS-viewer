@@ -1370,7 +1370,168 @@
           return;
         }
       },
-      
+      validateImmunization(ips){
+        // card: 0: 1..1 // 1: 1..* // 2: 0..1 // 3: 0..*
+        // dataType: 1: string // 
+        let fields = {
+          "id": { card: 2, 
+                  dataType: [1] }, //id
+          "meta": { card: 2, 
+                  dataType: ["Meta"] },
+          "implicitRules": { card: 2, 
+                  dataType: [1] }, // uri
+          "language": { card: 2, 
+                  dataType: [1] }, // code
+          "text": { card: 2, 
+                  dataType: ["Narrative"] }, 
+          "contained": { card: 3, 
+                  dataType: ["Resource"] },
+          "extension": { card: 3, 
+                  dataType: ["Extension"] },
+          "modifierExtension": { card: 3, 
+                  dataType: ["Extension"] },
+          "identifier": { card: 3, 
+                  dataType: ["Identifier"] },
+          "status": { card: 0, 
+                  dataType: [1] }, //code 
+          "statusReason": { card: 2, 
+                  dataType: ["CodeableConcept"] },
+          "vaccineCode": { card: 0, 
+                  dataType: ["CodeableConceptIPS"] },
+          "patient": { card: 3, 
+                  dataType: [
+                    {"id": { card: 2, 
+                    dataType: [1]}, //string
+                    "extension": { card: 3, 
+                    dataType: ["Extension"]},
+                    "reference": { card: 0, 
+                    dataType: [1]}, // string
+                    "type": { card: 2, 
+                    dataType: [1]}, //uri
+                    "identifier": { card: 2, 
+                    dataType: ["Identifier"]},
+                    "display": { card: 2, 
+                    dataType: [1]}, //string
+                    } ] },  // además es una Reference(Patient(IPS))
+          "encounter": { card: 2, 
+                  dataType: ["Reference"] }, // Reference(Encounter)
+          "ocurrence": { card: 0, 
+                  dataType: ["Ocurrence"],
+                  setDataType: true }, 
+          "recorded": { card: 2,
+                      dataType: [1]}, // dateTime
+          "primarySource": { card: 2, 
+                  dataType: [1] }, // boolean
+          "reportOrigin": { card: 2, 
+                  dataType: ["CodeableConcept"] },
+          "location": { card:2, 
+                  dataType: ["Reference"] }, // Reference(Location)
+          "manufacturer": { card:2, 
+                  dataType: ["Reference"] }, // Reference (Organization)
+          "lotNumber": { card:2,  
+                  dataType: [1] }, // string
+          "expirationDate": { card: 2, 
+                  dataType: [1] }, // date
+          "site": { card: 2, 
+                  dataType: ["CodeableConceptIPS"] }, 
+          "route": { card: 2, 
+                  dataType: ["CodeableConceptIPS"] }, 
+          "doseQuantity": { card: 2, 
+                  dataType: ["SimpleQuantity"] }, 
+          "performer": { card: 3,
+                  dataType: [
+                    {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "function": { card: 2,
+                                dataType: ["CodeableConcept"] }, 
+                      "actor": { card: 0,
+                                dataType: ["Reference"] }, //Reference(varios)
+                    }] },
+          "note": { card: 3,
+                  dataType: ["Annotation"]},
+          "reasonCode": { card: 3,
+                  dataType: ["CodeableConcept"]},
+          "reasonReference": { card: 3,
+                  dataType: ["Reference"]}, //Reference(varios)
+          "isSubpotent": { card: 2,
+                  dataType: [1]}, //boolean
+          "subpotentReason": { card: 3,
+                  dataType: ["CodeableConcept"]},
+          "education": { card: 3,
+                  dataType: [
+                    {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "documentType": { card: 2,
+                                dataType: [1] }, //string
+                      "reference": { card: 2,
+                                dataType: [2] }, // uri
+                      "publicationDate": { card: 2,
+                                dataType: [2] }, // dateTime
+                      "presentationDate": { card: 2,
+                                dataType: [2] }, // dateTime
+                    }] },
+          "programEligibility": { card: 3,
+                  dataType: ["CodeableConcept"]},
+          "fundingSource": { card: 2,
+                  dataType: ["CodeableConcept"]},
+          "reaction": { card: 3,
+                  dataType: [
+                    {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "date": { card: 2,
+                                dataType: [1] }, //dateTime
+                      "detail": { card: 2,
+                                dataType: ["Reference"] }, // Reference(Observation)
+                      "reported": { card: 2,
+                                dataType: [2] } // boolean
+                    }] },
+          "protocolApplied": { card: 3,
+                  dataType: [
+                    {"id": { card: 2,
+                                dataType: [1] }, //string
+                      "extension": { card: 3,
+                                dataType: ["Extension"] },
+                      "modifierExtension": { card: 3,
+                                dataType: ["Extension"] },
+                      "series": { card: 2,
+                                dataType: [1] }, //string
+                      "authority": { card: 2,
+                                dataType: ["Reference"] }, // Reference(Organization)
+                      "targetDisease": { card: 3,
+                                dataType: ["CodeableConcept"] }, 
+                      "doseNumber": { card: 0,
+                                dataType: ["DoseNumber"],
+                                setDataType: true },
+                      "seriesDoses": { card: 2,
+                                dataType: ["SeriesDoses"],
+                                setDataType: true },
+                    }] }
+
+        };
+        let resource;
+        for( let obj of ips.entry){
+          if (obj.resource.resourceType == 'Immunization'){
+            resource = obj.resource;
+            this.validateSection(fields, resource, 'Immunization');
+          }
+        }
+        if( resource == undefined){ // The section Immunization was not found
+          this.cardErrors.push('Immunization');
+          return;
+        }
+      },
     },
     computed: {
       user: getStore("user")
