@@ -118,7 +118,7 @@
             "occurrenceDateTime": 1, // dateTime
             "occurrenceString": 1 //string
           },
-          "Value": {
+          "ValueExtension": {
             "valueBase64Binary": 1,
             "valueBoolean": 1,
             "valueCanonical": 1,
@@ -139,15 +139,15 @@
             "valueUrl": 1,
             "valueUuid": 1,
             "valueAddress": "Address",
-            "valueAge": "Age",
+            "valueAge": "Quantity", // Age
             "valueAnnotation": "Annotation",
             "valueAttachment": "Attachment",
             "valueCodeableConcept": "CodeableConcept",
             "valueCoding": "Coding",
             "valueContactPoint": "ContactPoint",
-            "valueCount": "Count", 
-            "valueDistance": "Distance",
-            "valueDuration": "Duration",
+            "valueCount": "Quantity", // Count 
+            "valueDistance": "Quantity", // Distance
+            "valueDuration": "Quantity", // Duration
             "valueHumanName": "HumanName",
             "valueIdentifier": "IdentIdentifierifier",
             "valueMoney": "Money",
@@ -172,335 +172,322 @@
           },
           "Identifier": {
             "use": {card: 2, 
-                   dataType: 1 }, // code 
+                   dataType: 1}, // verificar code en gral
             "type": {card: 2, 
-                   dataType: "CodeableConcept" },
+                   dataType: "CodeableConcept"},
             "system": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "value": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "period": {card: 2, 
-                      dataType: "Period" },
+                      dataType: "Period"},
             "assigner": {card: 2, 
-                        dataType: "Reference" }, // Reference to Organization
+                        dataType: "Reference"}, // Reference to Organization
           }, 
           "HumanName": {
             "id": {card: 2, 
-                   dataType: 1 },
+                   dataType: 1},
             "extension": {card: 3, 
-                   dataType: "Extension" },
+                   dataType: "Extension"},
             "use": {card: 2, 
-                   dataType: 1 },
+                   dataType: 1},
             "text": {card: 2, 
-                   dataType: 1 },
+                   dataType: 1},
             "family": {card: 2, 
-                   dataType: 1 },
+                   dataType: 1},
             "given": {card: 3, 
-                    dataType: 1 },
+                    dataType: 1},
             "prefix": {card: 3, 
-                      dataType: 1 }, // idk 2
+                      dataType: 1}, // idk 2
             "suffix": {card: 3, 
-                      dataType: 1 }, // idk 2
+                      dataType: 1}, // idk 2
             "period": {card: 2, 
-                      dataType: "Period" }  
+                      dataType: "Period"}  
           },
           "Period": {
             "start": {card: 2, 
-                   dataType: 1 },
+                   dataType: 1},
             "end": {card: 2, 
-                   dataType: 1 }
+                   dataType: 1}
           },
           "ContactPoint": {
             "system": {card: 2, 
-                       dataType: 1 },
+                       dataType: 1},
             "value": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "use": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "rank": {card: 2, 
-                     dataType: 1 },
+                     dataType: 1},
             "period": {card: 2, 
-                       dataType: "Period" }
+                       dataType: "Period"}
           },
           "Address": {
               "use": {card: 2, 
-                    dataType: 1 }, 
+                    dataType: 1}, 
               "type": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
               "text": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
               "line": {card: 3, 
-                      dataType: 1 }, 
+                      dataType: 1}, 
               "city": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
               "district": {card: 2, 
-                          dataType: 1 },
+                          dataType: 1},
               "state": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
               "postalCode": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
               "country": {card: 2, 
-                         dataType: 1 },
+                         dataType: 1},
               "period": {card: 2, 
-                   dataType: "Period" }
+                   dataType: "Period"}
           },
           "CodingIPS": {
               "id": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
               "extension": {card: 3, 
-                            dataType: "Extension" }, 
+                            dataType: "Extension"}, 
               "system": {card: 0, 
-                         dataType: 1 },
+                         dataType: 1},
               "version": {card: 2, 
-                         dataType: 1 },
+                         dataType: 1},
               "code": {card: 0, 
-                      dataType: 1 },
+                      dataType: 1},
               "display": {card: 2, 
-                         dataType: 1 }, // ver este pq tiene parametros internos en este caso pero en los ejemplos no es así
+                         dataType: 1}, // ver este pq tiene parametros internos en este caso pero en los ejemplos no es así
               "userSelected": {card: 2, 
-                              dataType: 1 }
+                              dataType: 1}
           },
           "CodeableConceptIPS": {
             "id": {card: 2, 
-                  dataType: 1 },
+                  dataType: 1},
             "extension": {card: 3, 
-                        dataType: "Extension" },
+                        dataType: "Extension"},
             "coding": {card: 1, 
-                      dataType: "CodingIPS" },
+                      dataType: "CodingIPS"},
             "text": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
           },
           "CodeableConcept": {
             "coding": {card: 3, 
-                      dataType: "Coding" },
+                      dataType: "Coding"},
             "text": {card: 2, 
-                    dataType: 1 }
-          },
-          "BackboneElement": {
-            "modifierExtension": {card: 3, 
-                                dataType: "Extension" }
+                    dataType: 1}
           },
           "Signature": {
             "type": {card: 1, 
-                    dataType: "Coding" },
+                    dataType: "Coding"},
             "when": {card: 0, 
-                    dataType: 1 },
+                    dataType: 1},
             "who": {card: 2, 
-                    dataType: "Reference" }, // the type is reference to several types (organization, patient, etc). I propose a list to solve this 
+                    dataType: "Reference"}, // the type is reference to several types (organization, patient, etc). I propose a list to solve this 
             "onBehalfOf": {card: 2, 
-                          dataType: "Reference" }, // same problem with type reference
+                          dataType: "Reference"}, // same problem with type reference
             "targetFormat": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "sigFormat": {card: 2, 
-                          dataType: 1 },
+                          dataType: 1},
             "data": {card: 2, 
-                    dataType: 1 }
+                    dataType: 1}
           },
           "Coding": {
             "system": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "version": {card: 2, 
-                       dataType: 1 },
+                       dataType: 1},
             "code": {card: 2, 
-                    dataType: 1 }, // same problem with code
+                    dataType: 1}, // same problem with code
             "display": {card: 2, 
-                       dataType: 1 }, 
+                       dataType: 1}, 
             "userSelected": {card: 2, 
-                            dataType: 1 }
+                            dataType: 1}
           },
           "Meta": {
             "versionId": {card: 2, 
-                          dataType: 1 }, //id
-            "lastUpdated": {card: 2,  
-                            dataType: 1 }, //instant
+                          dataType: 1},
+            "lastUpdated": {card: 2, 
+                            dataType: 1},
             "source": {card: 2, 
-                      dataType: 1 }, //uri
+                      dataType: 1},
             "profile": {card: 3, 
-                        dataType: 1 }, // CANONICAL
+                        dataType: "canonical"}, // it has a structureDefinition reference
             "security": {card: 3, 
-                        dataType: "Coding" },
+                        dataType: "Coding"},
             "tag": {card: 2, 
-                    dataType: "Coding" }
+                    dataType: "Coding"}
           },
           "Range": {
             "low": {card: 2, 
-                    dataType: null }, //SimpleQuantity (?)
+                    dataType: "Quantity"}, //SimpleQuantity 
             "high": {card: 2, 
-                    dataType: null } //SimpleQuantity (?)
+                    dataType: "Quantity"} //SimpleQuantity 
           },
           "ContactDetail": {
             "name": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "telecom": {card: 3, 
-                      dataType: "ContactPoint" }
+                      dataType: "ContactPoint"}
           },
           "Narrative": {
             "status": {card: 0, 
-                      dataType: 1 },
+                      dataType: 1},
             "div": {card: 0, 
-                    dataType: 1 },
+                    dataType: 1},
           },
           "Annotation": {
             "author": {card: 2, 
-                      dataType: "Author",
-                      setDataType: true}, 
+                      dataType: "Author"}, // can be of two types, reference or string 
             "time": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "text": {card: 0, 
-                    dataType: 1 }
+                    dataType: 1}
+          },
+          "Author": {
+            "authorReference": "Reference", // Reference(Practitioner|Patient|RelatedPerson|Organization)
+            "authorString": 1 // string
           },
           "Quantity": {
             "value": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "comparator": {card: 2, 
-                          dataType: 1 },
+                          dataType: 1},
             "unit": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "system": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "code": {card: 2, 
-                    dataType: 1 }, 
+                    dataType: 1}, 
           },
           "Attachment": {
             "contentType": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "language": {card: 2, 
-                        dataType: 1 },
+                        dataType: 1},
             "data": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "url": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "size": {card: 2, 
-                     dataType: 1 },
+                     dataType: 1},
             "hash": {card: 2, 
-                     dataType: 1 },
+                     dataType: 1},
             "title": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "creation": {card: 2, 
-                        dataType: 1 },
-          },
-          "Age": { //Specialized Quantity
-
-          },
-          "Count": { //Specialized Quantity
-
-          },
-          "Distance": { //Specialized Quantity
-
-          },
-          "Duration": { //Specialized Quantity
-
+                        dataType: 1},
           },
           "Money": {
             "value": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "currency": {card: 2, 
-                        dataType: 1 },
+                        dataType: 1},
           },
           "Ratio": {
             "numerator": {card: 2, 
-                          dataType: "Quantity" },
+                          dataType: "Quantity"},
             "denominator": {card: 2, 
-                            dataType: "Quantity" }
+                            dataType: "Quantity"}
           },
           "Reference": {
             "reference": {card: 2, 
-                         dataType: 1 },
+                         dataType: 1},
             "type": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "identifier": {card: 2, 
-                          dataType: "Identifier" },
+                          dataType: "Identifier"},
             "display": {card: 2, 
-                       dataType: 1 }
+                       dataType: 1}
           },
           "SampledData": {
             "origin": {card: 0, 
-                      dataType: null }, // SimpleQuantity
+                      dataType: "Quantity"}, // SimpleQuantity
             "period": {card: 0, 
-                      dataType: 1 },
+                      dataType: 1},
             "factor": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "lowerLimit": {card: 2, 
-                          dataType: 1 },
+                          dataType: 1},
             "upperLimit": {card: 2, 
-                          dataType: 1 },
+                          dataType: 1},
             "dimensions": {card: 0, 
-                          dataType: 1 },
+                          dataType: 1},
             "data": {card: 2, 
-                    dataType: 1 }
+                    dataType: 1}
           },
           "Timing": {
             "event": {card: 3, 
-                      dataType: 1 },
+                      dataType: 1},
             "repeat": {card: 2, 
-                      dataType: "Repeat" },
+                      dataType: "Repeat"},
             "code": {card: 2, 
-                      dataType: "CodeableConcept" },                  
+                      dataType: "CodeableConcept"},                  
           },
           "Repeat": {
             "bounds": {card: 2, 
                       dataType: "Bounds",
                       setDataType: true},
             "count": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "countMax": {card: 2, 
-                        dataType: 1 },
+                        dataType: 1},
             "duration": {card: 2, 
-                        dataType: 1 },
+                        dataType: 1},
             "durationMax": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "durationUnit": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "frequency": {card: 2, 
-                          dataType: 1 },
+                          dataType: 1},
             "frequencyMax": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "period": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "periodMax": {card: 2, 
-                          dataType: 1 },
+                          dataType: 1},
             "periodUnit": {card: 2, 
-                          dataType: 1 },      
+                          dataType: 1},      
             "dayOfWeek": {card: 3, 
-                          dataType: 1 },
+                          dataType: 1},
             "timeOfDay": {card: 3, 
-                          dataType: 1 },
+                          dataType: 1},
             "when": {card: 3, 
-                     dataType: 1 },
+                     dataType: 1},
             "offset": {card: 2, 
-                       dataType: 1 }
+                       dataType: 1}
           },
           "Bounds": {
-            "boundsDuration": "Duration",
+            "boundsDuration": "Quantity", // Duration
             "boundsRange": "Range",
             "boundsPeriod": "Period"
           },
           "Contributor": {
             "type": {card: 0, 
-                     dataType: 1 },
+                     dataType: 1},
             "name": {card: 0, 
-                     dataType: 1 },
+                     dataType: 1},
             "contact": {card: 3, 
-                        dataType: "ContactDetail" }
+                        dataType: "ContactDetail"}
           },
           "DataRequirement": {
             "type": {card: 0, 
-                     dataType: 1 },
+                     dataType: 1},
             "profile": {card: 3, 
-                        dataType: null }, // type canonical(StructureDefinition)
+                        dataType: null}, // type canonical(StructureDefinition)
             "subject": {card: 2, 
                         dataType: "Subject",
                         setDataType: true},
             "mustSupport": {card: 3, 
-                            dataType: 1 },
+                            dataType: 1},
             "codeFilter": {card: 3, 
-                           dataType: "CodeFilter" },
+                           dataType: "CodeFilter"},
             "dateFilter": {card: 3, 
-                           dataType: "DateFilter" },
+                           dataType: "DateFilter"},
             "limit": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "sort": {card: 3, 
-                     dataType: "Sort" }
+                     dataType: "Sort"}
           },
           "Subject": {
             "subjectCodeableConcept": "CodeableConcept",
@@ -508,133 +495,133 @@
           },
           "CodeFilter": {
             "path": {card: 2, 
-                       dataType: 1 },
+                       dataType: 1},
             "searchParam": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "valueSet": {card: 2, 
-                         dataType: null }, //canonical(ValueSet)
+                         dataType: null}, //canonical(ValueSet)
             "code": {card: 3, 
-                     dataType: "Coding" }
+                     dataType: "Coding"}
           },
           "DateFilter": {
             "path": {card: 2, 
-                       dataType: 1 },
+                       dataType: 1},
             "searchParam": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "value": {card: 2, 
                       dataType: "ValueDateFilter",
                       setDataType: true}
           },
           "ValueDateFilter": {
-            "valueDateTime": 1,
+            "valueDateTime": 1, // dateTime
             "valuePeriod": "Period",
-            "valueDuration": "Duration"
+            "valueDuration": "Quantity", // Duration
           },
           "Sort": {
             "path": {card: 0, 
-                     dataType: 1 },
+                     dataType: 1},
             "type": {"direction": 0, 
-                     dataType: 1 },
+                     dataType: 1},
           },
           "Expression": {
             "description": {card: 2, 
-                            dataType: 1 },
+                            dataType: 1},
             "name": {card: 2, 
-                     dataType: 1 },
+                     dataType: 1},
             "language": {card: 0, 
-                         dataType: 1 },
+                         dataType: 1},
             "expression": {card: 2, 
-                           dataType: 1 },
+                           dataType: 1},
             "reference": {card: 2, 
-                          dataType: 1 }
+                          dataType: 1}
           },
           "ParameterDefinition": {
             "name": {card: 2, 
-                     dataType: 1 },
+                     dataType: 1},
             "use": {card: 0, 
-                    dataType: 1 },
+                    dataType: 1},
             "min": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "max": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "documentation": {card: 2, 
-                              dataType: 1 },
+                              dataType: 1},
             "type": {card: 0, 
-                     dataType: 1 },
+                     dataType: 1},
             "profile": {card: 2, 
-                        dataType: null } //canonical(StructureDefinition)
+                        dataType: null} //canonical(StructureDefinition)
           },
           "RelatedArtifact": {
             "type": {card: 0, 
-                     dataType: 1 },
+                     dataType: 1},
             "label": {card: 2, 
-                      dataType: 1 },
+                      dataType: 1},
             "display": {card: 2, 
-                        dataType: 1 },
+                        dataType: 1},
             "citation": {card: 2, 
-                         dataType: 1 },
+                         dataType: 1},
             "url": {card: 2, 
-                    dataType: 1 },
+                    dataType: 1},
             "document": {card: 2, 
-                         dataType: "Attachment" },
+                         dataType: "Attachment"},
             "resource": {card: 2, 
-                         dataType: null } // canonical(Any)
+                         dataType: null} // canonical(Any)
           },
           "TriggerDefinition": {
             "type": {card: 0, 
-                     dataType: 1 },
+                     dataType: 1},
             "name": {card: 2, 
-                     dataType: 1 },
+                     dataType: 1},
             "timing": {card: 2, 
                       dataType: "TimingTiming",
                       setDataType: true},
             "data": {card: 3, 
-                     dataType: "DataRequirement" },
+                     dataType: "DataRequirement"},
             "condition": {card: 2, 
-                          dataType: "Expression" }
+                          dataType: "Expression"}
           },
           "TimingTiming": {
             "timingTiming": "Timing",
             "timingReference": "Reference", // Reference to Schedule
-            "timingDate": 1,
-            "timingDateTime": 1
+            "timingDate": 1, // date
+            "timingDateTime": 1 // dateTime
           },
           "Dosage": {
             "sequence": {card: 2, 
-                         dataType: 1 },
+                         dataType: 1},
             "name": {card: 2, 
-                     dataType: 1 },
+                     dataType: 1},
             "addtionalInstruction": {card: 3, 
-                                     dataType: "CodeableConcept" },
+                                     dataType: "CodeableConcept"},
             "patientInstruction": {card: 2, 
-                                   dataType: 1 },
+                                   dataType: 1},
             "timing": {card: 2, 
-                       dataType: "Timing" },
+                       dataType: "Timing"},
             "asNeeded": {card: 2, 
                          dataType: "AsNeeded",
                          setDataType: true},
             "site": {card: 2, 
-                     dataType: "CodeableConcept" },
+                     dataType: "CodeableConcept"},
             "route": {card: 2, 
-                      dataType: "CodeableConcept" },     
+                      dataType: "CodeableConcept"},     
             "method": {card: 2, 
-                       dataType: 1 },
+                       dataType: 1},
             "doseAndRate": {card: 3, 
-                            dataType: "DoseAndRate" },
+                            dataType: "DoseAndRate"},
             "maxDosePerPeriod": {card: 2, 
-                                 dataType: "Ratio" },
+                                 dataType: "Ratio"},
             "maxDosePerAdministration": {card: 2, 
-                                         dataType: "Quantity" }, // SimpleQuantity
+                                         dataType: "Quantity"}, // SimpleQuantity
             "maxDosePerLifetime": {card: 2, 
-                                   dataType: "Quantity" } // SimpleQuantity       
+                                   dataType: "Quantity"} // SimpleQuantity       
           },
           "AsNeeded": {
-            "asNeededBoolean": 1,
+            "asNeededBoolean": 1, // boolean
             "asNeededCodeableConcept": "CodeableConcept"
           },
           "DoseAndRate": {
             "type": {card: 2, 
-                     dataType: "CodeableConcept" }, 
+                     dataType: "CodeableConcept"}, 
             "dose": {card: 2, 
                      dataType: "Dose",
                      setDataType: true},
@@ -645,6 +632,14 @@
           "Dose": {
             "doseRange": "Range",
             "doseQuantity": "Quantity" //SimpleQuantity
+          },
+          "DoseNumber": {
+            "doseNumberPositiveInt": 1, // positiveInt	
+            "doseNumberString": 1, // string
+          },
+          "SeriesDoses": {
+            "seriesDosesPositiveInt": 1, //	positiveInt	
+            "seriesDosesString": 1, // string
           },
           "RateRate": {
             "rateRatio": "Ratio",
@@ -665,87 +660,87 @@
           }, 
           "StructureDefinition": {
             "url": {card: 0, 
-                    dataType: 1 }, // uri
+                    dataType: 1}, // uri
             "identifier": {card: 3, 
-                           dataType: "Identifier" },
+                           dataType: "Identifier"},
             "version": {card: 2,
-                        dataType: 1 }, // string
+                        dataType: 1}, // string
             "name": {card: 0, 
-                     dataType: 1 }, // string
+                     dataType: 1}, // string
             "title": {card: 2, 
-                      dataType: 1 }, // string
+                      dataType: 1}, // string
             "status": {card: 0, 
-                       dataType: 1 }, // code
+                       dataType: 1}, // code
             "experimental": {card: 2, 
-                             dataType: 1 }, // boolean
+                             dataType: 1}, // boolean
             "date": {card: 2, 
-                     dataType: 1 }, // dateTime
+                     dataType: 1}, // dateTime
             "publisher": {card: 2, 
-                          dataType: 1 }, // string
+                          dataType: 1}, // string
             "contact": {card: 3, 
-                        dataType: "ContactDetail" },
+                        dataType: "ContactDetail"},
             "description": {card: 2, 
-                            dataType: 1 }, // markdown 
+                            dataType: 1}, // markdown 
             "useContext": {card: 3, 
-                           dataType: "UsageContext" },
+                           dataType: "UsageContext"},
             "jurisdiction": {card: 3, 
-                             dataType: "CodeableConcept" },
+                             dataType: "CodeableConcept"},
             "purpose": {card: 2, 
-                        dataType: 1 }, // markdown 
+                        dataType: 1}, // markdown 
             "copyright": {card: 2, 
-                          dataType: 1 }, // markdown
+                          dataType: 1}, // markdown
             "keyword": {card: 3, 
-                        dataType: "Coding" },
+                        dataType: "Coding"},
             "fhirVersion": {card: 2, 
-                            dataType: 1 }, // code
+                            dataType: 1}, // code
             "mapping": {card: 2, 
-                        dataType: "Mapping" },
+                        dataType: "Mapping"},
             "kind": {card: 0, 
-                     dataType: 1 }, // code
+                     dataType: 1}, // code
             "abstract": {card: 0, 
-                         dataType: 1 }, // boolean
+                         dataType: 1}, // boolean
             "context": {card: 3, 
-                        dataType: "Context" },
+                        dataType: "Context"},
             "contextInvariant": {card: 3, 
-                                 dataType: 1 }, // string
+                                 dataType: 1}, // string
             "type": {card: 0, 
-                     dataType: 1 }, // uri
+                     dataType: 1}, // uri
             "baseDefinition": {card: 2, 
-                               dataType: 1 }, // canonical(StructureDefinition)
+                               dataType: 1}, // canonical(StructureDefinition)
             "derivation": {card: 2, 
-                           dataType: 1 }, // code
+                           dataType: 1}, // code
             "snapshot": {card: 2, 
-                         dataType: "Snapshot" }, 
+                         dataType: "Snapshot"}, 
             "differential": {card: 2, 
-                             dataType: "Differential" }
+                             dataType: "Differential"}
           },
           "Mapping": {
             "identity": {card: 0, 
-                         dataType: 1 }, // id
+                         dataType: 1}, // id
             "uri": {card: 2, 
-                    dataType: 1 }, // uri
+                    dataType: 1}, // uri
             "name": {card: 2, 
-                     dataType: 1 }, // string
+                     dataType: 1}, // string
             "comment": {card: 2, 
-                        dataType: 1 }, // string 
+                        dataType: 1}, // string 
           },
           "Context": {
             "type": {card: 0, 
-                     dataType: 1 }, // code
+                     dataType: 1}, // code
             "expression": {card: 0, 
-                           dataType: 1 }, // string            
+                           dataType: 1}, // string            
           },
           "Snapshot": {
             "element": {card: 1, 
-                        dataType: "ElementDefinition" }, 
+                        dataType: "ElementDefinition"}, 
           },
           "Differential": {
             "element": {card: 1, 
-                        dataType: "ElementDefinition" }, // string
+                        dataType: "ElementDefinition"}, // string
           },
           "UsageContext": {
             "code": {card: 0, 
-                     dataType: "Coding" },
+                     dataType: "Coding"},
             "value": {card: 2, 
                     dataType: "ValueUsageContext",
                     setDataType: true},
@@ -758,46 +753,46 @@
           },
           "ElementDefinition": {
             "path": {card: 2, 
-                     dataType: 1 }, // string
+                     dataType: 1}, // string
             "representation": {card: 3, 
-                               dataType: 1 }, // code
+                               dataType: 1}, // code
             "sliceName": {card: 2, 
-                          dataType: 1 }, // string
+                          dataType: 1}, // string
             "sliceIsConstraining": {card: 2, 
-                                    dataType: 1 }, // boolean
+                                    dataType: 1}, // boolean
             "label": {card: 2, 
-                      dataType: 1 }, // string
+                      dataType: 1}, // string
             "code": {card: 2, 
-                     dataType: "Coding" },
+                     dataType: "Coding"},
             "slicing": {card: 2, 
-                        dataType: "Slicing" },
+                        dataType: "Slicing"},
             "short": {card: 2, 
-                      dataType: 1 }, // string
+                      dataType: 1}, // string
             "definition": {card: 2, 
-                           dataType: 1 }, // markdown
+                           dataType: 1}, // markdown
             "comment": {card: 2, 
-                        dataType: 1 }, // markdown
+                        dataType: 1}, // markdown
             "requirements": {card: 2, 
-                             dataType: 1 }, // markdown
+                             dataType: 1}, // markdown
             "alias": {card: 3, 
-                      dataType: 1 }, // string
+                      dataType: 1}, // string
             "min": {card: 2, 
-                    dataType: 1 }, // unsignedInt
+                    dataType: 1}, // unsignedInt
             "max": {card: 2, 
-                    dataType: 1 }, // string
+                    dataType: 1}, // string
             "base": {card: 2, 
-                     dataType: "Base" },
+                     dataType: "Base"},
             "contentReference": {card: 2, 
-                                 dataType: 1 }, // uri
+                                 dataType: 1}, // uri
             "type": {card: 2, 
-                     dataType: "Type" }, 
+                     dataType: "Type"}, 
             "defaultValue": {card: 2, 
                              dataType: "DefaultValue",
                              setDataType: true},
             "meaningWhenMissing": {card: 2, 
-                                   dataType: 1 }, // markdown
+                                   dataType: 1}, // markdown
             "orderMeaning": {card: 2, 
-                             dataType: 1 }, // string 
+                             dataType: 1}, // string 
             "fixed": {card: 2, 
                       dataType: "Fixed",
                       setDataType: true},
@@ -805,7 +800,7 @@
                         dataType: "Pattern",
                         setDataType: true},
             "example": {card: 3, 
-                        dataType: "Example" },
+                        dataType: "Example"},
             "minValue": {card: 2, 
                          dataType: "MinValue",
                          setDataType: true},
@@ -813,57 +808,57 @@
                          dataType: "MaxValue",
                          setDataType: true},
             "maxLength": {card: 2, 
-                          dataType: 1 }, // integer
+                          dataType: 1}, // integer
             "condition": {card: 3, 
-                          dataType: 1 }, // id
+                          dataType: 1}, // id
             "constraint": {card: 3, 
-                           dataType: "Constraint" },
+                           dataType: "Constraint"},
             "mustSupport": {card: 2, 
-                            dataType: 1 }, // boolean
+                            dataType: 1}, // boolean
             "isModifier": {card: 2, 
-                           dataType: 1 }, // boolean
+                           dataType: 1}, // boolean
             "isModifierReason": {card: 2, 
-                                 dataType: 1 }, // string
+                                 dataType: 1}, // string
             "isSummary": {card: 2, 
-                          dataType: 1 }, // boolean
+                          dataType: 1}, // boolean
             "binding": {card: 2, 
-                        dataType: "Binding" },
+                        dataType: "Binding"},
             "mapping": {card: 2, 
-                        dataType: "Mapping" },
+                        dataType: "Mapping"},
           },
           "Mapping": {
             "identity": {card: 0, 
-                         dataType: 1 }, // id
+                         dataType: 1}, // id
             "language": {card: 2, 
-                         dataType: 1 }, // code
+                         dataType: 1}, // code
             "map": {card: 0, 
-                    dataType: 1 }, // string
+                    dataType: 1}, // string
             "comment": {card: 2, 
-                        dataType: 1 } // string 
+                        dataType: 1} // string 
           },
           "Binding": {
             "strength": {card: 0, 
-                         dataType: 1 }, // code
+                         dataType: 1}, // code
             "description": {card: 2, 
-                            dataType: 1 }, // string
+                            dataType: 1}, // string
             "valueSet": {card: 2, 
-                         dataType: 1 } // canonical(ValueSet)
+                         dataType: 1} // canonical(ValueSet)
           },
           "Constraint": {
             "key": {card: 0, 
-                    dataType: 1 }, // id
+                    dataType: 1}, // id
             "requirements": {card: 2, 
-                             dataType: 1 }, // string
+                             dataType: 1}, // string
             "severity": {card: 0, 
-                         dataType: 1 }, // code
+                         dataType: 1}, // code
             "human": {card: 0, 
-                      dataType: 1 }, // string
+                      dataType: 1}, // string
             "expression": {card: 2, 
-                           dataType: 1 }, // string
+                           dataType: 1}, // string
             "xpath": {card: 2, 
-                      dataType: 1 }, // string
+                      dataType: 1}, // string
             "source": {card: 2, 
-                       dataType: 1 } // canonical(StructureDefinition)
+                       dataType: 1} // canonical(StructureDefinition)
           },
           "MaxValue": {
               "maxValueDate": 1, // date
@@ -889,7 +884,7 @@
           },
           "Example": {
             "max": {card: 0, 
-                    dataType: 1 }, // string
+                    dataType: 1}, // string
             "value": {card: 2, 
                     dataType: "ValueExample",
                     setDataType: true},
@@ -915,15 +910,15 @@
             "valueUrl": 1, // url
             "valueUuid": 1, // uuid
             "valueAddress": "Address",
-            "valueAge": "Age",
+            "valueAge": "Quantity", // Age
             "valueAnnotation": "Annotation",
             "valueAttachment": "Attachment",
             "valueCodeableConcept": "CodeableConcept",
             "valueCoding": "Coding",
             "valueContactPoint": "ContactPoint",
-            "valueCount": "Count",
-            "valueDistance": "Distance",
-            "valueDuration": "Duration",
+            "valueCount": "Quantity", // Count
+            "valueDistance": "Quantity", // Distance
+            "valueDuration": "Quantity", // Duration
             "valueHumanName": "HumanName",
             "valueIdentifier": "Identifier",
             "valueMoney": "Money",
@@ -967,15 +962,15 @@
             "patternUrl": 1, // url
             "patternUuid": 1, // uuid
             "patternAddress": "Address",
-            "patternAge": "Age",
+            "patternAge": "Quantity", // Age
             "patternAnnotation": "Annotation",
             "patternAttachment": "Attachment",
             "patternCodeableConcept": "CodeableConcept",
             "patternCoding": "Coding",
             "patternContactPoint": "ContactPoint",
-            "patternCount": "Count",
-            "patternDistance": "Distance",
-            "patternDuration": "Duration",
+            "patternCount": "Quantity", // Count
+            "patternDistance": "Quantity", // Distance
+            "patternDuration": "Quantity", // Duration
             "patternHumanName": "HumanName",
             "patternIdentifier": "Identifier",
             "patternMoney": "Money",
@@ -1019,15 +1014,15 @@
             "fixedUrl": 1, // url
             "fixedUuid": 1, // uuid
             "fixedAddress": "Address",
-            "fixedAge": "Age",
+            "fixedAge": "Quantity", // Age
             "fixedAnnotation": "Annotation",
             "fixedAttachment": "Attachment",
             "fixedCodeableConcept": "CodeableConcept",
             "fixedCoding": "Coding",
             "fixedContactPoint": "ContactPoint",
-            "fixedCount": "Count",
-            "fixedDistance": "Distance",
-            "fixedDuration": "Duration",
+            "fixedCount": "Quantity", // Count,
+            "fixedDistance": "Quantity", // Distance
+            "fixedDuration": "Quantity", // Duration
             "fixedHumanName": "HumanName",
             "fixedIdentifier": "Identifier",
             "fixedMoney": "Money",
@@ -1071,15 +1066,15 @@
               "defaultValueUrl": 1, // url
               "defaultValueUuid": 1, // uuid
               "defaultValueAddress": "Address",
-              "defaultValueAge": "Age",
+              "defaultValueAge": "Quantity", // Age
               "defaultValueAnnotation": "Annotation",
               "defaultValueAttachment": "Attachment",
               "defaultValueCodeableConcept": "CodeableConcept",
               "defaultValueCoding": "Coding",
               "defaultValueContactPoint": "ContactPoint",
-              "defaultValueCount": "Count",
-              "defaultValueDistance": "Distance",
-              "defaultValueDuration": "Duration",
+              "defaultValueCount": "Quantity", // Count
+              "defaultValueDistance": "Quantity", // Distance
+              "defaultValueDuration": "Quantity", // Duration
               "defaultValueHumanName": "HumanName",
               "defaultValueIdentifier": "Identifier",
               "defaultValueMoney": "Money",
@@ -1104,39 +1099,44 @@
           },
           "Type": {
             "code": {card: 0, 
-                     dataType: 1 }, // uri
+                     dataType: 1}, // uri
             "profile": {card: 3, 
-                        dataType: 1 }, // canonical(StructureDefinition | ImplementationGuide)
+                        dataType: 1}, // canonical(StructureDefinition | ImplementationGuide)
             "targetProfile": {card: 3, 
-                              dataType: 1 }, // canonical(StructureDefinition | ImplementationGuide)
+                              dataType: 1}, // canonical(StructureDefinition | ImplementationGuide)
             "aggregation": {card: 3, 
-                            dataType: 1 }, // code
+                            dataType: 1}, // code
             "versioning": {card: 2, 
-                           dataType: 1 } // code
+                           dataType: 1} // code
           },
           "Base": {
             "path": {card: 0, 
-                     dataType: 1 }, // string
+                     dataType: 1}, // string
             "min": {card: 0, 
-                    dataType: 1 }, // unsignedInt
+                    dataType: 1}, // unsignedInt
             "max": {card: 0, 
-                    dataType: 1 } // string
+                    dataType: 1} // string
           },
           "Slicing": {
             "discriminator": {card: 3, 
-                              dataType: "Discriminator" },
+                              dataType: "Discriminator"},
             "description": {card: 2, 
-                            dataType: 1 }, // string
+                            dataType: 1}, // string
             "ordered": {card: 2, 
-                        dataType: 1 }, // boolean
+                        dataType: 1}, // boolean
             "rules": {card: 0, 
-                      dataType: 1 } // code
+                      dataType: 1} // code
           },
           "Discriminator": {
             "type": {card: 0, 
-                     dataType: 1 }, // code
+                     dataType: 1}, // code
             "path": {card: 0, 
-                     dataType: 1 } // string
+                     dataType: 1} // string
+          },
+          "Amount": {
+            "amountQuantity": "Quantity",
+            "amountRange": "Range",
+            "amountString": 1 // string
           }
         }
       }
