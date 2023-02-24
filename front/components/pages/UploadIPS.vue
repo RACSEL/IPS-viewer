@@ -1161,46 +1161,24 @@
           if(typeof dataType == 'string'){
             dataType = this.formats[dataType];
           }
-          if(this.isArray(section)){
-            console.log("LLEGÓ UN ARRAY")
-          }
-          //v = 
           this.validateSection(dataType, section, nameSection, true);
-          
-          //if (v == true){
-          //  console.log(dataType, 'fue aprobado')
-          //  return false // coincidió el formato
-          //}
         }
         else if (dataType == 1){
           console.log('pointer: ', section, ' type: ', typeof section)
-          if( typeof section == 'string' || typeof section == 'boolean'){
-            // coincidió el formato:
-            console.log('coincidio formato')
-            //return false // se termina
-          }
-          else{
+          if( typeof section != 'string' && typeof section != 'boolean'){
             this.formatErrors.push(nameSection);
-            //return true;
           }
         }
-        //console.log('formato incorrecto')
-        //this.formatErrors.push(nameSection);
-        //return true; // en caso de que NO haya error, retornará antes con false
       },
-      validateSection(fields, section, nameSection, flag){
+      validateSection(fields, section, nameSection){
         for( let param in fields){
           let data = fields[param];
-          console.log('data: ', param , ': ', data)
           let card = data.card;
           let setDataType = data.setDataType;
           let dataType = data.dataType;
           let pointer; 
           if (setDataType == true){
-            console.log('DT: ', dataType)
-            console.log("TRUE, opts: ", this.formats[dataType[0]])
             for(const [option, dt] of Object.entries(this.formats[dataType]) ){
-              console.log(option + ': ', section[option]);
               if (section[option] != undefined){
                 pointer = section[option];
                 dataType = dt;
@@ -1211,22 +1189,13 @@
           else{
             pointer = section[param];
           }
-          console.log("pointer: ", pointer, 'tipo: ', typeof pointer)
-          console.log('chequeando cardinalidad')
+
           //check cardinality:
-          if ( (card == 0 || card == 1) && pointer == undefined ){ // no debe ser undefined
-            console.log('if 1')
-            //if (flag){
-            //  return false;
-            //}
+          if ( (card == 0 || card == 1) && pointer == undefined ){ 
             this.missingErrors.push(nameSection + "-" + param);
           }
           // no pueden haber más de uno de los sgtes campos
-          else if ( ( pointer != undefined) && (card == 0 || card == 2) && this.isArray(pointer) ){ // no debe ser array pq eso da chanche a que sea más de uno y esta cardinalidad solo permite 0..1 o 1..1
-            console.log('else if 1')
-            //if (flag){
-            //  return false;
-            //}
+          else if ( ( pointer != undefined) && (card == 0 || card == 2) && this.isArray(pointer) ){ 
             if (pointer.length == 1){
               this.formatErrors.push(nameSection + "-" + param);
             }
@@ -1238,38 +1207,20 @@
             this.cardErrors.push(nameSection + "-" + param);
           }
 
-          console.log('chequeando datatypes')
           // check dataTypes:
           if (pointer != undefined ){
             if (setDataType != true){
-              //// if (dataType == 1){ // es de tipo string
-                // only one data
-
               // CORROBORO QUE POINTER SEA DE ALGUNO DE LOS TIPOS DE DATATYPE
-              if ( (card == 0 || card == 2) ){//&&  ( this.errorDT(Array.from(dataType), pointer, nameSection + "-" + param) ) ){ //(typeof pointer != 'string' && typeof pointer != 'boolean') ){
-                this.errorDT(dataType, pointer, nameSection + "-" + param)
-                
-                //if (flag){
-                 // return false;
-                //}
-                //this.formatErrors.push(nameSection + "-" + param);
+              if ( (card == 0 || card == 2) ){
+                this.errorDT(dataType, pointer, nameSection + "-" + param);
               } 
               // there is an array with data to check
               else if ( (card == 1 || card == 3) ){
                 for (let elem of pointer){
-                  console.log('elem: ', elem)
                   this.errorDT(dataType, elem, nameSection + "-" + param)
-                  //if (this.errorDT(Array.from(dataType), elem, nameSection + "-" + param)){
-                    //if (flag){
-                     // return false;
-                    //}
-                    //this.formatErrors.push(nameSection + "-" + param);
-                    //break
-                  //}
                 }
               }
             }
-            // else {} // when setDataType == true
           }
         }
       },
