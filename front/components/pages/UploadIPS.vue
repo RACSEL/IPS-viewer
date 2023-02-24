@@ -331,7 +331,7 @@
                     "dataType": 1}
           },
           "Author": {
-            "authorReference": "Reference" // Reference(Practitioner|Patient|RelatedPerson|Organization)
+            "authorReference": "Reference", // Reference(Practitioner|Patient|RelatedPerson|Organization)
             "authorString": 1 // string
           },
           "Quantity": {
@@ -1139,7 +1139,7 @@
       },
       validateSection(fields, section, nameSection){ // fields are documentation.
         for( let param in fields){ //id, meta, etc...
-          let data = [fieldsparam; // card, tipo y dataType]
+          let data = [fields[param]; // card, tipo y dataType]
           let card = data[0];
           let pointer = section[param]; // parte del ips que estoy revisando
 
