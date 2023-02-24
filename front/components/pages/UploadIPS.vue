@@ -90,25 +90,33 @@
         sectionMissing: false,
         formats: {
           "Resource": {
-            "id": {"card": 2, 
-                   "dataType": [1]}, // 1 is going to be string for now
-            "meta": {"card": 2, 
-                   "dataType": ["Meta"]},
-            "implicitRules": {"card": 2, 
-                            "dataType": [1]},
-            "language": {"card": 2,
-                        "dataType": [1]},
+            "id": {card: 2, 
+                   dataType: 1 }, // 1 is going to be string for now
+            "meta": {card: 2, 
+                   dataType: "Meta" },
+            "implicitRules": {card: 2, 
+                            dataType: 1 },
+            "language": {card: 2,
+                        dataType: 1 },
           },
           "Extension": {
-            "url": {"card": 0, 
-                   "dataType": [1]},
-            "value": {"card": 2, 
-                      "dataType": ["Value"],
-                      "setDataType": true}
+            "url": {card: 0, 
+                   dataType: 1 },
+            "value": {card: 2, 
+                      dataType: "Value",
+                      setDataType: true}
+          },
+          "Author":{
+            "authorReference": "Reference",
+            "authorString": 1,
           },
           "MultipleBirth": {
             "multipleBirthBoolean": 1,
             "multipleBirthInteger": 1,
+          },
+          "Occurrence": {
+            "occurrenceDateTime": 1, // dateTime
+            "occurrenceString": 1 //string
           },
           "Value": {
             "valueBase64Binary": 1,
@@ -163,212 +171,213 @@
             "valueMeta": "Meta"
           },
           "Identifier": {
-            "use": {"card": 2, 
-                   "dataType": [1]}, // code 
-            "type": {"card": 2, 
-                   "dataType": ["CodeableConcept"]},
-            "system": {"card": 2, 
-                      "dataType": [1]},
-            "value": {"card": 2, 
-                      "dataType": [1]},
-            "period": {"card": 2, 
-                      "dataType": ["Period"]},
-            "assigner": {"card": 2, 
-                        "dataType": ["Reference"]}, // Reference to Organization
+            "use": {card: 2, 
+                   dataType: 1 }, // code 
+            "type": {card: 2, 
+                   dataType: "CodeableConcept" },
+            "system": {card: 2, 
+                      dataType: 1 },
+            "value": {card: 2, 
+                      dataType: 1 },
+            "period": {card: 2, 
+                      dataType: "Period" },
+            "assigner": {card: 2, 
+                        dataType: "Reference" }, // Reference to Organization
           }, 
           "HumanName": {
-            "id": {"card": 2, 
-                   "dataType": [1]},
-            "extension": {"card": 3, 
-                   "dataType": ["Extension"]},
-            "use": {"card": 2, 
-                   "dataType": [1]},
-            "text": {"card": 2, 
-                   "dataType": [1]},
-            "family": {"card": 2, 
-                   "dataType": [1]},
-            "given": {"card": 3, 
-                    "dataType": [1]},
-            "prefix": {"card": 3, 
-                      "dataType": [1]}, // idk 2
-            "suffix": {"card": 3, 
-                      "dataType": [1]}, // idk 2
-            "period": {"card": 2, 
-                      "dataType": ["Period"]}  
+            "id": {card: 2, 
+                   dataType: 1 },
+            "extension": {card: 3, 
+                   dataType: "Extension" },
+            "use": {card: 2, 
+                   dataType: 1 },
+            "text": {card: 2, 
+                   dataType: 1 },
+            "family": {card: 2, 
+                   dataType: 1 },
+            "given": {card: 3, 
+                    dataType: 1 },
+            "prefix": {card: 3, 
+                      dataType: 1 }, // idk 2
+            "suffix": {card: 3, 
+                      dataType: 1 }, // idk 2
+            "period": {card: 2, 
+                      dataType: "Period" }  
           },
           "Period": {
-            "start": {"card": 2, 
-                   "dataType": [1]},
-            "end": {"card": 2, 
-                   "dataType": [1]}
+            "start": {card: 2, 
+                   dataType: 1 },
+            "end": {card: 2, 
+                   dataType: 1 }
           },
           "ContactPoint": {
-            "system": {"card": 2, 
-                       "dataType": [1]},
-            "value": {"card": 2, 
-                      "dataType": [1]},
-            "use": {"card": 2, 
-                    "dataType": [1]},
-            "rank": {"card": 2, 
-                     "dataType": [1]},
-            "period": {"card": 2, 
-                       "dataType": ["Period"]}
+            "system": {card: 2, 
+                       dataType: 1 },
+            "value": {card: 2, 
+                      dataType: 1 },
+            "use": {card: 2, 
+                    dataType: 1 },
+            "rank": {card: 2, 
+                     dataType: 1 },
+            "period": {card: 2, 
+                       dataType: "Period" }
           },
           "Address": {
-              "use": {"card": 2, 
-                    "dataType": [1]}, 
-              "type": {"card": 2, 
-                      "dataType": [1]},
-              "text": {"card": 2, 
-                      "dataType": [1]},
-              "line": {"card": 3, 
-                      "dataType": [1]}, 
-              "city": {"card": 2, 
-                      "dataType": [1]},
-              "district": {"card": 2, 
-                          "dataType": [1]},
-              "state": {"card": 2, 
-                      "dataType": [1]},
-              "postalCode": {"card": 2, 
-                            "dataType": [1]},
-              "country": {"card": 2, 
-                         "dataType": [1]},
-              "period": {"card": 2, 
-                   "dataType": ["Period"]}
+              "use": {card: 2, 
+                    dataType: 1 }, 
+              "type": {card: 2, 
+                      dataType: 1 },
+              "text": {card: 2, 
+                      dataType: 1 },
+              "line": {card: 3, 
+                      dataType: 1 }, 
+              "city": {card: 2, 
+                      dataType: 1 },
+              "district": {card: 2, 
+                          dataType: 1 },
+              "state": {card: 2, 
+                      dataType: 1 },
+              "postalCode": {card: 2, 
+                            dataType: 1 },
+              "country": {card: 2, 
+                         dataType: 1 },
+              "period": {card: 2, 
+                   dataType: "Period" }
           },
           "CodingIPS": {
-              "id": {"card": 2, 
-                    "dataType": [1]},
-              "extension": {"card": 3, 
-                            "dataType": ["Extension"]}, 
-              "system": {"card": 0, 
-                         "dataType": [1]},
-              "version": {"card": 2, 
-                         "dataType": [1]},
-              "code": {"card": 0, 
-                      "dataType": [1]},
-              "display": {"card": 2, 
-                         "dataType": [1]}, // ver este pq tiene parametros internos en este caso pero en los ejemplos no es así
-              "userSelected": {"card": 2, 
-                              "dataType": [1]}
+              "id": {card: 2, 
+                    dataType: 1 },
+              "extension": {card: 3, 
+                            dataType: "Extension" }, 
+              "system": {card: 0, 
+                         dataType: 1 },
+              "version": {card: 2, 
+                         dataType: 1 },
+              "code": {card: 0, 
+                      dataType: 1 },
+              "display": {card: 2, 
+                         dataType: 1 }, // ver este pq tiene parametros internos en este caso pero en los ejemplos no es así
+              "userSelected": {card: 2, 
+                              dataType: 1 }
           },
           "CodeableConceptIPS": {
-            "id": {"card": 2, 
-                  "dataType": [1]},
-            "extension": {"card": 3, 
-                        "dataType": ["Extension"]},
-            "coding": {"card": 1, 
-                      "dataType": ["CodingIPS"]},
-            "text": {"card": 2, 
-                    "dataType": [1]},
+            "id": {card: 2, 
+                  dataType: 1 },
+            "extension": {card: 3, 
+                        dataType: "Extension" },
+            "coding": {card: 1, 
+                      dataType: "CodingIPS" },
+            "text": {card: 2, 
+                    dataType: 1 },
           },
           "CodeableConcept": {
-            "coding": {"card": 3, 
-                      "dataType": ["Coding"]},
-            "text": {"card": 2, 
-                    "dataType": [1]}
+            "coding": {card: 3, 
+                      dataType: "Coding" },
+            "text": {card: 2, 
+                    dataType: 1 }
           },
           "BackboneElement": {
-            "modifierExtension": {"card": 3, 
-                                "dataType": ["Extension"]}
+            "modifierExtension": {card: 3, 
+                                dataType: "Extension" }
           },
           "Signature": {
-            "type": {"card": 1, 
-                    "dataType": ["Coding"]},
-            "when": {"card": 0, 
-                    "dataType": [1]},
-            "who": {"card": 2, 
-                    "dataType": ["Reference"]}, // the type is reference to several types (organization, patient, etc). I propose a list to solve this 
-            "onBehalfOf": {"card": 2, 
-                          "dataType": ["Reference"]}, // same problem with type reference
-            "targetFormat": {"card": 2, 
-                            "dataType": [1]},
-            "sigFormat": {"card": 2, 
-                          "dataType": [1]},
-            "data": {"card": 2, 
-                    "dataType": [1]}
+            "type": {card: 1, 
+                    dataType: "Coding" },
+            "when": {card: 0, 
+                    dataType: 1 },
+            "who": {card: 2, 
+                    dataType: "Reference" }, // the type is reference to several types (organization, patient, etc). I propose a list to solve this 
+            "onBehalfOf": {card: 2, 
+                          dataType: "Reference" }, // same problem with type reference
+            "targetFormat": {card: 2, 
+                            dataType: 1 },
+            "sigFormat": {card: 2, 
+                          dataType: 1 },
+            "data": {card: 2, 
+                    dataType: 1 }
           },
           "Coding": {
-            "system": {"card": 2, 
-                      "dataType": [1]},
-            "version": {"card": 2, 
-                       "dataType": [1]},
-            "code": {"card": 2, 
-                    "dataType": [1]}, // same problem with code
-            "display": {"card": 2, 
-                       "dataType": [1]}, 
-            "userSelected": {"card": 2, 
-                            "dataType": [1]}
+            "system": {card: 2, 
+                      dataType: 1 },
+            "version": {card: 2, 
+                       dataType: 1 },
+            "code": {card: 2, 
+                    dataType: 1 }, // same problem with code
+            "display": {card: 2, 
+                       dataType: 1 }, 
+            "userSelected": {card: 2, 
+                            dataType: 1 }
           },
           "Meta": {
-            "versionId": {"card": 2, 
-                          "dataType": [1]}, //id
-            "lastUpdated": {"card": 2,  
-                            "dataType": [1]}, //instant
-            "source": {"card": 2, 
-                      "dataType": [1]}, //uri
-            "profile": {"card": 3, 
-                        "dataType": [1]}, // CANONICAL
-            "security": {"card": 3, 
-                        "dataType": ["Coding"]},
-            "tag": {"card": 2, 
-                    "dataType": ["Coding"]}
+            "versionId": {card: 2, 
+                          dataType: 1 }, //id
+            "lastUpdated": {card: 2,  
+                            dataType: 1 }, //instant
+            "source": {card: 2, 
+                      dataType: 1 }, //uri
+            "profile": {card: 3, 
+                        dataType: 1 }, // CANONICAL
+            "security": {card: 3, 
+                        dataType: "Coding" },
+            "tag": {card: 2, 
+                    dataType: "Coding" }
           },
           "Range": {
-            "low": {"card": 2, 
-                    "dataType": []}, //SimpleQuantity (?)
-            "high": {"card": 2, 
-                    "dataType": []} //SimpleQuantity (?)
+            "low": {card: 2, 
+                    dataType: null }, //SimpleQuantity (?)
+            "high": {card: 2, 
+                    dataType: null } //SimpleQuantity (?)
           },
           "ContactDetail": {
-            "name": {"card": 2, 
-                    "dataType": [1]},
-            "telecom": {"card": 3, 
-                      "dataType": ["ContactPoint"]}
+            "name": {card: 2, 
+                    dataType: 1 },
+            "telecom": {card: 3, 
+                      dataType: "ContactPoint" }
           },
           "Narrative": {
-            "status": {"card": 0, 
-                      "dataType": [1]},
-            "div": {"card": 0, 
-                    "dataType": [1]},
+            "status": {card: 0, 
+                      dataType: 1 },
+            "div": {card: 0, 
+                    dataType: 1 },
           },
           "Annotation": {
-            "author": {"card": 2, 
-                      "dataType": [1, "Reference"]}, // can be of two types, reference or string 
-            "time": {"card": 2, 
-                    "dataType": [1]},
-            "text": {"card": 0, 
-                    "dataType": [1]}
+            "author": {card: 2, 
+                      dataType: "Author",
+                      setDataType: true}, 
+            "time": {card: 2, 
+                    dataType: 1 },
+            "text": {card: 0, 
+                    dataType: 1 }
           },
           "Quantity": {
-            "value": {"card": 2, 
-                      "dataType": [1]},
-            "comparator": {"card": 2, 
-                          "dataType": [1]},
-            "unit": {"card": 2, 
-                    "dataType": [1]},
-            "system": {"card": 2, 
-                      "dataType": [1]},
-            "code": {"card": 2, 
-                    "dataType": [1]}, 
+            "value": {card: 2, 
+                      dataType: 1 },
+            "comparator": {card: 2, 
+                          dataType: 1 },
+            "unit": {card: 2, 
+                    dataType: 1 },
+            "system": {card: 2, 
+                      dataType: 1 },
+            "code": {card: 2, 
+                    dataType: 1 }, 
           },
           "Attachment": {
-            "contentType": {"card": 2, 
-                            "dataType": [1]},
-            "language": {"card": 2, 
-                        "dataType": [1]},
-            "data": {"card": 2, 
-                    "dataType": [1]},
-            "url": {"card": 2, 
-                    "dataType": [1]},
-            "size": {"card": 2, 
-                     "dataType": [1]},
-            "hash": {"card": 2, 
-                     "dataType": [1]},
-            "title": {"card": 2, 
-                      "dataType": [1]},
-            "creation": {"card": 2, 
-                        "dataType": [1]},
+            "contentType": {card: 2, 
+                            dataType: 1 },
+            "language": {card: 2, 
+                        dataType: 1 },
+            "data": {card: 2, 
+                    dataType: 1 },
+            "url": {card: 2, 
+                    dataType: 1 },
+            "size": {card: 2, 
+                     dataType: 1 },
+            "hash": {card: 2, 
+                     dataType: 1 },
+            "title": {card: 2, 
+                      dataType: 1 },
+            "creation": {card: 2, 
+                        dataType: 1 },
           },
           "Age": { //Specialized Quantity
 
@@ -383,83 +392,83 @@
 
           },
           "Money": {
-            "value": {"card": 2, 
-                      "dataType": [1]},
-            "currency": {"card": 2, 
-                        "dataType": [1]},
+            "value": {card: 2, 
+                      dataType: 1 },
+            "currency": {card: 2, 
+                        dataType: 1 },
           },
           "Ratio": {
-            "numerator": {"card": 2, 
-                          "dataType": ["Quantity"]},
-            "denominator": {"card": 2, 
-                            "dataType": ["Quantity"]}
+            "numerator": {card: 2, 
+                          dataType: "Quantity" },
+            "denominator": {card: 2, 
+                            dataType: "Quantity" }
           },
           "Reference": {
-            "reference": {"card": 2, 
-                         "dataType": [1]},
-            "type": {"card": 2, 
-                    "dataType": [1]},
-            "identifier": {"card": 2, 
-                          "dataType": ["Identifier"]},
-            "display": {"card": 2, 
-                       "dataType": [1]}
+            "reference": {card: 2, 
+                         dataType: 1 },
+            "type": {card: 2, 
+                    dataType: 1 },
+            "identifier": {card: 2, 
+                          dataType: "Identifier" },
+            "display": {card: 2, 
+                       dataType: 1 }
           },
           "SampledData": {
-            "origin": {"card": 0, 
-                      "dataType": []}, // SimpleQuantity
-            "period": {"card": 0, 
-                      "dataType": [1]},
-            "factor": {"card": 2, 
-                      "dataType": [1]},
-            "lowerLimit": {"card": 2, 
-                          "dataType": [1]},
-            "upperLimit": {"card": 2, 
-                          "dataType": [1]},
-            "dimensions": {"card": 0, 
-                          "dataType": [1]},
-            "data": {"card": 2, 
-                    "dataType": [1]}
+            "origin": {card: 0, 
+                      dataType: null }, // SimpleQuantity
+            "period": {card: 0, 
+                      dataType: 1 },
+            "factor": {card: 2, 
+                      dataType: 1 },
+            "lowerLimit": {card: 2, 
+                          dataType: 1 },
+            "upperLimit": {card: 2, 
+                          dataType: 1 },
+            "dimensions": {card: 0, 
+                          dataType: 1 },
+            "data": {card: 2, 
+                    dataType: 1 }
           },
           "Timing": {
-            "event": {"card": 3, 
-                      "dataType": [1]},
-            "repeat": {"card": 2, 
-                      "dataType": ["Repeat"]},
-            "code": {"card": 2, 
-                      "dataType": ["CodeableConcept"]},                  
+            "event": {card: 3, 
+                      dataType: 1 },
+            "repeat": {card: 2, 
+                      dataType: "Repeat" },
+            "code": {card: 2, 
+                      dataType: "CodeableConcept" },                  
           },
           "Repeat": {
-            "bounds": {"card": 2, 
-                      "dataType": ["Bounds"],
-                      "setDataType": true},
-            "count": {"card": 2, 
-                    "dataType": [1]},
-            "countMax": {"card": 2, 
-                        "dataType": [1]},
-            "duration": {"card": 2, 
-                        "dataType": [1]},
-            "durationMax": {"card": 2, 
-                            "dataType": [1]},
-            "durationUnit": {"card": 2, 
-                            "dataType": [1]},
-            "frequency": {"card": 2, 
-                          "dataType": [1]},
-            "frequencyMax": {"card": 2, 
-                            "dataType": [1]},
-            "period": {"card": 2, 
-                      "dataType": [1]},
-            "periodMax": {"card": 2, 
-                          "dataType": [1]},
-            "periodUnit": {"card": 2, 
-                          "dataType": [1]},      
-            "dayOfWeek": {"card": 3, 
-                          "dataType": [1]},
-            "timeOfDay": {"card": 3, 
-                          "dataType": [1]},
-            "when": {"card": 3, 
-                     "dataType": [1]},
-            "offset": {"card": 2, 
-                       "dataType": [1]}
+            "bounds": {card: 2, 
+                      dataType: "Bounds",
+                      setDataType: true},
+            "count": {card: 2, 
+                    dataType: 1 },
+            "countMax": {card: 2, 
+                        dataType: 1 },
+            "duration": {card: 2, 
+                        dataType: 1 },
+            "durationMax": {card: 2, 
+                            dataType: 1 },
+            "durationUnit": {card: 2, 
+                            dataType: 1 },
+            "frequency": {card: 2, 
+                          dataType: 1 },
+            "frequencyMax": {card: 2, 
+                            dataType: 1 },
+            "period": {card: 2, 
+                      dataType: 1 },
+            "periodMax": {card: 2, 
+                          dataType: 1 },
+            "periodUnit": {card: 2, 
+                          dataType: 1 },      
+            "dayOfWeek": {card: 3, 
+                          dataType: 1 },
+            "timeOfDay": {card: 3, 
+                          dataType: 1 },
+            "when": {card: 3, 
+                     dataType: 1 },
+            "offset": {card: 2, 
+                       dataType: 1 }
           },
           "Bounds": {
             "boundsDuration": "Duration",
@@ -467,54 +476,54 @@
             "boundsPeriod": "Period"
           },
           "Contributor": {
-            "type": {"card": 0, 
-                     "dataType": [1]},
-            "name": {"card": 0, 
-                     "dataType": [1]},
-            "contact": {"card": 3, 
-                        "dataType": ["ContactDetail"]}
+            "type": {card: 0, 
+                     dataType: 1 },
+            "name": {card: 0, 
+                     dataType: 1 },
+            "contact": {card: 3, 
+                        dataType: "ContactDetail" }
           },
           "DataRequirement": {
-            "type": {"card": 0, 
-                     "dataType": [1]},
-            "profile": {"card": 3, 
-                        "dataType": []}, // type canonical(StructureDefinition)
-            "subject": {"card": 2, 
-                        "dataType": ["Subject"],
-                        "setDataType": true},
-            "mustSupport": {"card": 3, 
-                            "dataType": [1]},
-            "codeFilter": {"card": 3, 
-                           "dataType": ["CodeFilter"]},
-            "dateFilter": {"card": 3, 
-                           "dataType": ["DateFilter"]},
-            "limit": {"card": 2, 
-                      "dataType": [1]},
-            "sort": {"card": 3, 
-                     "dataType": ["Sort"]}
+            "type": {card: 0, 
+                     dataType: 1 },
+            "profile": {card: 3, 
+                        dataType: null }, // type canonical(StructureDefinition)
+            "subject": {card: 2, 
+                        dataType: "Subject",
+                        setDataType: true},
+            "mustSupport": {card: 3, 
+                            dataType: 1 },
+            "codeFilter": {card: 3, 
+                           dataType: "CodeFilter" },
+            "dateFilter": {card: 3, 
+                           dataType: "DateFilter" },
+            "limit": {card: 2, 
+                      dataType: 1 },
+            "sort": {card: 3, 
+                     dataType: "Sort" }
           },
           "Subject": {
             "subjectCodeableConcept": "CodeableConcept",
             "subjectReference": "Reference" // Reference to group
           },
           "CodeFilter": {
-            "path": {"card": 2, 
-                       "dataType": [1]},
-            "searchParam": {"card": 2, 
-                            "dataType": [1]},
-            "valueSet": {"card": 2, 
-                         "dataType": []}, //canonical(ValueSet)
-            "code": {"card": 3, 
-                     "dataType": ["Coding"]}
+            "path": {card: 2, 
+                       dataType: 1 },
+            "searchParam": {card: 2, 
+                            dataType: 1 },
+            "valueSet": {card: 2, 
+                         dataType: null }, //canonical(ValueSet)
+            "code": {card: 3, 
+                     dataType: "Coding" }
           },
           "DateFilter": {
-            "path": {"card": 2, 
-                       "dataType": [1]},
-            "searchParam": {"card": 2, 
-                            "dataType": [1]},
-            "value": {"card": 2, 
-                      "dataType": ["ValueDateFilter"],
-                      "setDataType": true}
+            "path": {card: 2, 
+                       dataType: 1 },
+            "searchParam": {card: 2, 
+                            dataType: 1 },
+            "value": {card: 2, 
+                      dataType: "ValueDateFilter",
+                      setDataType: true}
           },
           "ValueDateFilter": {
             "valueDateTime": 1,
@@ -522,67 +531,67 @@
             "valueDuration": "Duration"
           },
           "Sort": {
-            "path": {"card": 0, 
-                     "dataType": [1]},
+            "path": {card: 0, 
+                     dataType: 1 },
             "type": {"direction": 0, 
-                     "dataType": [1]},
+                     dataType: 1 },
           },
           "Expression": {
-            "description": {"card": 2, 
-                            "dataType": [1]},
-            "name": {"card": 2, 
-                     "dataType": [1]},
-            "language": {"card": 0, 
-                         "dataType": [1]},
-            "expression": {"card": 2, 
-                           "dataType": [1]},
-            "reference": {"card": 2, 
-                          "dataType": [1]}
+            "description": {card: 2, 
+                            dataType: 1 },
+            "name": {card: 2, 
+                     dataType: 1 },
+            "language": {card: 0, 
+                         dataType: 1 },
+            "expression": {card: 2, 
+                           dataType: 1 },
+            "reference": {card: 2, 
+                          dataType: 1 }
           },
           "ParameterDefinition": {
-            "name": {"card": 2, 
-                     "dataType": [1]},
-            "use": {"card": 0, 
-                    "dataType": [1]},
-            "min": {"card": 2, 
-                    "dataType": [1]},
-            "max": {"card": 2, 
-                    "dataType": [1]},
-            "documentation": {"card": 2, 
-                              "dataType": [1]},
-            "type": {"card": 0, 
-                     "dataType": [1]},
-            "profile": {"card": 2, 
-                        "dataType": []} //canonical(StructureDefinition)
+            "name": {card: 2, 
+                     dataType: 1 },
+            "use": {card: 0, 
+                    dataType: 1 },
+            "min": {card: 2, 
+                    dataType: 1 },
+            "max": {card: 2, 
+                    dataType: 1 },
+            "documentation": {card: 2, 
+                              dataType: 1 },
+            "type": {card: 0, 
+                     dataType: 1 },
+            "profile": {card: 2, 
+                        dataType: null } //canonical(StructureDefinition)
           },
           "RelatedArtifact": {
-            "type": {"card": 0, 
-                     "dataType": [1]},
-            "label": {"card": 2, 
-                      "dataType": [1]},
-            "display": {"card": 2, 
-                        "dataType": [1]},
-            "citation": {"card": 2, 
-                         "dataType": [1]},
-            "url": {"card": 2, 
-                    "dataType": [1]},
-            "document": {"card": 2, 
-                         "dataType": ["Attachment"]},
-            "resource": {"card": 2, 
-                         "dataType": []} // canonical(Any)
+            "type": {card: 0, 
+                     dataType: 1 },
+            "label": {card: 2, 
+                      dataType: 1 },
+            "display": {card: 2, 
+                        dataType: 1 },
+            "citation": {card: 2, 
+                         dataType: 1 },
+            "url": {card: 2, 
+                    dataType: 1 },
+            "document": {card: 2, 
+                         dataType: "Attachment" },
+            "resource": {card: 2, 
+                         dataType: null } // canonical(Any)
           },
           "TriggerDefinition": {
-            "type": {"card": 0, 
-                     "dataType": [1]},
-            "name": {"card": 2, 
-                     "dataType": [1]},
-            "timing": {"card": 2, 
-                      "dataType": ["TimingTiming"],
-                      "setDataType": true},
-            "data": {"card": 3, 
-                     "dataType": ["DataRequirement"]},
-            "condition": {"card": 2, 
-                          "dataType": ["Expression"]}
+            "type": {card: 0, 
+                     dataType: 1 },
+            "name": {card: 2, 
+                     dataType: 1 },
+            "timing": {card: 2, 
+                      dataType: "TimingTiming",
+                      setDataType: true},
+            "data": {card: 3, 
+                     dataType: "DataRequirement" },
+            "condition": {card: 2, 
+                          dataType: "Expression" }
           },
           "TimingTiming": {
             "timingTiming": "Timing",
@@ -591,47 +600,47 @@
             "timingDateTime": 1
           },
           "Dosage": {
-            "sequence": {"card": 2, 
-                         "dataType": [1]},
-            "name": {"card": 2, 
-                     "dataType": [1]},
-            "addtionalInstruction": {"card": 3, 
-                                     "dataType": ["CodeableConcept"]},
-            "patientInstruction": {"card": 2, 
-                                   "dataType": [1]},
-            "timing": {"card": 2, 
-                       "dataType": ["Timing"]},
-            "asNeeded": {"card": 2, 
-                         "dataType": ["AsNeeded"],
-                         "setDataType": true},
-            "site": {"card": 2, 
-                     "dataType": ["CodeableConcept"]},
-            "route": {"card": 2, 
-                      "dataType": ["CodeableConcept"]},     
-            "method": {"card": 2, 
-                       "dataType": [1]},
-            "doseAndRate": {"card": 3, 
-                            "dataType": ["DoseAndRate"]},
-            "maxDosePerPeriod": {"card": 2, 
-                                 "dataType": ["Ratio"]},
-            "maxDosePerAdministration": {"card": 2, 
-                                         "dataType": ["Quantity"]}, // SimpleQuantity
-            "maxDosePerLifetime": {"card": 2, 
-                                   "dataType": ["Quantity"]} // SimpleQuantity       
+            "sequence": {card: 2, 
+                         dataType: 1 },
+            "name": {card: 2, 
+                     dataType: 1 },
+            "addtionalInstruction": {card: 3, 
+                                     dataType: "CodeableConcept" },
+            "patientInstruction": {card: 2, 
+                                   dataType: 1 },
+            "timing": {card: 2, 
+                       dataType: "Timing" },
+            "asNeeded": {card: 2, 
+                         dataType: "AsNeeded",
+                         setDataType: true},
+            "site": {card: 2, 
+                     dataType: "CodeableConcept" },
+            "route": {card: 2, 
+                      dataType: "CodeableConcept" },     
+            "method": {card: 2, 
+                       dataType: 1 },
+            "doseAndRate": {card: 3, 
+                            dataType: "DoseAndRate" },
+            "maxDosePerPeriod": {card: 2, 
+                                 dataType: "Ratio" },
+            "maxDosePerAdministration": {card: 2, 
+                                         dataType: "Quantity" }, // SimpleQuantity
+            "maxDosePerLifetime": {card: 2, 
+                                   dataType: "Quantity" } // SimpleQuantity       
           },
           "AsNeeded": {
             "asNeededBoolean": 1,
             "asNeededCodeableConcept": "CodeableConcept"
           },
           "DoseAndRate": {
-            "type": {"card": 2, 
-                     "dataType": ["CodeableConcept"]}, 
-            "dose": {"card": 2, 
-                     "dataType": ["Dose"],
-                     "setDataType": true},
-            "rate": {"card": 2, 
-                     "dataType": ["RateRate"],
-                     "setDataType": true},
+            "type": {card: 2, 
+                     dataType: "CodeableConcept" }, 
+            "dose": {card: 2, 
+                     dataType: "Dose",
+                     setDataType: true},
+            "rate": {card: 2, 
+                     dataType: "RateRate",
+                     setDataType: true},
           },
           "Dose": {
             "doseRange": "Range",
@@ -646,100 +655,100 @@
 
           },
           "Patient": {
-            "deceased": {"card": 2, 
-                      "dataType": ["Deceased"],
-                      "setDataType": true}
+            "deceased": {card: 2, 
+                      dataType: "Deceased",
+                      setDataType: true}
           },
           "Deceased": {
             "deceasedBoolean": 1, // poner tipo string 
             "deceasedDateTime": 1 // poner tipo string 
           }, 
           "StructureDefinition": {
-            "url": {"card": 0, 
-                    "dataType": [1]}, // uri
-            "identifier": {"card": 3, 
-                           "dataType": ["Identifier"]},
-            "version": {"card": 2,
-                        "dataType": [1]}, // string
-            "name": {"card": 0, 
-                     "dataType": [1]}, // string
-            "title": {"card": 2, 
-                      "dataType": [1]}, // string
-            "status": {"card": 0, 
-                       "dataType": [1]}, // code
-            "experimental": {"card": 2, 
-                             "dataType": [1]}, // boolean
-            "date": {"card": 2, 
-                     "dataType": [1]}, // dateTime
-            "publisher": {"card": 2, 
-                          "dataType": [1]}, // string
-            "contact": {"card": 3, 
-                        "dataType": ["ContactDetail"]},
-            "description": {"card": 2, 
-                            "dataType": [1]}, // markdown 
-            "useContext": {"card": 3, 
-                           "dataType": ["UsageContext"]},
-            "jurisdiction": {"card": 3, 
-                             "dataType": ["CodeableConcept"]},
-            "purpose": {"card": 2, 
-                        "dataType": [1]}, // markdown 
-            "copyright": {"card": 2, 
-                          "dataType": [1]}, // markdown
-            "keyword": {"card": 3, 
-                        "dataType": ["Coding"]},
-            "fhirVersion": {"card": 2, 
-                            "dataType": [1]}, // code
-            "mapping": {"card": 2, 
-                        "dataType": ["Mapping"]},
-            "kind": {"card": 0, 
-                     "dataType": [1]}, // code
-            "abstract": {"card": 0, 
-                         "dataType": [1]}, // boolean
-            "context": {"card": 3, 
-                        "dataType": ["Context"]},
-            "contextInvariant": {"card": 3, 
-                                 "dataType": [1]}, // string
-            "type": {"card": 0, 
-                     "dataType": [1]}, // uri
-            "baseDefinition": {"card": 2, 
-                               "dataType": [1]}, // canonical(StructureDefinition)
-            "derivation": {"card": 2, 
-                           "dataType": [1]}, // code
-            "snapshot": {"card": 2, 
-                         "dataType": ["Snapshot"]}, 
-            "differential": {"card": 2, 
-                             "dataType": ["Differential"]}
+            "url": {card: 0, 
+                    dataType: 1 }, // uri
+            "identifier": {card: 3, 
+                           dataType: "Identifier" },
+            "version": {card: 2,
+                        dataType: 1 }, // string
+            "name": {card: 0, 
+                     dataType: 1 }, // string
+            "title": {card: 2, 
+                      dataType: 1 }, // string
+            "status": {card: 0, 
+                       dataType: 1 }, // code
+            "experimental": {card: 2, 
+                             dataType: 1 }, // boolean
+            "date": {card: 2, 
+                     dataType: 1 }, // dateTime
+            "publisher": {card: 2, 
+                          dataType: 1 }, // string
+            "contact": {card: 3, 
+                        dataType: "ContactDetail" },
+            "description": {card: 2, 
+                            dataType: 1 }, // markdown 
+            "useContext": {card: 3, 
+                           dataType: "UsageContext" },
+            "jurisdiction": {card: 3, 
+                             dataType: "CodeableConcept" },
+            "purpose": {card: 2, 
+                        dataType: 1 }, // markdown 
+            "copyright": {card: 2, 
+                          dataType: 1 }, // markdown
+            "keyword": {card: 3, 
+                        dataType: "Coding" },
+            "fhirVersion": {card: 2, 
+                            dataType: 1 }, // code
+            "mapping": {card: 2, 
+                        dataType: "Mapping" },
+            "kind": {card: 0, 
+                     dataType: 1 }, // code
+            "abstract": {card: 0, 
+                         dataType: 1 }, // boolean
+            "context": {card: 3, 
+                        dataType: "Context" },
+            "contextInvariant": {card: 3, 
+                                 dataType: 1 }, // string
+            "type": {card: 0, 
+                     dataType: 1 }, // uri
+            "baseDefinition": {card: 2, 
+                               dataType: 1 }, // canonical(StructureDefinition)
+            "derivation": {card: 2, 
+                           dataType: 1 }, // code
+            "snapshot": {card: 2, 
+                         dataType: "Snapshot" }, 
+            "differential": {card: 2, 
+                             dataType: "Differential" }
           },
           "Mapping": {
-            "identity": {"card": 0, 
-                         "dataType": [1]}, // id
-            "uri": {"card": 2, 
-                    "dataType": [1]}, // uri
-            "name": {"card": 2, 
-                     "dataType": [1]}, // string
-            "comment": {"card": 2, 
-                        "dataType": [1]}, // string 
+            "identity": {card: 0, 
+                         dataType: 1 }, // id
+            "uri": {card: 2, 
+                    dataType: 1 }, // uri
+            "name": {card: 2, 
+                     dataType: 1 }, // string
+            "comment": {card: 2, 
+                        dataType: 1 }, // string 
           },
           "Context": {
-            "type": {"card": 0, 
-                     "dataType": [1]}, // code
-            "expression": {"card": 0, 
-                           "dataType": [1]}, // string            
+            "type": {card: 0, 
+                     dataType: 1 }, // code
+            "expression": {card: 0, 
+                           dataType: 1 }, // string            
           },
           "Snapshot": {
-            "element": {"card": 1, 
-                        "dataType": ["ElementDefinition"]}, 
+            "element": {card: 1, 
+                        dataType: "ElementDefinition" }, 
           },
           "Differential": {
-            "element": {"card": 1, 
-                        "dataType": ["ElementDefinition"]}, // string
+            "element": {card: 1, 
+                        dataType: "ElementDefinition" }, // string
           },
           "UsageContext": {
-            "code": {"card": 0, 
-                     "dataType": ["Coding"]},
-            "value": {"card": 2, 
-                    "dataType": ["ValueUsageContext"],
-                    "setDataType": true},
+            "code": {card: 0, 
+                     dataType: "Coding" },
+            "value": {card: 2, 
+                    dataType: "ValueUsageContext",
+                    setDataType: true},
           },
           "ValueUsageContext": {
             "valueCodeableConcept": "CodeableConcept",
@@ -748,113 +757,113 @@
             "valueReference": "Reference" // reference to (PlanDefinition|ResearchStudy|InsurancePlan|HealthcareService|Group|Location|Organization)
           },
           "ElementDefinition": {
-            "path": {"card": 2, 
-                     "dataType": [1]}, // string
-            "representation": {"card": 3, 
-                               "dataType": [1]}, // code
-            "sliceName": {"card": 2, 
-                          "dataType": [1]}, // string
-            "sliceIsConstraining": {"card": 2, 
-                                    "dataType": [1]}, // boolean
-            "label": {"card": 2, 
-                      "dataType": [1]}, // string
-            "code": {"card": 2, 
-                     "dataType": ["Coding"]},
-            "slicing": {"card": 2, 
-                        "dataType": ["Slicing"]},
-            "short": {"card": 2, 
-                      "dataType": [1]}, // string
-            "definition": {"card": 2, 
-                           "dataType": [1]}, // markdown
-            "comment": {"card": 2, 
-                        "dataType": [1]}, // markdown
-            "requirements": {"card": 2, 
-                             "dataType": [1]}, // markdown
-            "alias": {"card": 3, 
-                      "dataType": [1]}, // string
-            "min": {"card": 2, 
-                    "dataType": [1]}, // unsignedInt
-            "max": {"card": 2, 
-                    "dataType": [1]}, // string
-            "base": {"card": 2, 
-                     "dataType": ["Base"]},
-            "contentReference": {"card": 2, 
-                                 "dataType": [1]}, // uri
-            "type": {"card": 2, 
-                     "dataType": ["Type"]}, 
-            "defaultValue": {"card": 2, 
-                             "dataType": ["DefaultValue"],
-                             "setDataType": true},
-            "meaningWhenMissing": {"card": 2, 
-                                   "dataType": [1]}, // markdown
-            "orderMeaning": {"card": 2, 
-                             "dataType": [1]}, // string 
-            "fixed": {"card": 2, 
-                      "dataType": ["Fixed"],
-                      "setDataType": true},
-            "pattern": {"card": 2, 
-                        "dataType": ["Pattern"],
-                        "setDataType": true},
-            "example": {"card": 3, 
-                        "dataType": ["Example"]},
-            "minValue": {"card": 2, 
-                         "dataType": ["MinValue"],
-                         "setDataType": true},
-            "maxValue": {"card": 2, 
-                         "dataType": ["MaxValue"],
-                         "setDataType": true},
-            "maxLength": {"card": 2, 
-                          "dataType": [1]}, // integer
-            "condition": {"card": 3, 
-                          "dataType": [1]}, // id
-            "constraint": {"card": 3, 
-                           "dataType": ["Constraint"]},
-            "mustSupport": {"card": 2, 
-                            "dataType": [1]}, // boolean
-            "isModifier": {"card": 2, 
-                           "dataType": [1]}, // boolean
-            "isModifierReason": {"card": 2, 
-                                 "dataType": [1]}, // string
-            "isSummary": {"card": 2, 
-                          "dataType": [1]}, // boolean
-            "binding": {"card": 2, 
-                        "dataType": ["Binding"]},
-            "mapping": {"card": 2, 
-                        "dataType": ["Mapping"]},
+            "path": {card: 2, 
+                     dataType: 1 }, // string
+            "representation": {card: 3, 
+                               dataType: 1 }, // code
+            "sliceName": {card: 2, 
+                          dataType: 1 }, // string
+            "sliceIsConstraining": {card: 2, 
+                                    dataType: 1 }, // boolean
+            "label": {card: 2, 
+                      dataType: 1 }, // string
+            "code": {card: 2, 
+                     dataType: "Coding" },
+            "slicing": {card: 2, 
+                        dataType: "Slicing" },
+            "short": {card: 2, 
+                      dataType: 1 }, // string
+            "definition": {card: 2, 
+                           dataType: 1 }, // markdown
+            "comment": {card: 2, 
+                        dataType: 1 }, // markdown
+            "requirements": {card: 2, 
+                             dataType: 1 }, // markdown
+            "alias": {card: 3, 
+                      dataType: 1 }, // string
+            "min": {card: 2, 
+                    dataType: 1 }, // unsignedInt
+            "max": {card: 2, 
+                    dataType: 1 }, // string
+            "base": {card: 2, 
+                     dataType: "Base" },
+            "contentReference": {card: 2, 
+                                 dataType: 1 }, // uri
+            "type": {card: 2, 
+                     dataType: "Type" }, 
+            "defaultValue": {card: 2, 
+                             dataType: "DefaultValue",
+                             setDataType: true},
+            "meaningWhenMissing": {card: 2, 
+                                   dataType: 1 }, // markdown
+            "orderMeaning": {card: 2, 
+                             dataType: 1 }, // string 
+            "fixed": {card: 2, 
+                      dataType: "Fixed",
+                      setDataType: true},
+            "pattern": {card: 2, 
+                        dataType: "Pattern",
+                        setDataType: true},
+            "example": {card: 3, 
+                        dataType: "Example" },
+            "minValue": {card: 2, 
+                         dataType: "MinValue",
+                         setDataType: true},
+            "maxValue": {card: 2, 
+                         dataType: "MaxValue",
+                         setDataType: true},
+            "maxLength": {card: 2, 
+                          dataType: 1 }, // integer
+            "condition": {card: 3, 
+                          dataType: 1 }, // id
+            "constraint": {card: 3, 
+                           dataType: "Constraint" },
+            "mustSupport": {card: 2, 
+                            dataType: 1 }, // boolean
+            "isModifier": {card: 2, 
+                           dataType: 1 }, // boolean
+            "isModifierReason": {card: 2, 
+                                 dataType: 1 }, // string
+            "isSummary": {card: 2, 
+                          dataType: 1 }, // boolean
+            "binding": {card: 2, 
+                        dataType: "Binding" },
+            "mapping": {card: 2, 
+                        dataType: "Mapping" },
           },
           "Mapping": {
-            "identity": {"card": 0, 
-                         "dataType": [1]}, // id
-            "language": {"card": 2, 
-                         "dataType": [1]}, // code
-            "map": {"card": 0, 
-                    "dataType": [1]}, // string
-            "comment": {"card": 2, 
-                        "dataType": [1]} // string 
+            "identity": {card: 0, 
+                         dataType: 1 }, // id
+            "language": {card: 2, 
+                         dataType: 1 }, // code
+            "map": {card: 0, 
+                    dataType: 1 }, // string
+            "comment": {card: 2, 
+                        dataType: 1 } // string 
           },
           "Binding": {
-            "strength": {"card": 0, 
-                         "dataType": [1]}, // code
-            "description": {"card": 2, 
-                            "dataType": [1]}, // string
-            "valueSet": {"card": 2, 
-                         "dataType": [1]} // canonical(ValueSet)
+            "strength": {card: 0, 
+                         dataType: 1 }, // code
+            "description": {card: 2, 
+                            dataType: 1 }, // string
+            "valueSet": {card: 2, 
+                         dataType: 1 } // canonical(ValueSet)
           },
           "Constraint": {
-            "key": {"card": 0, 
-                    "dataType": [1]}, // id
-            "requirements": {"card": 2, 
-                             "dataType": [1]}, // string
-            "severity": {"card": 0, 
-                         "dataType": [1]}, // code
-            "human": {"card": 0, 
-                      "dataType": [1]}, // string
-            "expression": {"card": 2, 
-                           "dataType": [1]}, // string
-            "xpath": {"card": 2, 
-                      "dataType": [1]}, // string
-            "source": {"card": 2, 
-                       "dataType": [1]} // canonical(StructureDefinition)
+            "key": {card: 0, 
+                    dataType: 1 }, // id
+            "requirements": {card: 2, 
+                             dataType: 1 }, // string
+            "severity": {card: 0, 
+                         dataType: 1 }, // code
+            "human": {card: 0, 
+                      dataType: 1 }, // string
+            "expression": {card: 2, 
+                           dataType: 1 }, // string
+            "xpath": {card: 2, 
+                      dataType: 1 }, // string
+            "source": {card: 2, 
+                       dataType: 1 } // canonical(StructureDefinition)
           },
           "MaxValue": {
               "maxValueDate": 1, // date
@@ -879,11 +888,11 @@
             "minValueQuantity": "Quantity",
           },
           "Example": {
-            "max": {"card": 0, 
-                    "dataType": [1]}, // string
-            "value": {"card": 2, 
-                    "dataType": ["ValueExample"],
-                    "setDataType": true},
+            "max": {card: 0, 
+                    dataType: 1 }, // string
+            "value": {card: 2, 
+                    dataType: "ValueExample",
+                    setDataType: true},
           },
           "ValueExample": {
             "valueBase64Binary": 1, // base64Binary
@@ -1094,40 +1103,40 @@
               "defaultValueMeta": "Meta"
           },
           "Type": {
-            "code": {"card": 0, 
-                     "dataType": [1]}, // uri
-            "profile": {"card": 3, 
-                        "dataType": [1]}, // canonical(StructureDefinition | ImplementationGuide)
-            "targetProfile": {"card": 3, 
-                              "dataType": [1]}, // canonical(StructureDefinition | ImplementationGuide)
-            "aggregation": {"card": 3, 
-                            "dataType": [1]}, // code
-            "versioning": {"card": 2, 
-                           "dataType": [1]} // code
+            "code": {card: 0, 
+                     dataType: 1 }, // uri
+            "profile": {card: 3, 
+                        dataType: 1 }, // canonical(StructureDefinition | ImplementationGuide)
+            "targetProfile": {card: 3, 
+                              dataType: 1 }, // canonical(StructureDefinition | ImplementationGuide)
+            "aggregation": {card: 3, 
+                            dataType: 1 }, // code
+            "versioning": {card: 2, 
+                           dataType: 1 } // code
           },
           "Base": {
-            "path": {"card": 0, 
-                     "dataType": [1]}, // string
-            "min": {"card": 0, 
-                    "dataType": [1]}, // unsignedInt
-            "max": {"card": 0, 
-                    "dataType": [1]} // string
+            "path": {card: 0, 
+                     dataType: 1 }, // string
+            "min": {card: 0, 
+                    dataType: 1 }, // unsignedInt
+            "max": {card: 0, 
+                    dataType: 1 } // string
           },
           "Slicing": {
-            "discriminator": {"card": 3, 
-                              "dataType": ["Discriminator"]},
-            "description": {"card": 2, 
-                            "dataType": [1]}, // string
-            "ordered": {"card": 2, 
-                        "dataType": [1]}, // boolean
-            "rules": {"card": 0, 
-                      "dataType": [1]} // code
+            "discriminator": {card: 3, 
+                              dataType: "Discriminator" },
+            "description": {card: 2, 
+                            dataType: 1 }, // string
+            "ordered": {card: 2, 
+                        dataType: 1 }, // boolean
+            "rules": {card: 0, 
+                      dataType: 1 } // code
           },
           "Discriminator": {
-            "type": {"card": 0, 
-                     "dataType": [1]}, // code
-            "path": {"card": 0, 
-                     "dataType": [1]} // string
+            "type": {card: 0, 
+                     dataType: 1 }, // code
+            "path": {card: 0, 
+                     dataType: 1 } // string
           }
         }
       }
@@ -1144,38 +1153,35 @@
         return myObj.constructor === Object;
       },
       errorDT(dataType, section, nameSection){
-        console.log('DT: ', dataType);
+        console.log('DT: ', dataType, 'typeof: ', typeof dataType);
         console.log('pointer: ', section);
         console.log('nameS: ', nameSection);
-        for( let elem of dataType ){
-          console.log('elem: ', elem, 'typeof: ', typeof elem)
-          if (typeof elem == 'object' || typeof elem == 'string'){
-            let v;
-            if(typeof elem == 'string'){
-              elem = this.formats[elem];
-            }
-            if(this.isArray(section)){
-              console.log("LLEGÓ UN ARRAY")
-            }
-            //v = 
-            this.validateSection(elem, section, nameSection, true);
-            
-            //if (v == true){
-            //  console.log(elem, 'fue aprobado')
-            //  return false // coincidió el formato
-            //}
+        if (typeof dataType == 'object' || typeof dataType == 'string'){
+          let v;
+          if(typeof dataType == 'string'){
+            dataType = this.formats[dataType];
           }
-          else if (elem == 1){
-            console.log('pointer: ', section, ' type: ', typeof section)
-            if( typeof section == 'string' || typeof section == 'boolean'){
-              // coincidió el formato:
-              console.log('coincidio formato')
-              //return false // se termina
-            }
-            else{
-              this.formatErrors.push(nameSection);
-              //return true;
-            }
+          if(this.isArray(section)){
+            console.log("LLEGÓ UN ARRAY")
+          }
+          //v = 
+          this.validateSection(dataType, section, nameSection, true);
+          
+          //if (v == true){
+          //  console.log(dataType, 'fue aprobado')
+          //  return false // coincidió el formato
+          //}
+        }
+        else if (dataType == 1){
+          console.log('pointer: ', section, ' type: ', typeof section)
+          if( typeof section == 'string' || typeof section == 'boolean'){
+            // coincidió el formato:
+            console.log('coincidio formato')
+            //return false // se termina
+          }
+          else{
+            this.formatErrors.push(nameSection);
+            //return true;
           }
         }
         //console.log('formato incorrecto')
@@ -1189,23 +1195,38 @@
           let card = data.card;
           let setDataType = data.setDataType;
           let dataType = data.dataType;
-          let pointer = section[param];
+          let pointer; 
+          if (setDataType == true){
+            console.log('DT: ', dataType)
+            console.log("TRUE, opts: ", this.formats[dataType[0]])
+            for(const [option, dt] of Object.entries(this.formats[dataType]) ){
+              console.log(option + ': ', section[option]);
+              if (section[option] != undefined){
+                pointer = section[option];
+                dataType = dt;
+                break;
+              }
+            }
+          }
+          else{
+            pointer = section[param];
+          }
           console.log("pointer: ", pointer, 'tipo: ', typeof pointer)
           console.log('chequeando cardinalidad')
           //check cardinality:
           if ( (card == 0 || card == 1) && pointer == undefined ){ // no debe ser undefined
             console.log('if 1')
-            if (flag){
-              return false;
-            }
+            //if (flag){
+            //  return false;
+            //}
             this.missingErrors.push(nameSection + "-" + param);
           }
           // no pueden haber más de uno de los sgtes campos
           else if ( ( pointer != undefined) && (card == 0 || card == 2) && this.isArray(pointer) ){ // no debe ser array pq eso da chanche a que sea más de uno y esta cardinalidad solo permite 0..1 o 1..1
             console.log('else if 1')
-            if (flag){
-              return false;
-            }
+            //if (flag){
+            //  return false;
+            //}
             if (pointer.length == 1){
               this.formatErrors.push(nameSection + "-" + param);
             }
@@ -1226,7 +1247,7 @@
 
               // CORROBORO QUE POINTER SEA DE ALGUNO DE LOS TIPOS DE DATATYPE
               if ( (card == 0 || card == 2) ){//&&  ( this.errorDT(Array.from(dataType), pointer, nameSection + "-" + param) ) ){ //(typeof pointer != 'string' && typeof pointer != 'boolean') ){
-                this.errorDT(Array.from(dataType), pointer, nameSection + "-" + param)
+                this.errorDT(dataType, pointer, nameSection + "-" + param)
                 
                 //if (flag){
                  // return false;
@@ -1237,7 +1258,7 @@
               else if ( (card == 1 || card == 3) ){
                 for (let elem of pointer){
                   console.log('elem: ', elem)
-                  this.errorDT(Array.from(dataType), elem, nameSection + "-" + param)
+                  this.errorDT(dataType, elem, nameSection + "-" + param)
                   //if (this.errorDT(Array.from(dataType), elem, nameSection + "-" + param)){
                     //if (flag){
                      // return false;
@@ -1252,82 +1273,6 @@
           }
         }
       },
-      validateSection2(fields, section, nameSection){ // fields are documentation.
-        for( let param in fields){ //id, meta, etc...
-          let data = fields[param]; // [card, tipo y dataType]
-          let card = data[0];
-          let pointer = section[param]; // parte del ips que estoy revisando
-          // chequeo la cardinalidad:
-          // no pueden haber 0 de los sgtes campos
-          console.log('P: ', param);
-          console.log( "chequeo cardinalidad: ", data);
-          if ( (card == 0 || card == 1) && pointer == undefined ){ // no debe ser undefined
-            this.missingErrors.push(nameSection + "-" + param);}
-          // no pueden haber más de uno de los sgtes campos
-          else if ( ( pointer != undefined) && (card == 0 || card == 2) && this.isArray(pointer) ){ // no debe ser array pq eso da chanche a que sea más de uno y debe ser minimo 0 y max 1
-            this.cardErrors.push(nameSection + "-" + param);}
-          console.log('chequeo tipo de dato de: ', pointer, ' deberia ser: ', data[2])
-          // chequeo tipo de dato:
-          if (pointer != undefined){
-            console.log( "OBJ?? ", typeof data[2])
-            if (typeof data[2] == 'object') { //{} or { más parametros } or 'DataType'
-              if (Object.keys(data[2]).length == 0) { // {}
-                console.log('es STRING')
-                //se refiere a que son de tipo string
-                if ( (card == 0 || card == 2) && (typeof pointer != 'string' && typeof pointer != 'boolean') ){
-                  console.log( 'solo 1')
-                  this.formatErrors.push(nameSection + "-" + param);
-                }
-                else if ( (card == 1 || card == 3) ){
-                  console.log( 'varios, los chequeo todos:')
-                  for (let elem of pointer){
-                    console.log(elem);
-                    if (typeof elem != 'string' && typeof elem != 'boolean'){
-                      this.formatErrors.push(nameSection + "-" + param);
-                      break
-                    }
-                  }
-                }
-              }
-              else{ // { más parametros}
-                if ( card == 0 || card == 2){ //unico dato
-                  this.validateSection2(data[2], pointer, nameSection + "-" + param)
-                } 
-                else{ //varios datos cada elemento debe ser de tipo {}
-                  for( let elem of pointer){
-                    if (this.isArray(elem)){
-                      console.log("LOOL")
-                      this.formatErrors.push(nameSection + '-' + param)
-                      break
-                    }
-                    console.log('fields: ', this.formats[data[2]])
-                    console.log('sectionIPS: ', elem)
-                    console.log(nameSection + '-' + param)
-                    this.validateSection2(data[2], elem, nameSection + '-' + param)
-                  }
-                }
-              }
-            }
-            else if( typeof data[2] == 'string'){ // 'DataType'
-              //separo en unico o varios datos
-              console.log('validaré la SUBseccion de: ', param, '---  EN: ', pointer)
-              if(card == 0 || card == 2){ //unico dato
-                this.validateSection2(this.formats[data[2]], pointer, nameSection + '-' + param)
-              }
-              else{ //varios datos
-                for (let elem of pointer){
-                  console.log('fields: ', this.formats[data[2]])
-                  console.log('sectionIPS: ', elem)
-                  console.log(nameSection + '-' + param)
-                  this.validateSection2(this.formats[data[2]], elem, nameSection + '-' + param)
-
-                }
-              }
-            }
-          }
-        }
-      },
-      
       validateIPS(){
         this.cardErrors = [];
         this.formatErrors = [];
@@ -1341,39 +1286,39 @@
         //fields that dont have second value in the array is because i dont know the datatype.
         let fields = { 
           "id": { card: 2,
-                  dataType: [1] }, //id
+                  dataType: 1 }, //id
           "meta": { card: 2,
-                  dataType: ["Meta"] },
+                  dataType: "Meta" },
           "implicitRules": { card: 2,
-                  dataType: [1] }, //uri
+                  dataType: 1 }, //uri
           "language": { card: 2,
-                  dataType: [1] }, //code
+                  dataType: 1 }, //code
           "identifier": { card: 0,
-                  dataType: ["Identifier"] }, 
+                  dataType: "Identifier" }, 
           "type": { card: 0,
-                  dataType: [1] }, //code
+                  dataType: 1 }, //code
           "timestamp": { card: 0,
-                  dataType: [1] }, //instant
+                  dataType: 1 }, //instant
           "total": { card: 2,
-                  dataType: [1] }, //unsignedInt
+                  dataType: 1 }, //unsignedInt
           "entry": { card: 1,
-                  dataType: [ 
+                  dataType:  
                     {"id": { card: 2,
-                              dataType: [1] }, //string
+                              dataType: 1 }, //string
                       "extension": { card: 3,
-                              dataType: ["Extension"] },
+                              dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                              dataType: ["Extension"] },
+                              dataType: "Extension" },
                       "link": { card: 3,
-                              dataType: [1] }, // link (Bundle) ?? arreglar
+                              dataType: 1 }, // link (Bundle) ?? arreglar
                       "fullUrl": { card: 0,
-                              dataType: [1] }, 
+                              dataType: 1 }, 
                       "resource": { card: 2,
-                              dataType: ["Resource"] },
-                      }]
+                              dataType: "Resource" },
+                      }
                   },
           "signature": { card: 2,
-                  dataType: ["Signature"] }
+                  dataType: "Signature" }
         };
         let ips;
         try{
@@ -1409,6 +1354,7 @@
         }
         //this.validateComposition(ips);
         this.validatePatient(ips);
+        this.validateImmunization(ips);
 
         this.cardErrors = this.cardErrors.filter((valor, indice) => {
           return this.cardErrors.indexOf(valor) === indice;
@@ -1447,72 +1393,72 @@
         // si no es undefined y tiene 3ra variable... revisar los hijos... asi hasta el sgte, tipo arbol
         let fields = {  
           "id": { card: 2,
-                  dataType: [1] },
+                  dataType: 1 },
           "meta": { card: 2,
-                  dataType: ["Meta"] }, 
+                  dataType: "Meta" }, 
           "implicitRules": { card: 2,
-                  dataType: [1] }, // uri
+                  dataType: 1 }, // uri
           "language": { card: 2,
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "text": { card: 2,
-                  dataType: ["Narrative"] }, 
+                  dataType: "Narrative" }, 
           "contained": { card:3, 
-                  dataType: ["Resource"] }, // idk es de tipo Resource
+                  dataType: "Resource" }, // idk es de tipo Resource
           "versionNumber": { card:3, 
-                  dataType: [1] }, // string
+                  dataType: 1 }, // string
           "modifierExtension": { card:3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "identifier": { card:2, 
-                  dataType: ["Identifier"] },
+                  dataType: "Identifier" },
           "status": { card:0, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "type": { card:0, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "category": { card:3, 
-                  dataType: ["CodeableConcept"] }, //supongo es una lista pero no lo sé
+                  dataType: "CodeableConcept" }, //supongo es una lista pero no lo sé
           "subject": { card:0, 
-                  dataType: [1] }, // Reference (Patient IPS) 
+                  dataType: "Reference" }, // Reference (Patient IPS) 
           "encounter": { card:2, 
-                  dataType: [1] }, // es reference (Encounter)
+                  dataType: "Reference" }, // es reference (Encounter)
           "date": { card:0, 
-                  dataType: [1] }, //dateTime 
+                  dataType: 1 }, //dateTime 
           "author": { card:1, 
-                  dataType: [1] }, // es reference (varios)
+                  dataType: "Reference" }, // es reference (varios)
           "title": { card:0, 
-                  dataType: [1] }, // string
+                  dataType: 1 }, // string
           "confidentiality": { card:2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "attester": { card: 3,  
-                        dataType: [
+                        dataType: 
                           {"id": { card: 2,
-                                  dataType: [1] },
+                                  dataType: 1 },
                           "extension": { card: 3 ,
-                                        dataType: ["Extension"] },
+                                        dataType: "Extension" },
                           "modifierExtension": { card: 3 ,
-                                        dataType: ["Extension"] },
+                                        dataType: "Extension" },
                           "mode": { card: 0 ,
-                                        dataType: [1] }, //code
+                                        dataType: 1 }, //code
                           "time": { card: 2 ,
-                                        dataType: [1] }, // dateTime
+                                        dataType: 1 }, // dateTime
                           "party": { card: 2 ,
-                                        dataType: [1] } // Reference (varios)
-                        }]},
+                                        dataType: "Reference" } // Reference (varios)
+                        } },
           "custodian": { card: 2,
-                          dataType: [1] }, // es reference
+                          dataType: "Reference" }, // es reference
           "relatesTo": { card: 3,  
-                          dataType: [
+                          dataType: 
                               {"id": { card: 2,
-                                      dataType: [1] },
+                                      dataType: 1 },
                               "extension": { card: 3 ,
-                                            dataType: ["Extension"] },
+                                            dataType: "Extension" },
                               "modifierExtension": { card: 3 ,
-                                            dataType: ["Extension"] },
+                                            dataType: "Extension" },
                               "code": { card: 0 ,
-                                            dataType: [1] }, // code
+                                            dataType: 1 }, // code
                               "target": { card: 0 ,
-                                            dataType: ["Target"],
+                                            dataType: "Target",
                                             setDataType: true }
-                          }]},
+                          } },
         }
         let resource;
         
@@ -1532,98 +1478,98 @@
       validatePatient(ips){
         let fields = {
           "id": { card: 2, 
-                  dataType: [1] }, //id
+                  dataType: 1 }, //id
           "meta": { card: 2, 
-                  dataType: ["Meta"] },
+                  dataType: "Meta" },
           "implicitRules": { card: 2, 
-                  dataType: [1] }, // uri
+                  dataType: 1 }, // uri
           "language": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "text": { card: 2, 
-                  dataType: ["Narrative"] }, 
+                  dataType: "Narrative" }, 
           "contained": { card: 3, 
-                  dataType: ["Resource"] },
+                  dataType: "Resource" },
           "extension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "modifierExtension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "identifier": { card: 3, 
-                  dataType: ["Identifier"] },
+                  dataType: "Identifier" },
           "active": { card: 2, 
-                  dataType: [1] }, //boolean
+                  dataType: 1 }, //boolean
           "name": { card: 1, 
-                  dataType: ["HumanName"] },
+                  dataType: "HumanName" },
           "telecom": { card: 3, 
-                  dataType: ["ContactPoint"] },
+                  dataType: "ContactPoint" },
           "gender": { card: 2, 
-                  dataType: [1] }, //code
+                  dataType: 1 }, //code
           "birthDate": { card: 0, 
-                  dataType: [1] }, //date
+                  dataType: 1 }, //date
           "deceased": { card: 2,
-                      dataType: ["Deceased"],
+                      dataType: "Deceased",
                       setDataType: true },
           "address": { card: 3, 
-                  dataType: ["Address"] },
+                  dataType: "Address" },
           "maritalStatus": { card: 2, 
-                  dataType: ["CodeableConcept"] },
+                  dataType: "CodeableConcept" },
           "multipleBirth": { card: 2, 
-                            dataType: ["MultipleBirth"],
+                            dataType: "MultipleBirth",
                             setDataType: true }, 
           "photo": { card: 3,
-                    dataType: [1] }, //Attachment
+                    dataType: 1 }, //Attachment
           "contact": { card: 3,
-                    dataType: [
+                    dataType: 
                       {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "relationship": { card: 3,
-                                dataType: ["CodeableConceptIPS"] },
+                                dataType: "CodeableConceptIPS" },
                       "name": { card: 2,
-                                dataType: ["HumanName"] },
+                                dataType: "HumanName" },
                       "telecom": { card: 3,
-                                dataType: ["ContactPoint"] },
+                                dataType: "ContactPoint" },
                       "address": { card: 2,
-                                dataType: ["Address"] },
+                                dataType: "Address" },
                       "gender": { card: 2,
-                                dataType: [1] }, //code
+                                dataType: 1 }, //code
                       "organization": { card: 2,
-                                dataType: [1] }, //Reference(Organization)
+                                dataType: "Reference" }, //Reference(Organization)
                       "period": { card: 2,
-                                dataType: ["Period"] }
-                      }]},
+                                dataType: "Period" }
+                      } },
           "communication": { card: 3,
-                    dataType: [
+                    dataType: 
                       {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "language": { card: 0,
-                                dataType: ["CodeableConcept"] }, 
+                                dataType: "CodeableConcept" }, 
                       "preferred": { card: 2,
-                                dataType: [1] } //boolean
-                      }]},
+                                dataType: 1 } //boolean
+                      } },
           "generalPractitioner": { card: 3,
-                    dataType: [1] }, //Reference(Organization | Practicioner)
+                    dataType: "Reference" }, //Reference(Organization | Practicioner)
           "managingOrganization": { card: 2,
-                    dataType: [1] }, // Reference(Organization)
+                    dataType: "Reference" }, // Reference(Organization)
           "link": { card: 3,
-                    dataType: [
+                    dataType: 
                       {"id": { card: 2,
-                      dataType: [1] }, //string
+                      dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "other": { card: 0,
-                                dataType: [1] }, // Reference(Patient 1 RelatedPerson)
+                                dataType: "Reference" }, // Reference(Patient 1 RelatedPerson)
                       "type": { card: 0,
-                                dataType: [1] } //code
-                      }]}
+                                dataType: 1 } //code
+                      } }
         };
         let resource;
         for( let obj of ips.entry){
@@ -1642,81 +1588,81 @@
         // dataType: 1: string // 
         let fields = {
           "id": { card: 2, 
-                  dataType: [1] }, //id
+                  dataType: 1 }, //id
           "meta": { card: 2, 
-                  dataType: ["Meta"] },
+                  dataType: "Meta" },
           "implicitRules": { card: 2, 
-                  dataType: [1] }, // uri
+                  dataType: 1 }, // uri
           "language": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "text": { card: 2, 
-                  dataType: ["Narrative"] }, 
+                  dataType: "Narrative" }, 
           "contained": { card: 3, 
-                  dataType: ["Resource"] },
+                  dataType: "Resource" },
           "extension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "modifierExtension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "identifier": { card: 3, 
-                  dataType: ["Identifier"] },
+                  dataType: "Identifier" },
           "clinicalStatus": { card: 0, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "verificationStatus": { card: 2, 
-                  dataType: ["CodeableConceptIPS"] },
+                  dataType: "CodeableConceptIPS" },
           "category": { card: 3, 
-                  dataType: ["CodeableConceptIPS"] },
+                  dataType: "CodeableConceptIPS" },
           "severity": { card: 2, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "code": { card: 0, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "bodySite": { card: 3,
-                      dataType: ["CodeableConceptIPS"] },
+                      dataType: "CodeableConceptIPS" },
           "subject": { card: 0,
-                  dataType: [1] }, //Reference (Patient (IPS))
+                  dataType: "Reference" }, //Reference (Patient (IPS))
           "encounter": { card:2, 
-                  dataType: [1] }, // es reference (Encounter)
+                  dataType: "Reference" }, // es reference (Encounter)
           "onset": { card: 2, 
-                  dataType: ["Onset"], // fix add
+                  dataType: "Onset", // fix add
                   setDataType: true }, 
           "abatement": { card: 2, 
-                  dataType: ["Abatement"], // fix add
+                  dataType: "Abatement", // fix add
                   setDataType: true }, 
           "recordedDate": { card:2, 
-                  dataType: [1] }, // dateTime
+                  dataType: 1 }, // dateTime
           "recorder": { card:2, 
-                  dataType: [1] }, // Reference (varios)
+                  dataType: "Reference" }, // Reference (varios)
           "asserter": { card:2,  
-                  dataType: [1] }, // Reference(varios)
+                  dataType: "Reference" }, // Reference(varios)
           "stage": { card: 3,
-                    dataType: [
+                    dataType: 
                       {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "summary": { card: 2,
-                                dataType: ["CodeableConcept"] },
+                                dataType: "CodeableConcept" },
                       "assessment": { card: 3,
-                                dataType: ["HumanName"] }, // Reference (varios)
+                                dataType: "Reference" }, // Reference (varios)
                       "type": { card: 2,
-                                dataType: ["CodeableConcept"] }
-                      }]},
+                                dataType: "CodeableConcept" }
+                      } },
           "evidence": { card: 3,
-                    dataType: [
+                    dataType: 
                       {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "code": { card: 3,
-                                dataType: ["CodeableConcept"] }, 
+                                dataType: "CodeableConcept" }, 
                       "detail": { card: 3,
-                                dataType: [1] } //Reference(Resource)
-                      }]},
+                                dataType: "Reference" } //Reference(Resource)
+                      } },
           "note": { card: 3,
-                    dataType: ["Annotation"] }
+                    dataType: "Annotation" }
         };
         let resource;
         for( let obj of ips.entry){
@@ -1735,62 +1681,62 @@
         // dataType: 1: string // 
         let fields = {
           "id": { card: 2, 
-                  dataType: [1] }, //id
+                  dataType: 1 }, //id
           "meta": { card: 2, 
-                  dataType: ["Meta"] },
+                  dataType: "Meta" },
           "implicitRules": { card: 2, 
-                  dataType: [1] }, // uri
+                  dataType: 1 }, // uri
           "language": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "text": { card: 2, 
-                  dataType: ["Narrative"] }, 
+                  dataType: "Narrative" }, 
           "contained": { card: 3, 
-                  dataType: ["Resource"] },
+                  dataType: "Resource" },
           "extension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "modifierExtension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "identifier": { card: 3, 
-                  dataType: ["Identifier"] },
+                  dataType: "Identifier" },
           "code": { card: 0, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "status": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "manufacturer": { card: 2, 
-                  dataType: [1] }, // Reference (Organization)
+                  dataType: "Reference" }, // Reference (Organization)
           "form": { card: 2, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "amount": { card: 2, 
-                  dataType: ["Ratio"] }, 
+                  dataType: "Ratio" }, 
           "ingredient": { card: 3,
-                      dataType: [
+                      dataType: 
                         {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                         "extension": { card: 3,
-                                  dataType: ["Extension"] },
+                                  dataType: "Extension" },
                         "modifierExtension": { card: 3,
-                                  dataType: ["Extension"] },
+                                  dataType: "Extension" },
                         "item": { card: 0,
-                                  dataType: ["Item"], //fix add 
+                                  dataType: "Item", //fix add 
                                   setDataType: true },
                         "isActive": { card: 2,
-                                  dataType: [1] }, // boolean
+                                  dataType: 1 }, // boolean
                         "strength": { card: 2,
-                                  dataType: ["RatioIPS"] }
-                      }]},
+                                  dataType: "RatioIPS" }
+                      } },
           "batch": { card: 2,
-                  dataType: [
+                  dataType: 
                     {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "lotNumber": { card: 2,
-                                dataType: [1] }, // string
+                                dataType: 1 }, // string
                       "expirationDate": { card: 2,
-                                dataType: [1] } // dateTime
-                    }] }
+                                dataType: 1 } // dateTime
+                    } }
         };
         let resource;
         for( let obj of ips.entry){
@@ -1809,77 +1755,77 @@
         // dataType: 1: string // 
         let fields = {
           "id": { card: 2, 
-                  dataType: [1] }, //id
+                  dataType: 1 }, //id
           "meta": { card: 2, 
-                  dataType: ["Meta"] },
+                  dataType: "Meta" },
           "implicitRules": { card: 2, 
-                  dataType: [1] }, // uri
+                  dataType: 1 }, // uri
           "language": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "text": { card: 2, 
-                  dataType: ["Narrative"] }, 
+                  dataType: "Narrative" }, 
           "contained": { card: 3, 
-                  dataType: ["Resource"] },
+                  dataType: "Resource" },
           "extension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "abatement-datetime": { card: 2,
-                  dataType: [1]}, // dateTime
+                  dataType: 1 }, // dateTime
           "modifierExtension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "identifier": { card: 3, 
-                  dataType: ["Identifier"] },
+                  dataType: "Identifier" },
           "clinicalStatus": { card: 2, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "verificationStatus": { card: 2, 
-                  dataType: ["CodeableConceptIPS"] }, // code
+                  dataType: "CodeableConceptIPS" }, // code
           "type": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "category": { card: 3, 
-                  dataType: [1] },  // code
+                  dataType: 1 },  // code
           "criticality": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "code": { card: 0, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "patient": { card: 3,
-                      dataType: [1]}, // Reference (Patient(IPS))
+                      dataType: "Reference" }, // Reference (Patient(IPS))
           "encounter": { card: 2, 
-                  dataType: [1] }, // Reference (Encounter)
+                  dataType: "Reference" }, // Reference (Encounter)
           "onset": { card: 2, 
-                  dataType: ["Onset"],
+                  dataType: "Onset",
                   setDataType: true }, // code
           "recordedDate": { card:2, 
-                  dataType: [1] }, // dateTime
+                  dataType: 1 }, // dateTime
           "recorder": { card:2, 
-                  dataType: [1] }, // Reference (varios)
+                  dataType: "Reference" }, // Reference (varios)
           "asserter": { card:2,  
-                  dataType: [1] }, // Reference(varios)
+                  dataType: "Reference" }, // Reference(varios)
           "lastOccurrence": { card: 2, 
-                  dataType: [1] }, // dateTime
+                  dataType: 1 }, // dateTime
           "note": { card: 3, 
-                  dataType: ["Annotation"] }, 
+                  dataType: "Annotation" }, 
           "reaction": { card: 3,
-                  dataType: [
+                  dataType: 
                     {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "substance": { card: 2,
-                                dataType: ["CodeableConcept"] }, 
+                                dataType: "CodeableConcept" }, 
                       "manifestation": { card: 1,
-                                dataType: ["CodeableConceptIPS"] }, // 
+                                dataType: "CodeableConceptIPS" }, // 
                       "description": { card: 2,
-                                dataType: [1] }, // string
+                                dataType: 1 }, // string
                       "onset": { card: 2,
-                                dataType: [1] }, // dateTime
+                                dataType: 1 }, // dateTime
                       "severity": { card: 2,
-                                dataType: [1] }, // code
+                                dataType: 1 }, // code
                       "exposureRoute": { card: 2,
-                                dataType: ["CoadeableConcept"] },
+                                dataType: "CoadeableConcept" },
                       "note": { card: 3,
-                                dataType: ["Annotation"] }, 
-                    }] }
+                                dataType: "Annotation" }, 
+                    } }
         };
         let resource;
         for( let obj of ips.entry){
@@ -1898,156 +1844,156 @@
         // dataType: 1: string // 
         let fields = {
           "id": { card: 2, 
-                  dataType: [1] }, //id
+                  dataType: 1 }, //id
           "meta": { card: 2, 
-                  dataType: ["Meta"] },
+                  dataType: "Meta" },
           "implicitRules": { card: 2, 
-                  dataType: [1] }, // uri
+                  dataType: 1 }, // uri
           "language": { card: 2, 
-                  dataType: [1] }, // code
+                  dataType: 1 }, // code
           "text": { card: 2, 
-                  dataType: ["Narrative"] }, 
+                  dataType: "Narrative" }, 
           "contained": { card: 3, 
-                  dataType: ["Resource"] },
+                  dataType: "Resource" },
           "extension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "modifierExtension": { card: 3, 
-                  dataType: ["Extension"] },
+                  dataType: "Extension" },
           "identifier": { card: 3, 
-                  dataType: ["Identifier"] },
+                  dataType: "Identifier" },
           "status": { card: 0, 
-                  dataType: [1] }, //code 
+                  dataType: 1 }, //code 
           "statusReason": { card: 2, 
-                  dataType: ["CodeableConcept"] },
+                  dataType: "CodeableConcept" },
           "vaccineCode": { card: 0, 
-                  dataType: ["CodeableConceptIPS"] },
-          "patient": { card: 3, 
-                  dataType: [
+                  dataType: "CodeableConceptIPS" },
+          "patient": { card: 0, 
+                  dataType: 
                     {"id": { card: 2, 
-                    dataType: [1]}, //string
+                    dataType: 1 }, //string
                     "extension": { card: 3, 
-                    dataType: ["Extension"]},
+                    dataType: "Extension" },
                     "reference": { card: 0, 
-                    dataType: [1]}, // string
+                    dataType: 1 }, // string
                     "type": { card: 2, 
-                    dataType: [1]}, //uri
+                    dataType: 1 }, //uri
                     "identifier": { card: 2, 
-                    dataType: ["Identifier"]},
+                    dataType: "Identifier" },
                     "display": { card: 2, 
-                    dataType: [1]}, //string
-                    } ] },  // además es una Reference(Patient(IPS))
+                    dataType: 1 }, //string
+                    }  },  // además es una Reference(Patient(IPS))
           "encounter": { card: 2, 
-                  dataType: ["Reference"] }, // Reference(Encounter)
-          "ocurrence": { card: 0, 
-                  dataType: ["Ocurrence"],
+                  dataType: "Reference" }, // Reference(Encounter)
+          "occurrence": { card: 0, 
+                  dataType: "Occurrence",
                   setDataType: true }, 
           "recorded": { card: 2,
-                      dataType: [1]}, // dateTime
+                      dataType: 1 }, // dateTime
           "primarySource": { card: 2, 
-                  dataType: [1] }, // boolean
+                  dataType: 1 }, // boolean
           "reportOrigin": { card: 2, 
-                  dataType: ["CodeableConcept"] },
+                  dataType: "CodeableConcept" },
           "location": { card:2, 
-                  dataType: ["Reference"] }, // Reference(Location)
+                  dataType: "Reference" }, // Reference(Location)
           "manufacturer": { card:2, 
-                  dataType: ["Reference"] }, // Reference (Organization)
+                  dataType: "Reference" }, // Reference (Organization)
           "lotNumber": { card:2,  
-                  dataType: [1] }, // string
+                  dataType: 1 }, // string
           "expirationDate": { card: 2, 
-                  dataType: [1] }, // date
+                  dataType: 1 }, // date
           "site": { card: 2, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "route": { card: 2, 
-                  dataType: ["CodeableConceptIPS"] }, 
+                  dataType: "CodeableConceptIPS" }, 
           "doseQuantity": { card: 2, 
-                  dataType: ["SimpleQuantity"] }, 
+                  dataType: "SimpleQuantity" }, 
           "performer": { card: 3,
-                  dataType: [
+                  dataType: 
                     {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "function": { card: 2,
-                                dataType: ["CodeableConcept"] }, 
+                                dataType: "CodeableConcept" }, 
                       "actor": { card: 0,
-                                dataType: ["Reference"] }, //Reference(varios)
-                    }] },
+                                dataType: "Reference" }, //Reference(varios)
+                    } },
           "note": { card: 3,
-                  dataType: ["Annotation"]},
+                  dataType: "Annotation" },
           "reasonCode": { card: 3,
-                  dataType: ["CodeableConcept"]},
+                  dataType: "CodeableConcept" },
           "reasonReference": { card: 3,
-                  dataType: ["Reference"]}, //Reference(varios)
+                  dataType: "Reference" }, //Reference(varios)
           "isSubpotent": { card: 2,
-                  dataType: [1]}, //boolean
+                  dataType: 1 }, //boolean
           "subpotentReason": { card: 3,
-                  dataType: ["CodeableConcept"]},
+                  dataType: "CodeableConcept" },
           "education": { card: 3,
-                  dataType: [
+                  dataType: 
                     {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "documentType": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "reference": { card: 2,
-                                dataType: [2] }, // uri
+                                dataType: 2 }, // uri
                       "publicationDate": { card: 2,
-                                dataType: [2] }, // dateTime
+                                dataType: 2 }, // dateTime
                       "presentationDate": { card: 2,
-                                dataType: [2] }, // dateTime
-                    }] },
+                                dataType: 2 }, // dateTime
+                    } },
           "programEligibility": { card: 3,
-                  dataType: ["CodeableConcept"]},
+                  dataType: "CodeableConcept" },
           "fundingSource": { card: 2,
-                  dataType: ["CodeableConcept"]},
+                  dataType: "CodeableConcept" },
           "reaction": { card: 3,
-                  dataType: [
+                  dataType: 
                     {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "date": { card: 2,
-                                dataType: [1] }, //dateTime
+                                dataType: 1 }, //dateTime
                       "detail": { card: 2,
-                                dataType: ["Reference"] }, // Reference(Observation)
+                                dataType: "Reference" }, // Reference(Observation)
                       "reported": { card: 2,
-                                dataType: [2] } // boolean
-                    }] },
+                                dataType: 2 } // boolean
+                    } },
           "protocolApplied": { card: 3,
-                  dataType: [
+                  dataType: 
                     {"id": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "extension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "modifierExtension": { card: 3,
-                                dataType: ["Extension"] },
+                                dataType: "Extension" },
                       "series": { card: 2,
-                                dataType: [1] }, //string
+                                dataType: 1 }, //string
                       "authority": { card: 2,
-                                dataType: ["Reference"] }, // Reference(Organization)
+                                dataType: "Reference" }, // Reference(Organization)
                       "targetDisease": { card: 3,
-                                dataType: ["CodeableConcept"] }, 
+                                dataType: "CodeableConcept" }, 
                       "doseNumber": { card: 0,
-                                dataType: ["DoseNumber"],
+                                dataType: "DoseNumber",
                                 setDataType: true },
                       "seriesDoses": { card: 2,
-                                dataType: ["SeriesDoses"],
+                                dataType: "SeriesDoses",
                                 setDataType: true },
-                    }] }
+                    } }
 
         };
         let resource;
         for( let obj of ips.entry){
           if (obj.resource.resourceType == 'Immunization'){
             resource = obj.resource;
-            this.validateSection(fields, resource, 'Immunization');
+            this.validateSection(fields, resource, 'Immunization', false);
           }
         }
         if( resource == undefined){ // The section Immunization was not found
