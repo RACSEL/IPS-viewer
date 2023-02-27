@@ -9,7 +9,8 @@ import Vue from 'vue';
  * Note: you need to define in advance the keys of the store within this file
  */
 let store = Vue.observable({
-  user: null
+  user: null,
+  ips: null,
   // Add other shared values here
 });
 

@@ -15,7 +15,7 @@
             v-on="on" @click="validateIPS()">Ver IPS</v-btn>
         </v-card-text>
         <v-card-text class="pa-0 pt-4 pb-3">
-            <v-btn width="140px" color="error" @click="ips=''">Borrar</v-btn>
+            <v-btn width="140px" color="error" @click="clearInput()">Borrar</v-btn>
         </v-card-text>
       </v-col>
     </v-row>
@@ -64,19 +64,22 @@
         </v-card>
       </v-dialog>
     </div>
+    <viewer ref="viewer" v-if="validate"/>
   </v-card>
 </template>
 
 
 <script>
   import sampleNow from "../../utils/sampleBegin.json"
-  import {getStore} from "../../services/store.service";
-  //import sample from "../../utils/sample.json"
+  import {getStore, setStore} from "../../services/store.service";
   import * as dayjs from 'dayjs';
+  import Viewer from '../pages/Viewer.vue';
   export default {
+    name: "UploadIPS",
+    components: { Viewer },
     data(){
       return{
-        //sampleJson: sample,
+        validate: false,
         ips: "",
         sample: sampleNow,
         warnings: [],
@@ -1225,6 +1228,8 @@
         }
       },
       validateIPS(){
+        setStore("ips", null);
+        this.validate = false;
         this.cardErrors = [];
         this.formatErrors = [];
         this.missingErrors = [];
@@ -1276,14 +1281,14 @@
             ips = JSON.parse(this.ips);
             console.log(ips);
             if (! this.isObject(ips)){
-              this.formatErrors.push("ips no es un json");
+              this.formatErrors.push("ips (debería ser JSON)");
               this.dialogErrors = true;
               this.sectionFormat = true;
               return;
             }
         }
         catch(e){
-          this.formatErrors.push("ips no es un json");
+          this.formatErrors.push("ips (debería ser JSON)");
           this.dialogErrors = true;
           this.sectionFormat = true;
           return;
@@ -1301,10 +1306,12 @@
             this.dialogErrors = true;
             this.sectionMissing = true;
           }
-          //return;
         }
-        //this.validateComposition(ips);
+        this.validateComposition(ips);
         this.validatePatient(ips);
+        this.validateCondition(ips);
+        this.validateMedication(ips);
+        this.validateAllergy(ips);
         this.validateImmunization(ips);
 
         this.cardErrors = this.cardErrors.filter((valor, indice) => {
@@ -1333,6 +1340,8 @@
         }
         if( this.dialogErrors == false){
           console.log('PERFECT');
+          setStore("ips", ips);
+          this.validate = true;
         }
       },
       validateComposition(ips){
@@ -1951,6 +1960,11 @@
           this.cardErrors.push('Immunization');
           return;
         }
+      },
+      clearInput(){
+        this.ips="";
+        setStore('ips', null);
+        this.validate = false;
       },
     },
     computed: {
