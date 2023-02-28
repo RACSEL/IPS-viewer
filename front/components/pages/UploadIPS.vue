@@ -64,7 +64,7 @@
         </v-card>
       </v-dialog>
       <v-dialog
-        v-if="!dialogErrors"
+        v-if="dialogValid"
         width="500"
       >
         <v-card>
@@ -74,7 +74,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialogErrors = false, sectionCard = false, sectionFormat=false, sectionMissing=false">
+            <v-btn color="primary" text @click="dialogValid = false">
               OK
             </v-btn>
           </v-card-actions>
@@ -102,6 +102,7 @@
         formatErrors: [],
         modelErrors: false,
         dialogErrors: false,
+        dialogValid: false,
         sectionCard: false, 
         sectionFormat: false,
         sectionMissing: false,
@@ -1350,6 +1351,7 @@
         }
         if( this.dialogErrors == false){
           console.log('PERFECT');
+          this.dialogValid = true;
         }
       },
       validateComposition(ips){
