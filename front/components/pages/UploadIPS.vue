@@ -65,23 +65,23 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      <v-dialog
-        v-if="dialogValid"
-        width="500"
+      
+      <v-snackbar
+        v-model="dialogValid"
+        :timeout="timeout"
       >
-        <v-card>
-          <v-card-title class="text-h5 grey lighten-2">
-            El IPS es válido
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialogValid = false">
-              OK
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+          IPS válido
+
+        <template v-slot:actions>
+          <v-btn
+            color="blue"
+            variant="text"
+            @click="dialogValid = false"
+          >
+            Cerrar
+          </v-btn>
+        </template>
+       </v-snackbar>
       </div>
     </v-card-text>
     <viewer ref="viewer" v-if="validate"/>
@@ -112,6 +112,7 @@
         sectionCard: false, 
         sectionFormat: false,
         sectionMissing: false,
+        timeout: 2000,
         formats: {
           "Resource": {
             "id": {card: 2, 
