@@ -1161,7 +1161,12 @@
             "amountQuantity": "Quantity",
             "amountRange": "Range",
             "amountString": 1 // string
+          }, 
+          "Item": {
+            "itemCodeableConcept": "CodeableConcept",
+            "itemReference": "Reference" // Substance|Medication
           }
+
         }
       }
     },
@@ -1705,7 +1710,7 @@
                         "isActive": { card: 2,
                                   dataType: 1 }, // boolean
                         "strength": { card: 2,
-                                  dataType: "RatioIPS" }
+                                  dataType: "Ratio" }
                       } },
           "batch": { card: 2,
                   dataType: 
