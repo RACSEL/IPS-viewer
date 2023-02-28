@@ -66,22 +66,9 @@
           </v-card>
         </v-dialog>
       
-      <v-snackbar
-        v-model="dialogValid"
-        :timeout="timeout"
-      >
-          IPS válido
-
-        <template v-slot:actions>
-          <v-btn
-            color="blue"
-            variant="text"
-            @click="dialogValid = false"
-          >
-            Cerrar
-          </v-btn>
-        </template>
-       </v-snackbar>
+        <v-snackbar v-model="dialogValid" :timeout="2000" color="blue-gray" rounded="pill">
+            IPS válido
+        </v-snackbar>
       </div>
     </v-card-text>
     <viewer ref="viewer" v-if="validate"/>
@@ -112,7 +99,6 @@
         sectionCard: false, 
         sectionFormat: false,
         sectionMissing: false,
-        timeout: 2000,
         formats: {
           "Resource": {
             "id": {card: 2, 
