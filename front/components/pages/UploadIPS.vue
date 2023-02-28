@@ -2,12 +2,11 @@
   <v-card elevation="0" class="ma-0 pa-4" color="secondary">
     <v-card-text class="ma-0 pa-0">
       <v-row class="pa-5" justify="center">
-        <v-col cols="8" class="pa-5">
+        <v-col cols="8" class="pa-5 pb-0">
           <v-textarea
                   outlined
                   v-model="ips"
                   label="Pega el IPS aquí"
-                  :error-messages="warnings"
           ></v-textarea>
         </v-col>
         <v-col cols='2' class="text-right pa-5">
@@ -19,6 +18,18 @@
           <v-card-text class="pa-0 pt-4 pb-3">
               <v-btn width="140px" color="error" @click="clearInput()">Borrar</v-btn>
           </v-card-text>
+        </v-col>
+        <v-col cols='10' class="pa-5 pt-0">
+          <v-alert
+          class="pa-3 size-font-alert"
+            closable
+            v-model="this.alertWarning"
+            density="compact"
+            type="warning"
+            text=""
+          >
+          Se recomienda añadir resource de inmunizaciones
+          </v-alert>
         </v-col>
       </v-row>
       <div class="text-center">
@@ -67,7 +78,7 @@
         </v-dialog>
       </div>
     </v-card-text>
-    <viewer ref="viewer" v-if="validate"/>
+    <viewer ref="viewerValidate" v-if="this.validate"/>
   </v-card>
 </template>
 
@@ -85,7 +96,6 @@
         validate: false,
         ips: "",
         sample: sampleNow,
-        warnings: [],
         missingErrors: [],
         cardErrors: [],
         formatErrors: [],
@@ -94,6 +104,7 @@
         sectionCard: false,
         sectionFormat: false,
         sectionMissing: false,
+        alertWarning: false,
         formats: {
           "Resource": {
             "id": {card: 2, 
@@ -1259,7 +1270,7 @@
         this.cardErrors = [];
         this.formatErrors = [];
         this.missingErrors = [];
-        this.warnings = [];
+        this.alertWarning = false;
         // 0: 1..1    //1: 1..*    //2: 0..1   //3: 0..*
         // 0 and 1: required (only once) or (once or more).
         // 2 and 3: optional 
@@ -1370,6 +1381,7 @@
           console.log('PERFECT');
           setStore("ips", ips);
           this.validate = true;
+          this.$refs.viewerValidate.parser();
         }
       },
       validateComposition(ips){
@@ -1985,7 +1997,7 @@
           }
         }
         if( resource == undefined){ // The section Immunization was not found
-          this.warnings.push('Immunization');
+          this.alertWarning = true;
           console.log("AAAH")
           return;
         }
@@ -1994,14 +2006,12 @@
         this.ips="";
         setStore('ips', null);
         this.validate = false;
+        this.alertWarning = false;
       },
     },
     computed: {
-      user: getStore("user")
     },
     watch: {
-      ips(){
-      }
     }
   }
 </script>
@@ -2016,5 +2026,8 @@
 }
 .points {
   align-items: flex-start !important;
+}
+.size-font-alert {
+   font-size: 14px;
 }
 </style>

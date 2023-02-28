@@ -341,7 +341,6 @@
       }
     },
     mounted() {
-      console.log(this.IPSvalidated);
       this.getComposition();
       this.getPatient();
       this.getAllergies();
@@ -352,6 +351,17 @@
       this.getObservations();
     },
     methods: {
+      parser(){
+        this.IPSvalidated = getStore("ips");
+        this.getComposition();
+        this.getPatient();
+        this.getAllergies();
+        this.getConditions();
+        this.getDosages();
+        this.getMedications();
+        this.getImmunizations();
+        this.getObservations();
+      },
       getComposition(){
         let address = 'indefinido';
         for( let obj of this.IPSvalidated.entry){
@@ -378,7 +388,6 @@
               let city = resource.address[0].city;
               let country = resource.address[0].country;
               address = city + ', ' + country;
-              console.log('thisss: ', address)
             }
             catch(e){}
             this.composition.organizationAddress = address;
