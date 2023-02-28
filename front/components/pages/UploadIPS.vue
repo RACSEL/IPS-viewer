@@ -1,68 +1,70 @@
 <template>
   <v-card elevation="0" class="ma-0 pa-4" color="secondary">
-    <v-row>
-      <v-col cols="7" class="pa-5">
-        <v-textarea
-                outlined
-                v-model="ips"
-                label="Pega el IPS aquí"
-        ></v-textarea>
-      </v-col>
-      <v-col cols='5' class="pa-5">
-        <v-card-text class="pa-0 py-3 pb-4" >
-            <v-btn width="140px" color="primary" 
-            v-bind="attrs"
-            v-on="on" @click="validateIPS()">Ver IPS</v-btn>
-        </v-card-text>
-        <v-card-text class="pa-0 pt-4 pb-3">
-            <v-btn width="140px" color="error" @click="ips=''">Borrar</v-btn>
-        </v-card-text>
-      </v-col>
-    </v-row>
-    <div class="text-center">
-      <v-dialog
-        v-model="dialogErrors"
-        width="500"
-      >
-        <v-card>
-          <v-card-title class="text-h5 grey lighten-2">
-            Problemas con IPS
-          </v-card-title>
-          <v-card-text>
-            <v-card-subtitle class="pa-0 py-3" v-if="sectionMissing">
-              Los siguientes campos faltantes son requeridos:
-            </v-card-subtitle>
-            <v-list-item v-for="error in missingErrors" :key="error">
-              <v-list-item-content class="py-2">
-                <v-list-item-title>- {{error}} </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>          
-            <v-card-subtitle class="pa-0 py-3" v-if="sectionCard">
-              Los siguientes campos no cumplen con la cardinalidad correcta:
-            </v-card-subtitle>
-            <v-list-item v-for="error in cardErrors" :key="error" >
-              <v-list-item-content class="py-2">
-                <v-list-item-title>- {{error}} </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-card-subtitle class="pa-0 py-3" v-if="sectionFormat">
-              Los siguientes campos no cumplen con el formato correcto:
-            </v-card-subtitle>
-            <v-list-item v-for="error in formatErrors" :key="error" >
-              <v-list-item-content class="py-2">
-                <v-list-item-title>- {{error}} </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+    <v-card-text class="ma-0 pa-0">
+      <v-row class="pa-5" justify="center">
+        <v-col cols="8" class="pa-5">
+          <v-textarea
+                  outlined
+                  v-model="ips"
+                  label="Pega el IPS aquí"
+                  :error-messages="warnings"
+          ></v-textarea>
+        </v-col>
+        <v-col cols='2' class="text-right pa-5">
+          <v-card-text class="pa-0 py-3 pb-4" >
+              <v-btn width="140px" color="primary" 
+              v-bind="attrs" 
+              v-on="on" @click="validateIPS()">Ver IPS</v-btn>
           </v-card-text>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="dialogErrors = false, sectionCard = false, sectionFormat=false, sectionMissing=false">
-              OK
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+          <v-card-text class="pa-0 pt-4 pb-3">
+              <v-btn width="140px" color="error" @click="clearInput()">Borrar</v-btn>
+          </v-card-text>
+        </v-col>
+      </v-row>
+      <div class="text-center">
+        <v-dialog
+          v-model="dialogErrors"
+          width="500"
+        >
+          <v-card>
+            <v-card-title class="text-h5 grey lighten-2">
+              Problemas con IPS
+            </v-card-title>
+            <v-card-text>
+              <v-card-subtitle class="pa-0 py-3" v-if="sectionMissing">
+                Los siguientes campos faltantes son requeridos:
+              </v-card-subtitle>
+              <v-list-item v-for="error in missingErrors" :key="error">
+                <v-list-item-content class="py-2">
+                  <v-list-item-title>- {{error}} </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>          
+              <v-card-subtitle class="pa-0 py-3" v-if="sectionCard">
+                Los siguientes campos no cumplen con la cardinalidad correcta:
+              </v-card-subtitle>
+              <v-list-item v-for="error in cardErrors" :key="error" >
+                <v-list-item-content class="py-2">
+                  <v-list-item-title>- {{error}} </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-card-subtitle class="pa-0 py-3" v-if="sectionFormat">
+                Los siguientes campos no cumplen con el formato correcto:
+              </v-card-subtitle>
+              <v-list-item v-for="error in formatErrors" :key="error" >
+                <v-list-item-content class="py-2">
+                  <v-list-item-title>- {{error}} </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialogErrors = false, sectionCard = false, sectionFormat=false, sectionMissing=false">
+                OK
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       <v-dialog
         v-if="dialogValid"
         width="500"
@@ -80,20 +82,24 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </div>
+      </div>
+    </v-card-text>
+    <viewer ref="viewer" v-if="validate"/>
   </v-card>
 </template>
 
 
 <script>
   import sampleNow from "../../utils/sampleBegin.json"
-  import {getStore} from "../../services/store.service";
-  //import sample from "../../utils/sample.json"
+  import {getStore, setStore} from "../../services/store.service";
   import * as dayjs from 'dayjs';
+  import Viewer from '../pages/Viewer.vue';
   export default {
+    name: "UploadIPS",
+    components: { Viewer },
     data(){
       return{
-        //sampleJson: sample,
+        validate: false,
         ips: "",
         sample: sampleNow,
         warnings: [],
@@ -121,10 +127,17 @@
             "url": {card: 0, 
                    dataType: 1 },
             "value": {card: 2, 
-                      dataType: "Value",
+                      dataType: "ValueExtension",
                       setDataType: true}
           },
-          "Author":{
+           "Abatement": {
+            "abatementDateTime": 1, //dateTime
+            "abatementAge": 1, //Age
+            "abatementPeriod": "Period",
+            "abatementRange": "Range", //Range
+            "abatementString": 1, //string
+          },
+          "Author": {
             "authorReference": "Reference",
             "authorString": 1,
           },
@@ -132,9 +145,20 @@
             "multipleBirthBoolean": 1,
             "multipleBirthInteger": 1,
           },
+          "Target": {
+            "targetIdentifier": "Identifier",
+            "targetReference": "Reference"
+          },
           "Occurrence": {
             "occurrenceDateTime": 1, // dateTime
             "occurrenceString": 1 //string
+          },
+          "Onset": {
+            "onsetDateTime": 1, //dateTime 
+            "onsetAge": 1, //Age	
+            "onsetPeriod": "Period", //Period	
+            "onsetRange": "Range", //Range	
+            "onsetString": 1  //string
           },
           "ValueExtension": {
             "valueBase64Binary": 1,
@@ -1243,9 +1267,12 @@
         }
       },
       validateIPS(){
+        setStore("ips", null);
+        this.validate = false;
         this.cardErrors = [];
         this.formatErrors = [];
         this.missingErrors = [];
+        this.warnings = [];
         // 0: 1..1    //1: 1..*    //2: 0..1   //3: 0..*
         // 0 and 1: required (only once) or (once or more).
         // 2 and 3: optional 
@@ -1294,14 +1321,14 @@
             ips = JSON.parse(this.ips);
             console.log(ips);
             if (! this.isObject(ips)){
-              this.formatErrors.push("ips no es un json");
+              this.formatErrors.push("ips (debería ser JSON)");
               this.dialogErrors = true;
               this.sectionFormat = true;
               return;
             }
         }
         catch(e){
-          this.formatErrors.push("ips no es un json");
+          this.formatErrors.push("ips (debería ser JSON)");
           this.dialogErrors = true;
           this.sectionFormat = true;
           return;
@@ -1319,12 +1346,15 @@
             this.dialogErrors = true;
             this.sectionMissing = true;
           }
-          //return;
         }
-        //this.validateComposition(ips);
+        this.validateComposition(ips);
         this.validatePatient(ips);
+        this.validateCondition(ips);
+        this.validateMedication(ips);
+        this.validateAllergy(ips);
         this.validateImmunization(ips);
 
+        // delete repeated errors 
         this.cardErrors = this.cardErrors.filter((valor, indice) => {
           return this.cardErrors.indexOf(valor) === indice;
         });
@@ -1352,6 +1382,8 @@
         if( this.dialogErrors == false){
           console.log('PERFECT');
           this.dialogValid = true;
+          setStore("ips", ips);
+          this.validate = true;
         }
       },
       validateComposition(ips){
@@ -1756,7 +1788,7 @@
                   dataType: 1 }, // code
           "code": { card: 0, 
                   dataType: "CodeableConceptIPS" }, 
-          "patient": { card: 3,
+          "patient": { card: 0,
                       dataType: "Reference" }, // Reference (Patient(IPS))
           "encounter": { card: 2, 
                   dataType: "Reference" }, // Reference (Encounter)
@@ -1799,7 +1831,7 @@
         };
         let resource;
         for( let obj of ips.entry){
-          if (obj.resource.resourceType == 'Allergy'){
+          if (obj.resource.resourceType == 'AllergyIntolerance'){
             resource = obj.resource;
             this.validateSection(fields, resource, 'Allergy');
           }
@@ -1967,9 +1999,15 @@
           }
         }
         if( resource == undefined){ // The section Immunization was not found
-          this.cardErrors.push('Immunization');
+          this.warnings.push('Immunization');
+          console.log("AAAH")
           return;
         }
+      },
+      clearInput(){
+        this.ips="";
+        setStore('ips', null);
+        this.validate = false;
       },
     },
     computed: {

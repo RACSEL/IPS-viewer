@@ -4,7 +4,7 @@ import Navigation from "./components/Navigation";
 import Login from "./components/pages/login/Login";
 import NotFound from "./components/pages/NotFound";
 import Users from "./components/pages/Users";
-import Patient from "./components/pages/Patient";
+import Viewer from "./components/pages/Viewer";
 import UploadIPS from "./components/pages/UploadIPS";
 
 
@@ -28,8 +28,8 @@ const router = new VueRouter({
           component: Users,
         },
         {
-          path: 'patient',
-          component: Patient,
+          path: 'viewer',
+          component: Viewer,
         },
         {
           path: 'uploadIPS',
