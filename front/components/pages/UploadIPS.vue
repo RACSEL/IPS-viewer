@@ -63,6 +63,23 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-if="!dialogErrors"
+        width="500"
+      >
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">
+            El IPS es válido
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialogErrors = false, sectionCard = false, sectionFormat=false, sectionMissing=false">
+              OK
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </v-card>
 </template>
@@ -85,7 +102,7 @@
         formatErrors: [],
         modelErrors: false,
         dialogErrors: false,
-        sectionCard: false,
+        sectionCard: false, 
         sectionFormat: false,
         sectionMissing: false,
         formats: {
@@ -474,7 +491,7 @@
             "type": {card: 0, 
                      dataType: 1},
             "profile": {card: 3, 
-                        dataType: null}, // type canonical(StructureDefinition)
+                        dataType: 1}, // type canonical(StructureDefinition)
             "subject": {card: 2, 
                         dataType: "Subject",
                         setDataType: true},
