@@ -65,6 +65,10 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+      
+        <v-snackbar v-model="dialogValid" :timeout="2000" color="blue-gray" rounded="pill">
+            IPS válido
+        </v-snackbar>
       </div>
     </v-card-text>
     <viewer ref="viewer" v-if="validate"/>
@@ -91,7 +95,8 @@
         formatErrors: [],
         modelErrors: false,
         dialogErrors: false,
-        sectionCard: false,
+        dialogValid: false,
+        sectionCard: false, 
         sectionFormat: false,
         sectionMissing: false,
         formats: {
@@ -498,7 +503,7 @@
             "type": {card: 0, 
                      dataType: 1},
             "profile": {card: 3, 
-                        dataType: null}, // type canonical(StructureDefinition)
+                        dataType: 1}, // type canonical(StructureDefinition)
             "subject": {card: 2, 
                         dataType: "Subject",
                         setDataType: true},
@@ -1368,6 +1373,7 @@
         }
         if( this.dialogErrors == false){
           console.log('PERFECT');
+          this.dialogValid = true;
           setStore("ips", ips);
           this.validate = true;
         }
