@@ -28,7 +28,7 @@
             type="warning"
             text=""
           >
-          Se recomienda añadir resource de inmunizaciones
+          Advertencia: Resource de inmunizaciones no se encuentra en el IPS
           </v-alert>
         </v-col>
       </v-row>
@@ -78,24 +78,33 @@
         </v-dialog>
       </div>
     </v-card-text>
-    <viewer ref="viewerValidate" v-if="this.validate"/>
+    <v-row class="px-11">
+      <v-col cols=5>
+        <div class="json-viewer-scroll">
+          <json-viewer :value="jsonData" v-if="jsonData != undefined" :expand-depth=5 scrollable boxed preview-mode=true></json-viewer>
+        </div>
+      </v-col>
+      <v-col cols=7>
+        <viewer ref="viewerValidate" v-if="this.validate"/>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
 
 <script>
-  import sampleNow from "../../utils/sampleBegin.json"
   import {getStore, setStore} from "../../services/store.service";
   import * as dayjs from 'dayjs';
   import Viewer from '../pages/Viewer.vue';
+  import JsonViewer from 'vue-json-viewer';
   export default {
     name: "UploadIPS",
-    components: { Viewer },
+    components: { Viewer, JsonViewer },
     data(){
       return{
+        jsonData: undefined,
         validate: false,
         ips: "",
-        sample: sampleNow,
         missingErrors: [],
         cardErrors: [],
         formatErrors: [],
@@ -1266,6 +1275,7 @@
       },
       validateIPS(){
         setStore("ips", null);
+        this.jsonData = undefined;
         this.validate = false;
         this.cardErrors = [];
         this.formatErrors = [];
@@ -1379,6 +1389,7 @@
         }
         if( this.dialogErrors == false){
           console.log('PERFECT');
+          this.jsonData = ips;
           setStore("ips", ips);
           this.validate = true;
           this.$refs.viewerValidate.parser();
@@ -2005,6 +2016,7 @@
       clearInput(){
         this.ips="";
         setStore('ips', null);
+        this.jsonData = undefined;
         this.validate = false;
         this.alertWarning = false;
       },
@@ -2029,5 +2041,10 @@
 }
 .size-font-alert {
    font-size: 14px;
+}
+.json-viewer-scroll {
+  overflow: auto;
+  width: 380px;
+  height: 380px;
 }
 </style>

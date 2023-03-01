@@ -640,7 +640,6 @@
       },
     },
     computed: {
-      user: getStore("user"),
       IPSvalidated: getStore("ips")
     }
   }
