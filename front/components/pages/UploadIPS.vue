@@ -81,7 +81,7 @@
     <v-row class="px-11">
       <v-col cols=5>
         <div class="json-viewer-scroll">
-          <json-viewer :value="jsonData" v-if="jsonData != undefined" :expand-depth=5 scrollable boxed preview-mode=true></json-viewer>
+          <json-viewer :value="jsonData" v-if="jsonData != undefined" :expand-depth=5  preview-mode=true></json-viewer>
         </div>
       </v-col>
       <v-col cols=7>
@@ -1191,8 +1191,6 @@
       }
     },
     mounted() {
-      console.log(this.sample);
-
     },
     methods: {
       isArray(myArray){
@@ -2045,6 +2043,6 @@
 .json-viewer-scroll {
   overflow: auto;
   width: 380px;
-  height: 380px;
+  height: auto;
 }
 </style>
