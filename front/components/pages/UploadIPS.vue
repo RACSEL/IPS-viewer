@@ -78,13 +78,13 @@
         </v-dialog>
       </div>
     </v-card-text>
-    <v-row class="px-11">
-      <v-col cols=5>
-        <div class="json-viewer-scroll">
+    <v-row class="px-11 full-height" >
+      <v-col cols=5 class="json-viewer-scroll">
+        <div >
           <json-viewer :value="jsonData" v-if="jsonData != undefined" :expand-depth=5  preview-mode=true></json-viewer>
         </div>
       </v-col>
-      <v-col cols=7>
+      <v-col cols=7 class="json-viewer-scroll">
         <viewer ref="viewerValidate" v-if="this.validate"/>
       </v-col>
     </v-row>
@@ -2042,7 +2042,10 @@
 }
 .json-viewer-scroll {
   overflow: auto;
-  width: 380px;
-  height: auto;
+  width: 100%;
+  height: 100%;
+}
+.full-height {
+  height: 100vh;
 }
 </style>
