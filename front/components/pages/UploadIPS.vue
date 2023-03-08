@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" class="ma-0 pa-4" color="secondary">
+  <v-card elevation="0" class="ma-0 pa-4 remove-error" color="secondary">
     <v-card-text class="ma-0 pa-0">
       <v-row class="pa-5" justify="center">
         <v-col cols="8" class="pa-5 pb-0">
@@ -19,11 +19,10 @@
               <v-btn width="140px" color="error" @click="clearInput()">Borrar</v-btn>
           </v-card-text>
         </v-col>
-        <v-col cols='10' class="pa-5 pt-0">
+        <v-col cols='10' class="pa-5 pt-0" v-if="this.alertWarning">
           <v-alert
           class="pa-3 size-font-alert"
             closable
-            v-model="this.alertWarning"
             density="compact"
             type="warning"
             text=""
@@ -78,14 +77,14 @@
         </v-dialog>
       </div>
     </v-card-text>
-    <v-row class="px-11 full-height" >
-      <v-col cols=5 class="json-viewer-scroll">
-        <div >
-          <json-viewer :value="jsonData" v-if="jsonData != undefined" :expand-depth=5  preview-mode=true></json-viewer>
+    <v-row class="px-11 full-height" v-if="this.validate">
+      <v-col cols=5 class="pa-0 json-viewer-scroll" v-if="jsonData != undefined">
+        <div class="ma-1 pa-3">
+          <json-viewer :value="jsonData"  :expand-depth=5  preview-mode=true></json-viewer>
         </div>
       </v-col>
-      <v-col cols=7 class="json-viewer-scroll">
-        <viewer ref="viewerValidate" v-if="this.validate"/>
+      <v-col cols=7 class="pa-0 json-viewer-scroll" >
+        <viewer class="pa-0" ref="viewerValidate" />
       </v-col>
     </v-row>
   </v-card>
@@ -2042,10 +2041,12 @@
 }
 .json-viewer-scroll {
   overflow: auto;
-  width: 100%;
   height: 100%;
 }
 .full-height {
-  height: 100vh;
+  height: 50vh;
+}
+.remove-error {
+  margin: 0!important;
 }
 </style>
