@@ -1,7 +1,7 @@
 <template>
   <v-card elevation="0" class="ma-0 pa-4 remove-error" color="secondary">
     <v-card-text class="ma-0 pa-0">
-      <v-row class="pa-5" justify="center">
+      <v-row class="pa-5 pb-2" justify="center">
         <v-col cols="8" class="pa-5 pb-0">
           <v-textarea
                   outlined
@@ -2044,9 +2044,9 @@
   height: 100%;
 }
 .full-height {
-  height: 50vh;
+  height: 58vh;
 }
 .remove-error {
-  margin: 0!important;
+  margin: 0px!important;
 }
 </style>

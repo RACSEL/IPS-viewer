@@ -36,7 +36,7 @@
     </v-navigation-drawer>
     <v-main>
       <v-container fluid class="min-height-100 pa-0">
-        <router-view class="mb-10"></router-view>
+        <router-view class="ma-0"></router-view>
       </v-container>
       <global-toast/>
     </v-main>
