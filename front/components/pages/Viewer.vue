@@ -268,7 +268,6 @@
 
 <script>
   import {getStore} from "../../services/store.service";
-  import sample from "../../utils/sample.json"
   import * as dayjs from 'dayjs';
   export default {
     name: "Viewer",

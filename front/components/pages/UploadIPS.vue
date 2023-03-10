@@ -82,16 +82,9 @@
         </v-snackbar>
       </div>
     </v-card-text>
-    <v-row class="px-11">
-      <v-col cols=5>
-        <div class="json-viewer-scroll">
-          <json-viewer :value="jsonData" v-if="jsonData != undefined" :expand-depth=5  preview-mode=true></json-viewer>
-        </div>
-      </v-col>
-      <v-col cols=7>
-        <viewer ref="viewerValidate" v-if="this.validate"/>
-      </v-col>
-    </v-row>
+    
+    <viewer ref="viewerValidate" v-if="this.validate"/>
+      
     
   </v-card>
 </template>
