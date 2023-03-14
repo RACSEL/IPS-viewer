@@ -31,7 +31,7 @@
               Problemas con IPS
             </v-card-title>
             <v-card-text>
-              <v-card-subtitle class="pa-0 py-3" v-if="sectionMissing">
+              <v-card-subtitle class="pa-0 py-3" v-if="missingErrors > 0">
                 Los siguientes campos faltantes son requeridos:
               </v-card-subtitle>
               <v-list-item v-for="error in missingErrors" :key="error">
@@ -39,7 +39,7 @@
                   <v-list-item-title>- {{error}} </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>          
-              <v-card-subtitle class="pa-0 py-3" v-if="sectionCard">
+              <v-card-subtitle class="pa-0 py-3" v-if="cardErrors > 0">
                 Los siguientes campos no cumplen con la cardinalidad correcta:
               </v-card-subtitle>
               <v-list-item v-for="error in cardErrors" :key="error" >
@@ -47,7 +47,7 @@
                   <v-list-item-title>- {{error}} </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-card-subtitle class="pa-0 py-3" v-if="sectionFormat">
+              <v-card-subtitle class="pa-0 py-3" v-if="formatErrors > 0">
                 Los siguientes campos no cumplen con el formato correcto:
               </v-card-subtitle>
               <v-list-item v-for="error in formatErrors" :key="error" >
@@ -59,7 +59,7 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="dialogErrors = false, sectionCard = false, sectionFormat=false, sectionMissing=false">
+              <v-btn color="primary" text @click="dialogErrors = false">
                 OK
               </v-btn>
             </v-card-actions>
@@ -96,9 +96,6 @@
         modelErrors: false,
         dialogErrors: false,
         dialogValid: false,
-        sectionCard: false, 
-        sectionFormat: false,
-        sectionMissing: false,
         formats: {
           "Resource": {
             "id": {card: 2, 
@@ -1180,6 +1177,7 @@
 
     },
     methods: {
+
       isArray(myArray){
         return myArray.constructor === Array;
       },
@@ -1187,6 +1185,10 @@
         return myObj.constructor === Object;
       },
       errorDT(dataType, section, nameSection){
+
+        //llamada al service
+        //async a la fn padre
+        //let res = await this.$service("api/ips-validator").create({'ips': ips})
         console.log('DT: ', dataType, 'typeof: ', typeof dataType);
         console.log('pointer: ', section);
         console.log('nameS: ', nameSection);
@@ -1258,7 +1260,7 @@
           }
         }
       },
-      validateIPS(){
+      validateIPS(){ //
         setStore("ips", null);
         this.validate = false;
         this.cardErrors = [];
@@ -1313,31 +1315,33 @@
             ips = JSON.parse(this.ips);
             console.log(ips);
             if (! this.isObject(ips)){
-              this.formatErrors.push("ips (debería ser JSON)");
+              this.formatErrors.push("IPS no cumple con formato JSON");
               this.dialogErrors = true;
-              this.sectionFormat = true;
-              return;
+              return {
+                validate: this.validate,
+                cardErrors: this.cardErrors,
+                formatErrors: this.formatErrors,
+                missingErrors: this.missingErrors,
+                warnings: this.warnings
+        }
             }
         }
         catch(e){
-          this.formatErrors.push("ips (debería ser JSON)");
+          console.log('catch')
+          this.formatErrors.push("IPS no cumple con formato JSON");
           this.dialogErrors = true;
-          this.sectionFormat = true;
-          return;
+          return {
+                validate: this.validate,
+                cardErrors: this.cardErrors,
+                formatErrors: this.formatErrors,
+                missingErrors: this.missingErrors,
+                warnings: this.warnings
+        }
         }
         this.validateSection(fields, ips, 'Inicio', false);
 
         if(this.formatErrors.length >0){
           this.dialogErrors = true;
-          this.sectionFormat = true;
-          if(this.cardErrors.length > 0){
-            this.dialogErrors = true;
-            this.sectionCard = true;
-          }
-          if(this.missingErrors.length > 0){
-            this.dialogErrors = true;
-            this.sectionMissing = true;
-          }
         }
         this.validateComposition(ips);
         this.validatePatient(ips);
@@ -1376,6 +1380,13 @@
           this.dialogValid = true;
           setStore("ips", ips);
           this.validate = true;
+        }
+        return {
+                validate: this.validate,
+                cardErrors: this.cardErrors,
+                formatErrors: this.formatErrors,
+                missingErrors: this.missingErrors,
+                warnings: this.warnings
         }
       },
       validateComposition(ips){
