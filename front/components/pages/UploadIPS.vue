@@ -35,7 +35,7 @@
             type="warning"
             text=""
           >
-          Advertencia: Resource de inmunizaciones no se encuentra en el IPS
+          Advertencia: El recurso de inmunizaciones no se encuentra en el IPS
           </v-alert>
         </v-col>
       </v-row>
@@ -46,7 +46,7 @@
               Problemas con IPS
             </v-card-title>
             <v-card-text>
-              <v-card-subtitle class="pa-0 py-3" v-if="missingErrors > 0">
+              <v-card-subtitle class="pa-0 py-3" v-if="missingErrors.length > 0">
                 Los siguientes campos faltantes son requeridos:
               </v-card-subtitle>
               <v-list-item v-for="error in missingErrors" :key="error">
@@ -54,7 +54,8 @@
                   <v-list-item-title>- {{ error }} </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-card-subtitle class="pa-0 py-3" v-if="cardErrors > 0">
+              <v-card-subtitle class="pa-0 py-3" v-if="cardErrors.length > 0">
+								{{cardErrors}}
                 Los siguientes campos no cumplen con la cardinalidad correcta:
               </v-card-subtitle>
               <v-list-item v-for="error in cardErrors" :key="error">
@@ -62,7 +63,7 @@
                   <v-list-item-title>- {{ error }} </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-card-subtitle class="pa-0 py-3" v-if="formatErrors > 0">
+              <v-card-subtitle class="pa-0 py-3" v-if="formatErrors.length > 0">
                 Los siguientes campos no cumplen con el formato correcto:
               </v-card-subtitle>
               <v-list-item v-for="error in formatErrors" :key="error">
@@ -117,14 +118,10 @@
         modelErrors: false,
         dialogErrors: false,
         dialogValid: false,
-        sectionCard: false, 
-        sectionFormat: false,
-        sectionMissing: false,
         alertWarning: false,
     	};
   	},
   mounted() {
-    console.log(this.sample);
   },
   methods: {
     isArray(myArray) {
@@ -140,7 +137,7 @@
       this.formatErrors = [];
       this.missingErrors = [];
       this.warnings = [];
-
+			this.alertWarning = false;
       let ips;
       try {
         ips = JSON.parse(this.ips);
@@ -156,9 +153,10 @@
 				return;
       }
 			let res = await this.$service("api/ips-validator").create({'ips': ips});
+			console.log(res);
 			if (res.validate == false){
 				this.validate = false;
-				this.cardErrors = res.cardinaleErrors
+				this.cardErrors = res.cardinalErrors
 				this.formatErrors = res.formatErrors;
 				this.warnings = res.warnings;
 				this.missingErrors = res.missingErrors;
@@ -170,12 +168,17 @@
         setStore("ips", ips);
         this.validate = true;
 			}
+			if (res.warnings.length > 0){
+				console.log('INMU')
+				this.alertWarning = true;
+			}
 			
     },
     clearInput() {
       this.ips = "";
       setStore("ips", null);
       this.validate = false;
+			this.alertWarning = false;
     },
   },
   computed: {
