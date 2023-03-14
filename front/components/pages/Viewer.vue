@@ -268,7 +268,6 @@
 
 <script>
   import {getStore} from "../../services/store.service";
-  import sample from "../../utils/sample.json"
   import * as dayjs from 'dayjs';
   export default {
     name: "Viewer",
@@ -341,7 +340,6 @@
       }
     },
     mounted() {
-      console.log(this.IPSvalidated);
       this.getComposition();
       this.getPatient();
       this.getAllergies();
@@ -352,6 +350,17 @@
       this.getObservations();
     },
     methods: {
+      parser(){
+        this.IPSvalidated = getStore("ips");
+        this.getComposition();
+        this.getPatient();
+        this.getAllergies();
+        this.getConditions();
+        this.getDosages();
+        this.getMedications();
+        this.getImmunizations();
+        this.getObservations();
+      },
       getComposition(){
         let address = 'indefinido';
         for( let obj of this.IPSvalidated.entry){
