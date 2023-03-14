@@ -1227,7 +1227,7 @@ exports.IpSvalidator = class IpSvalidator {
     //}
     return {
             validate: validate,
-            cardErrors: cardErrors,
+            cardinalErrors: cardErrors,
             formatErrors: formatErrors,
             missingErrors: missingErrors,
             warnings: warnings

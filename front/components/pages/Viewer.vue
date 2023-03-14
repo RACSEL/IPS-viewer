@@ -378,7 +378,6 @@
               let city = resource.address[0].city;
               let country = resource.address[0].country;
               address = city + ', ' + country;
-              console.log('thisss: ', address)
             }
             catch(e){}
             this.composition.organizationAddress = address;
@@ -474,7 +473,6 @@
             }
           }
         }
-        console.log(this.pastConditions)
       },
       getMedications(){
         for( let obj of this.IPSvalidated.entry){
@@ -625,7 +623,6 @@
               doseQuantity: doseQuantity,
             };
             this.immunizations.push(immunization);
-            console.log(this.immunizations)
           }
         }
       },
