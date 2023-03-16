@@ -1,0 +1,10 @@
+FROM node:14.18-alpine
+
+ADD ./backend /app/backend
+ADD ./package.json /app/package.json
+ADD ./static /app/static
+ADD ./config /app/config
+ADD ./build /app/build
+WORKDIR /app
+RUN npm i
+ENTRYPOINT ["npm", "run","production"]
