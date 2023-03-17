@@ -32,7 +32,7 @@
           </v-alert>
         </v-col>
       </v-row>
-      <v-row  class="pa-5" justify="center">
+      <v-row  class="pa-0" justify="center">
         <v-col cols="8" class="pa-5">
         <v-responsive class="mx-auto" max-width="auto">
                 <v-text-field
@@ -1424,7 +1424,7 @@
         }
       },
       fetchFromHapiFhir(bundleNumber){
-        // Simple GET request using fetch
+        // Simple GET request using fetch from Hapi Fhir server
         let ipsBundle;
         fetch(`http://lacpass.create.cl:8080/fhir/Bundle/${bundleNumber}?_format=json`)
         .then((response) => response.json())
