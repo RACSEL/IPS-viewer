@@ -1,12 +1,12 @@
 <template class="ma-0 pa-0">
     <v-card color="secondary" elevation="0" class="ma-0 pa-0">
-      <v-card-text color="secondary">
-        <v-container>
+      <v-card-text color="secondary" class="pa-0">
+        <v-container class="pa-0">
           <v-row>
             <v-col cols="12">
               <v-card class="rounded-lg" elevation="0" color="secondary">
-                <v-card-text>
-                  <v-container>
+                <v-card-text class="pa-0">
+                  <v-container class="pa-0">
                     <v-row class="ma-1 pa-3">
                       <v-col cols="6" class="pa-0 ma-0 ">
                         <v-card  class="mb-1 pa-0" elevation="0">
@@ -639,7 +639,6 @@
       },
     },
     computed: {
-      user: getStore("user"),
       IPSvalidated: getStore("ips")
     }
   }
