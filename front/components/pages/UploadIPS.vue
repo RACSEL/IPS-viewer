@@ -153,7 +153,7 @@
     isObject(myObj) {
       return myObj.constructor === Object;
     },
-    async validateIPS() {
+    async validateIPS(ipsBundle) {
       setStore("ips", null);
       this.validate = false;
       this.cardErrors = [];
@@ -163,7 +163,7 @@
 			this.alertWarning = false;
       let ips;
       try {
-        ips = JSON.parse(this.ips);
+        ips = JSON.parse(ipsBundle);
         if (!this.isObject(ips)) {
           this.formatErrors.push("IPS no cumple con formato JSON");
           this.dialogErrors = true;
