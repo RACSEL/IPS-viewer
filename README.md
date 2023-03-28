@@ -1,4 +1,4 @@
-# GEC
+# IPSApp
 
 ## Requirements
 
