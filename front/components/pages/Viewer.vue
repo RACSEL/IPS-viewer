@@ -1,12 +1,12 @@
 <template class="ma-0 pa-0">
     <v-card color="secondary" elevation="0" class="ma-0 pa-0">
-      <v-card-text color="secondary">
-        <v-container>
+      <v-card-text color="secondary" class="pa-0">
+        <v-container class="pa-0">
           <v-row>
             <v-col cols="12">
               <v-card class="rounded-lg" elevation="0" color="secondary">
-                <v-card-text>
-                  <v-container>
+                <v-card-text class="pa-0">
+                  <v-container class="pa-0">
                     <v-row class="ma-1 pa-3">
                       <v-col cols="6" class="pa-0 ma-0 ">
                         <v-card  class="mb-1 pa-0" elevation="0">
@@ -268,7 +268,6 @@
 
 <script>
   import {getStore} from "../../services/store.service";
-  import sample from "../../utils/sample.json"
   import * as dayjs from 'dayjs';
   export default {
     name: "Viewer",
@@ -341,7 +340,6 @@
       }
     },
     mounted() {
-      console.log(this.IPSvalidated);
       this.getComposition();
       this.getPatient();
       this.getAllergies();
@@ -352,6 +350,17 @@
       this.getObservations();
     },
     methods: {
+      parser(){
+        this.IPSvalidated = getStore("ips");
+        this.getComposition();
+        this.getPatient();
+        this.getAllergies();
+        this.getConditions();
+        this.getDosages();
+        this.getMedications();
+        this.getImmunizations();
+        this.getObservations();
+      },
       getComposition(){
         let address = 'indefinido';
         for( let obj of this.IPSvalidated.entry){
@@ -378,7 +387,6 @@
               let city = resource.address[0].city;
               let country = resource.address[0].country;
               address = city + ', ' + country;
-              console.log('thisss: ', address)
             }
             catch(e){}
             this.composition.organizationAddress = address;
@@ -474,7 +482,6 @@
             }
           }
         }
-        console.log(this.pastConditions)
       },
       getMedications(){
         for( let obj of this.IPSvalidated.entry){
@@ -625,13 +632,11 @@
               doseQuantity: doseQuantity,
             };
             this.immunizations.push(immunization);
-            console.log(this.immunizations)
           }
         }
       },
     },
     computed: {
-      user: getStore("user"),
       IPSvalidated: getStore("ips")
     }
   }
