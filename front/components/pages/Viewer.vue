@@ -482,7 +482,6 @@
             }
           }
         }
-        console.log(this.pastConditions)
       },
       getMedications(){
         for( let obj of this.IPSvalidated.entry){
@@ -633,7 +632,6 @@
               doseQuantity: doseQuantity,
             };
             this.immunizations.push(immunization);
-            console.log(this.immunizations)
           }
         }
       },
