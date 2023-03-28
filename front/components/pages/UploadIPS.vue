@@ -2,21 +2,37 @@
   <v-card elevation="0" class="ma-0 pa-4" color="secondary">
     <v-card-text class="ma-0 pa-0">
       <v-row class="pa-5" justify="center">
-        <v-col cols="8" class="pa-5 pb-0">
+        <v-col cols="5" class="pa-5 pb-0">
           <v-textarea
                   outlined
                   v-model="ips"
                   label="Pega el IPS aquí"
           ></v-textarea>
         </v-col>
-        <v-col cols='2' class="text-right pa-5">
-          <v-card-text class="pa-0 py-3 pb-4" >
+        <v-col cols='2' class="pa-5">
+          <v-card-text class="pa-0 py-3 pb-4">
               <v-btn width="140px" color="primary" 
               v-bind="attrs" 
               v-on="on" @click="validateIPS(ips)">Ver IPS</v-btn>
           </v-card-text>
           <v-card-text class="pa-0 pt-4 pb-3">
               <v-btn width="140px" color="error" @click="clearInput()">Borrar</v-btn>
+          </v-card-text>
+        </v-col>
+        <v-col cols="3" class="pa-3">
+          <v-responsive class="mx-auto" max-width="auto">
+            <v-text-field
+              class="pt-2"
+              v-model="bundleNumber"
+              outlined
+              clearable
+              label="Ó ingresa ID del Bundle IPS"
+            ></v-text-field>
+          </v-responsive>        
+          <v-card-text class="pa-0">
+              <v-btn block color="primary" 
+              v-bind="attrs" 
+              v-on="on" @click="fetchFromHapiFhir(bundleNumber)">Buscar IPS</v-btn>
           </v-card-text>
         </v-col>
         <v-col cols='10' class="pa-5 pt-0">
@@ -30,26 +46,6 @@
           >
           Advertencia: Resource de inmunizaciones no se encuentra en el IPS
           </v-alert>
-        </v-col>
-      </v-row>
-      <v-row  class="pa-0" justify="center">
-        <v-col cols="8" class="pa-5">
-        <v-responsive class="mx-auto" max-width="auto">
-                <v-text-field
-                v-model="bundleNumber"
-                outlined
-                clearable
-                hide-details="auto"
-                label="Ó ingresa ID del Bundle IPS"
-                ></v-text-field>
-        </v-responsive>
-        </v-col>
-        <v-col cols='2' class="text-right pa-5">
-          <v-card-text class="pa-0 py-3 pb-4" >
-              <v-btn width="140px" color="primary" 
-              v-bind="attrs" 
-              v-on="on" @click="fetchFromHapiFhir(bundleNumber)">Buscar IPS</v-btn>
-          </v-card-text>
         </v-col>
       </v-row>
       <div class="text-center">
