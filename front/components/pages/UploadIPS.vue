@@ -1,30 +1,30 @@
 <template>
   <v-card elevation="0" class="ma-0 pa-4 remove-error" color="secondary">
     <v-card-text class="ma-0 pa-0">
-      <v-row class="pa-5 pb-2" justify="center">
-        <v-col cols="8" class="pa-5 pb-0">
-          <v-textarea
-                  outlined
-                  v-model="ips"
-                  label="Pega el IPS aquí"
-          ></v-textarea>
+      <v-row class="pa-5" justify="center">
+        <v-col cols="8" class="pa-5">
+          <v-responsive class="mx-auto">
+            <v-textarea
+                outlined
+                v-model="ips"
+                label="Pega el IPS aquí"
+                :error-messages="warnings"
+            ></v-textarea>
+          </v-responsive>  
         </v-col>
-        <v-col cols="2" class="text-right pa-5">
-          <v-card-text class="pa-0 py-3 pb-4">
-            <v-btn
-              width="140px"
-              color="primary"
-              v-bind="attrs"
-              v-on="on"
-              @click="validateIPS()"
-              >Ver IPS</v-btn
-            >
-          </v-card-text>
-          <v-card-text class="pa-0 pt-4 pb-3">
-            <v-btn width="140px" color="error" @click="clearInput()"
-              >Borrar</v-btn
-            >
-          </v-card-text>
+        <v-col cols='2' class="text-right pa-5">
+          <v-responsive class="mx-auto">
+            <v-card-text class="pa-0 py-3 pb-4" >
+                <v-btn width="140px" color="primary" 
+                v-bind="attrs" 
+                v-on="on" @click="validateIPS()">Ver IPS</v-btn>
+            </v-card-text>
+          </v-responsive>
+          <v-responsive class="mx-auto">
+            <v-card-text class="pa-0 pt-4 pb-3">
+              <v-btn width="140px" color="error" @click="clearInput()">Borrar</v-btn>
+            </v-card-text>
+          </v-responsive>
         </v-col>
         <v-col cols='10' class="pa-5 pt-0" v-if="this.alertWarning">
           <v-alert
@@ -39,7 +39,11 @@
         </v-col>
       </v-row>
       <div class="text-center">
-        <v-dialog v-model="dialogErrors" width="500">
+        <v-dialog
+          v-model="dialogErrors"
+          width="500"
+        >
+        <v-responsive class="mx-auto">
           <v-card>
             <v-card-title class="text-h5 grey lighten-2">
               Problemas con IPS
@@ -79,16 +83,13 @@
               </v-btn>
             </v-card-actions>
           </v-card>
+          </v-responsive>
         </v-dialog>
-
-        <v-snackbar
-          v-model="dialogValid"
-          :timeout="2000"
-          color="blue-gray"
-          rounded="pill"
-        >
-          IPS válido
+        <v-responsive class="mx-auto">
+        <v-snackbar v-model="dialogValid" :timeout="2000" color="blue-gray" rounded="pill">
+            IPS válido
         </v-snackbar>
+        </v-responsive>
       </div>
     </v-card-text>
     <v-row class="px-11 full-height" v-if="this.validate">
