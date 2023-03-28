@@ -13,7 +13,6 @@
   export default {
     created() {
       this.checkAuth();
-      // this.isReady = true;
     },
     data() {
       return {

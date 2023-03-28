@@ -97,7 +97,7 @@
           });
           this.loading = false;
           setStore("user", auth.user);
-          this.$router.push("/app");
+          this.$router.push("/app/uploadIPS");
         } catch (e) {
           this.loading = false;
           this.error = true;
