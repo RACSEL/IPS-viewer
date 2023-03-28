@@ -86,7 +86,6 @@
          **/
         items: [
           {icon: 'mdi-account-circle', text: 'Usuarios', route: "/app/users", roleRestrict: ["admin"]},
-          {icon: 'mdi-account', text: 'Paciente', route: "/app/viewer", roleRestrict: ["admin", "manager"]},
           {icon: 'mdi-upload', text: 'Subir IPS', route: "/app/uploadIPS", roleRestrict: ["admin", "manager"]},
         ],
         /**

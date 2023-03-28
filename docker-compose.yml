@@ -8,13 +8,13 @@ services:
       database:
         condition: service_healthy
     ports:
-      - "8085:80"
+      - "8085:5002"
 
   database:
     image: postgres
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dental -d nlp"]
+      test: ["CMD-SHELL", "pg_isready -U dental -d ips"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,6 +24,6 @@ services:
       - ./init-db:/docker-entrypoint-initdb.d/
       - ./postgres-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=dental
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=nlp
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminips
+      - POSTGRES_DB=ips
