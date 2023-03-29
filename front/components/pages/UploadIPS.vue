@@ -2,7 +2,7 @@
   <v-card elevation="0" class="ma-0 pa-4 remove-error" color="secondary">
     <v-card-text class="ma-0 pa-0">
       <v-row class="pa-5" justify="center">
-        <v-col cols="8" class="pa-5">
+        <v-col cols="5" class="pa-5 pb-0">
           <v-responsive class="mx-auto">
             <v-textarea
                 outlined
@@ -12,7 +12,7 @@
             ></v-textarea>
           </v-responsive>  
         </v-col>
-        <v-col cols='2' class="text-right pa-5">
+        <v-col cols='2' class="pa-5">
           <v-responsive class="mx-auto">
             <v-card-text class="pa-0 py-3 pb-4" >
                 <v-btn width="140px" color="primary" 
@@ -25,6 +25,22 @@
               <v-btn width="140px" color="error" @click="clearInput()">Borrar</v-btn>
             </v-card-text>
           </v-responsive>
+        </v-col>
+        <v-col cols="3" class="pa-3">
+          <v-responsive class="mx-auto" max-width="auto">
+            <v-text-field
+              class="pt-2"
+              v-model="bundleNumber"
+              outlined
+              clearable
+              label="Ó ingresa ID del Bundle IPS"
+            ></v-text-field>
+          </v-responsive>        
+          <v-card-text class="pa-0">
+              <v-btn block color="primary" 
+              v-bind="attrs" 
+              v-on="on" @click="fetchFromHapiFhir(bundleNumber)">Buscar IPS</v-btn>
+          </v-card-text>
         </v-col>
         <v-col cols='10' class="pa-5 pt-0" v-if="this.alertWarning">
           <v-alert
@@ -118,6 +134,7 @@
         jsonData: undefined,
         validate: false,
         ips: "",
+        bundleNumber: "",
         missingErrors: [],
         cardErrors: [],
         formatErrors: [],
@@ -136,7 +153,7 @@
     isObject(myObj) {
       return myObj.constructor === Object;
     },
-    async validateIPS() {
+    async validateIPS(ipsBundle) {
       setStore("ips", null);
       this.validate = false;
       this.cardErrors = [];
@@ -146,7 +163,7 @@
 			this.alertWarning = false;
       let ips;
       try {
-        ips = JSON.parse(this.ips);
+        ips = JSON.parse(ipsBundle);
         if (!this.isObject(ips)) {
           this.formatErrors.push("IPS no cumple con formato JSON");
           this.dialogErrors = true;
@@ -188,6 +205,20 @@
 			this.alertWarning = false;
                         this.jsonData = undefined;
     },
+    fetchFromHapiFhir(bundleNumber){
+        // Simple GET request using fetch from Hapi Fhir server
+        let ipsBundle;
+        fetch(`http://lacpass.create.cl:8080/fhir/Bundle/${bundleNumber}?_format=json`)
+        .then((response) => response.json())
+        .then((result) => {
+        console.log("Success:", result);
+        ipsBundle = JSON.stringify(result);
+        this.validateIPS(ipsBundle)
+        })
+        .catch((error) => {
+        console.error("Error:", error);
+        });
+      },
   },
   computed: {
     user: getStore("user"),
