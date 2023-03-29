@@ -6,9 +6,9 @@
           <v-col xs="12" sm="8" md="6" lg="4">
             <v-card class="elevation-12">
               <v-toolbar color="primary">
-                <span class="white--text">Gestión Equipamiento Clínico</span>
+                <span class="white--text">LACPass IPS Viewer</span>
                 <v-spacer/>
-                <v-toolbar-title class="login-title text--white">Login</v-toolbar-title>
+                <v-img width="80" src="lacpass.png"></v-img>
               </v-toolbar>
               <v-card-text>
                 <div v-if="!isSignUp">
