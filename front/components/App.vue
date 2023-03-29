@@ -27,7 +27,7 @@
           setStore("user", auth.user);
         }
         catch (e) {
-          this.$router.push("/login");
+          this.$router.push("/ips");
         }
         this.isReady = true;
       }

@@ -6,6 +6,7 @@ import NotFound from "./components/pages/NotFound";
 import Users from "./components/pages/Users";
 import Viewer from "./components/pages/Viewer";
 import UploadIPS from "./components/pages/UploadIPS";
+import PublicNavigation from "./components/PublicNavigation";
 
 
 const router = new VueRouter({
@@ -15,6 +16,10 @@ const router = new VueRouter({
     {
       path: '/login',
       component: Login,
+    },
+    {
+      path: 'ips',
+      component: PublicNavigation,
     },
     {
       path: '/app/',
@@ -44,7 +49,7 @@ const router = new VueRouter({
     },
     {
       path: '*',
-      component: Login,
+      component: PublicNavigation,
     },
   ]
 });
